@@ -16,6 +16,10 @@ class Department extends Component {
       open: false,
       message: "Please Wait...",
       messageState: "",
+      required: {
+        depart_name: "",
+        department_description: "",
+      },
     };
   }
 
@@ -25,7 +29,17 @@ class Department extends Component {
     const fd = new FormData(e.target);
     let form_content = {};
     fd.forEach((value, key) => {
-      form_content[key] = value;
+      if (value.length == 0) {
+        this.setState({
+          ...this.state,
+          error: true,
+          open: true,
+          message: "These Fields are required",
+          messageState: "warning",
+        });
+      } else {
+        form_content[key] = value;
+      }
     });
     let api = new FormsApi();
     let res = await api.post("/user/admin/new_department", form_content);
@@ -126,7 +140,51 @@ class Department extends Component {
                   </div>
                   <div className="card-body">
                     <div>
-                      <DepartmentDetails />
+                      <div className="inputCtr" style={styles.input_ctr}>
+                        <h4>Add Department</h4>
+                        <div className="inputs_ctr" style={styles.input_group}>
+                          <TextField
+                            name="depart_name"
+                            variant="outlined"
+                            label="Department Name"
+                            style={{
+                              width: "320px",
+                              margin: "20px",
+                              display: "block",
+                            }}
+                            error={this.state.error}
+                            onChange={(e) => {
+                              this.setState({
+                                ...this.state,
+                                required: {
+                                  ...this.state.required,
+                                  depart_name: e.target.value,
+                                },
+                              });
+                            }}
+                          />
+                          <TextField
+                            name="department_description"
+                            variant="outlined"
+                            label="Department Description"
+                            style={{
+                              width: "320px",
+                              margin: "20px",
+                              display: "block",
+                            }}
+                            error={this.state.error}
+                            onChange={(e) => {
+                              this.setState({
+                                ...this.state,
+                                required: {
+                                  ...this.state.required,
+                                  depart_name: e.target.value,
+                                },
+                              });
+                            }}
+                          />
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </form>
@@ -241,33 +299,3 @@ const styles = {
     alignItems: "center",
   },
 };
-
-function DepartmentDetails() {
-  return (
-    <div className="inputCtr" style={styles.input_ctr}>
-      <h4>Add Department</h4>
-      <div className="inputs_ctr" style={styles.input_group}>
-        <TextField
-          name="depart_name"
-          variant="outlined"
-          label="Department Name"
-          style={{
-            width: "320px",
-            margin: "20px",
-            display: "block",
-          }}
-        />
-        <TextField
-          name="department_description"
-          variant="outlined"
-          label="Department Description"
-          style={{
-            width: "320px",
-            margin: "20px",
-            display: "block",
-          }}
-        />
-      </div>
-    </div>
-  );
-}
