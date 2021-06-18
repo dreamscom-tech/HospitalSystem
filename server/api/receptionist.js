@@ -3,7 +3,7 @@ const conn = require("../database/db");
 
 router.get("/pnumber", (req, res) => {
   conn.query(
-    "SELECT patient_id FROM patients_tbl ORDER BY date DESC LIMIT 1",
+    "SELECT patient_number FROM patients_tbl ORDER BY date DESC LIMIT 1",
     (err, sql_res) => {
       if (err) {
         console.log(err);

@@ -74,8 +74,14 @@ class NewPatient extends Component {
     if (res.status === true) {
       this.setState({
         ...this.state,
-        message: "Patient Registered SuccessFully...",
+        message: res.data,
         messageState: "success",
+      });
+    } else {
+      this.setState({
+        ...this.state,
+        message: res.data,
+        messageState: "error",
       });
     }
   };
