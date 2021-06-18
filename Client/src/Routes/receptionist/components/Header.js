@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Avatar from "../../../assets/africa.jpg";
 import { Menu, MenuItem } from "@material-ui/core";
+import user from "../../../app_config";
 class Header extends Component {
   constructor(props) {
     super(props);
@@ -41,8 +42,8 @@ class Header extends Component {
             >
               <img src={Avatar} alt="" width="40px" height="40px" />
               <div className="">
-                <h4>John Doe</h4>
-                <small>Doctor</small>
+                <h4>{user.user.user_name}</h4>
+                <small>{user.user.user_role}</small>
               </div>
             </div>
           </div>

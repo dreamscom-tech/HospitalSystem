@@ -39,7 +39,6 @@ class NewPatient extends Component {
       required: {
         surname: "",
         other_names: "",
-        gender: "",
       },
     };
     this.onOpenFile();
@@ -281,16 +280,6 @@ class NewPatient extends Component {
                                   id="select_gender"
                                   label="Gender"
                                   value="M"
-                                  error={this.state.error}
-                                  onChange={(e) => {
-                                    this.setState({
-                                      ...this.state,
-                                      required: {
-                                        ...this.state.required,
-                                        gender: e.target.value,
-                                      },
-                                    });
-                                  }}
                                 >
                                   <MenuItem value="M">Male</MenuItem>
                                   <MenuItem value="F">Female</MenuItem>

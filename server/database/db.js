@@ -1,10 +1,11 @@
 const mysql = require("mysql8");
+const dotenv = require("dotenv");
 
 const config = {
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "hospital_db_secure",
+  host: "bywplvzc040imepwz4sc-mysql.services.clever-cloud.com",
+  user: "uox2f7ue2mct8fhw",
+  password: "YNAZXoQYGNT8zcnKG2Ul",
+  database: "bywplvzc040imepwz4sc",
 };
 
 const conn = mysql.createConnection(config);

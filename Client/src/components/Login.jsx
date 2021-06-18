@@ -100,3 +100,7 @@ function Login() {
 }
 
 export default Login;
+
+export function Logout(key) {
+  localStorage.removeItem("key");
+}
