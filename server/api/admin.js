@@ -138,7 +138,7 @@ router.post("/new_user", async (req, res) => {
               conn.query(
                 `INSERT INTO system_users SET ?`,
                 {
-                  sur_name: surname,
+                  surname: surname,
                   other_name: other_name,
                   phone_number: phone_contact,
                   user_name: username,
@@ -146,7 +146,7 @@ router.post("/new_user", async (req, res) => {
                   user_role: role,
                   department_id: parseInt(department),
                   gender: gender,
-                  user_number:num(3),
+                  user_number: num(3),
                   password: password,
                 },
                 (err2, res2) => {
