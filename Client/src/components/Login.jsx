@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { TextField, Button } from "@material-ui/core";
+import { TextField, Button, CircularProgress } from "@material-ui/core";
 import UsersApi from "../api/users";
 import Image from "../assets/doctor.png";
 import Logo from "../assets/logo_hospital.png";
@@ -9,18 +9,31 @@ import "./login.css";
 
 function Login() {
   const [user, setUser] = useState({ username: "", password: "", _cp: true });
+  const [loaderOpen, setloaderOpen] = useState(false);
+  const [ServerError, setServerError] = useState("");
   const handleClick = async (e) => {
+    setloaderOpen(true);
     const res = await UsersApi.login({
       username: user.username,
       password: user.password,
     });
-    if (res.status === false) {
-      setUser({ ...user, _cp: false });
-      return;
+    if (res !== "Error") {
+      if (res.status === false) {
+        setUser({ ...user, _cp: false });
+        setloaderOpen(false);
+        return;
+      } else {
+        const data = Base64.encode(JSON.stringify(res.user));
+        localStorage.setItem("token", data);
+        window.location.replace("/");
+        setloaderOpen(false);
+      }
     } else {
-      const data = Base64.encode(JSON.stringify(res.user));
-      localStorage.setItem("token", data);
-      window.location.replace("/");
+      setServerError("Server Error...");
+      setTimeout(() => {
+        setloaderOpen(false);
+        setServerError("");
+      }, 5000);
     }
   };
   return (
@@ -93,6 +106,15 @@ function Login() {
             </span>
           </Button>
         </div>
+        {/* for loader */}
+        <div
+          className="loader"
+          style={loaderOpen ? { display: "flex" } : { display: "none" }}
+        >
+          <CircularProgress size={25} />
+          <div>{ServerError}</div>
+        </div>
+        {/* for loader */}
       </div>
       <img src={Image} className="img" alt="Hospital" />
     </div>
@@ -101,6 +123,7 @@ function Login() {
 
 export default Login;
 
-export function Logout(key) {
-  localStorage.removeItem("key");
+export function Logout() {
+  localStorage.removeItem("token");
+  window.location.replace("/");
 }

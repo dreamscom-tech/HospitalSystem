@@ -182,6 +182,7 @@ class Dashboard extends Component {
                       keepMounted
                       open={Boolean(this.state.AnchorEl)}
                       onClose={this.handleCloseActions}
+                      disableScrollLock={true}
                     >
                       <Link to="/new">
                         <MenuItem onClick={this.handleCloseActions}>
