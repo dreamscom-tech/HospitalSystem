@@ -138,7 +138,7 @@ router.post("/new_user", async (req, res) => {
               conn.query(
                 `INSERT INTO system_users SET ?`,
                 {
-                  sur_name: surname,
+                  surname: surname,
                   other_name: other_name,
                   phone_number: phone_contact,
                   user_name: username,
@@ -146,7 +146,7 @@ router.post("/new_user", async (req, res) => {
                   user_role: role,
                   department_id: parseInt(department),
                   gender: gender,
-                  user_number:num(3),
+                  user_number: num(3),
                   password: password,
                 },
                 (err2, res2) => {
@@ -167,10 +167,11 @@ router.post("/new_user", async (req, res) => {
 });
 
 router.post("/new_address", async (req, res) => {
-  if (req.body.address === "1") {
+  let { id, name, address } = req.body;
+  if (address === "1") {
     conn.query(
       `SELECT * FROM districts_tbl WHERE district_name = ?`,
-      [req.body.district_name],
+      [name],
       (err1, res1) => {
         if (err1) {
           console.log(err1);
@@ -182,8 +183,7 @@ router.post("/new_address", async (req, res) => {
             conn.query(
               `INSERT INTO districts_tbl SET ?`,
               {
-                district_name: req.body.district_name,
-                district_description: req.body.district_description,
+                district_name: name,
               },
               (err2, res2) => {
                 if (err2) {
@@ -201,10 +201,10 @@ router.post("/new_address", async (req, res) => {
         }
       }
     );
-  } else if (req.body.address === "2") {
+  } else if (address === "2") {
     conn.query(
       `SELECT * FROM sub_county_tbl WHERE sub_county_name = ?`,
-      [req.body.subcounty_name],
+      [name],
       (err0, res0) => {
         if (err0) {
           console.log(err0);
@@ -216,9 +216,9 @@ router.post("/new_address", async (req, res) => {
             conn.query(
               `INSERT INTO sub_county_tbl SET ?`,
               {
-                sub_county_name: req.body.subcounty_name,
-                sub_county_description: req.body.description,
-                district_id: parseInt(req.body.district),
+                sub_county_name: name,
+                sub_county_description: description,
+                district_id: parseInt(id),
               },
               (err3, res3) => {
                 if (err3) {
@@ -233,10 +233,10 @@ router.post("/new_address", async (req, res) => {
         }
       }
     );
-  } else if (req.body.address === "3") {
+  } else if (address === "3") {
     conn.query(
       `SELECT * FROM parish_tbl WHERE parish_name=?`,
-      [req.body.parish_name],
+      [name],
       (err4, res4) => {
         if (err4) {
           console.log(err4);
@@ -248,9 +248,9 @@ router.post("/new_address", async (req, res) => {
             conn.query(
               `INSERT INTO parish_tbl SET ?`,
               {
-                parish_name: req.body.parish_name,
-                parish_description: req.body.description,
-                sub_county_id: parseInt(req.body.sub_county),
+                parish_name: name,
+                parish_description: description,
+                sub_county_id: parseInt(id),
               },
               (err_insert, res_insert) => {
                 if (err_insert) {
@@ -265,10 +265,10 @@ router.post("/new_address", async (req, res) => {
         }
       }
     );
-  } else if (req.body.address === "4") {
+  } else if (address === "4") {
     conn.query(
       `SELECT * FROM village_tbl WHERE village_name=?`,
-      [req.body.village_name],
+      [name],
       (err4, res4) => {
         if (err4) {
           console.log(err4);
@@ -280,9 +280,9 @@ router.post("/new_address", async (req, res) => {
             conn.query(
               `INSERT INTO village_tbl SET ?`,
               {
-                village_name: req.body.village_name,
-                village_description: req.body.description,
-                parish_id: parseInt(req.body.parish),
+                village_name: name,
+                village_description: description,
+                parish_id: parseInt(id),
               },
               (err_insert, res_insert) => {
                 if (err_insert) {

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import {
   TextField,
   Snackbar,
@@ -101,32 +101,166 @@ class New_user extends Component {
                   autoComplete="off"
                   onSubmit={this.handleSubmit}
                 >
-                  <div className="card-header">
-                    <h3>New User</h3>
-                    <div className="">
-                      <Button
-                        type="submit"
-                        aria-describedby={this.id}
-                        variant="contained"
-                        color="primary"
-                        style={{ marginInline: 10 }}
-                      >
-                        Cancel
-                      </Button>
-                      <Button
-                        type="submit"
-                        aria-describedby={this.id}
-                        variant="contained"
-                        color="primary"
-                        style={{ marginInline: 10 }}
-                      >
-                        Save
-                      </Button>
+                  <div
+                    className=""
+                    style={{
+                      borderBottom: "1px solid #f0f0f0",
+                      padding: "1rem",
+                    }}
+                  >
+                    <div className="form-header-ctr">
+                      <div className="">
+                        <h3>New User</h3>
+                      </div>
+                      <div className="">
+                        <Button
+                          type="submit"
+                          aria-describedby={this.id}
+                          variant="contained"
+                          color="primary"
+                          style={{ marginInline: 10 }}
+                        >
+                          Cancel
+                        </Button>
+                        <Button
+                          type="submit"
+                          aria-describedby={this.id}
+                          variant="contained"
+                          color="primary"
+                          style={{ marginInline: 10 }}
+                        >
+                          Save
+                        </Button>
+                      </div>
                     </div>
                   </div>
                   <div className="card-body">
                     <div>
-                      <UserDetails />
+                      <div className="inputCtr">
+                        <h4>User Details</h4>
+                        <div className="inputs_ctr">
+                          <div className="inpts_on_left">
+                            <TextField
+                              name="surname"
+                              variant="outlined"
+                              label="Surname"
+                              style={{
+                                width: "75%",
+                                margin: "20px",
+                              }}
+                            />
+                            <TextField
+                              name="other_name"
+                              variant="outlined"
+                              label="Other Name"
+                              style={{
+                                width: "75%",
+                                margin: "20px",
+                              }}
+                            />
+                            <TextField
+                              name="username"
+                              variant="outlined"
+                              label="Username"
+                              style={{
+                                width: "75%",
+                                margin: "20px",
+                              }}
+                            />
+                            <FormControl
+                              variant="outlined"
+                              label="Gender"
+                              style={{
+                                width: "75%",
+                                margin: "20px",
+                              }}
+                            >
+                              <InputLabel id="gender">Gender</InputLabel>
+                              <Select
+                                inputProps={{ name: "gender" }}
+                                id="select_gender"
+                                label="Gender"
+                                value="M"
+                              >
+                                <MenuItem value="M">Male</MenuItem>
+                                <MenuItem value="F">Female</MenuItem>
+                              </Select>
+                            </FormControl>
+                          </div>
+                          <div className="inpts_center">
+                            <FormControl
+                              variant="outlined"
+                              label="Department"
+                              style={{
+                                width: "75%",
+                                margin: "20px",
+                              }}
+                            >
+                              <InputLabel id="department">
+                                Department
+                              </InputLabel>
+                              <Select
+                                inputProps={{ name: "department" }}
+                                label="Department"
+                                id="select_department"
+                                value="1"
+                              >
+                                <MenuItem value="1">Labaratory</MenuItem>
+                                <MenuItem value="2">OPD</MenuItem>
+                                <MenuItem value="3">Accounts</MenuItem>
+                                <MenuItem value="4">Martenity</MenuItem>
+                              </Select>
+                            </FormControl>
+                            <TextField
+                              name="phone_contact"
+                              variant="outlined"
+                              label="Phone Contact"
+                              style={{
+                                width: "75%",
+                                margin: "20px",
+                              }}
+                            />
+                            <TextField
+                              name="email_address"
+                              variant="outlined"
+                              label="Email Address:(If Any)"
+                              style={{
+                                width: "75%",
+                                margin: "20px",
+                              }}
+                            />
+                            <TextField
+                              name="role"
+                              variant="outlined"
+                              label="Role"
+                              style={{
+                                width: "75%",
+                                margin: "20px",
+                              }}
+                            />
+                          </div>
+                          <div className="inpts_on_right">
+                            <TextField
+                              name="password"
+                              variant="outlined"
+                              label="Password"
+                              style={{
+                                width: "75%",
+                                margin: "20px",
+                              }}
+                            />
+                            <TextField
+                              name="confirm_password"
+                              variant="outlined"
+                              label="Confirm Password"
+                              style={{
+                                width: "75%",
+                                margin: "20px",
+                              }}
+                            />
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </form>
@@ -140,144 +274,3 @@ class New_user extends Component {
 }
 
 export default New_user;
-
-const styles = {
-  input_ctr: {
-    width: "75%",
-    margin: "auto",
-  },
-  input_group: {
-    width: "100%",
-    border: "1px solid rgba(0,0,0,0.1)",
-    borderRadius: "5px",
-    margin: "15px auto",
-    display: "flex",
-    justifyContent: "space-around",
-  },
-};
-
-function UserDetails() {
-  return (
-    <div className="inputCtr" style={styles.input_ctr}>
-      <h4>User Details</h4>
-      <div className="inputs_ctr" style={styles.input_group}>
-        <div className="inpts_on_left">
-          <TextField
-            name="surname"
-            variant="outlined"
-            label="Surname"
-            style={{
-              width: "75%",
-              margin: "20px",
-            }}
-          />
-          <TextField
-            name="other_name"
-            variant="outlined"
-            label="Other Name"
-            style={{
-              width: "240px",
-              margin: "20px",
-            }}
-          />
-          <TextField
-            name="username"
-            variant="outlined"
-            label="Username"
-            style={{
-              width: "240px",
-              margin: "20px",
-            }}
-          />
-          <FormControl
-            variant="outlined"
-            label="Gender"
-            style={{
-              width: "240px",
-              margin: "20px",
-            }}
-          >
-            <InputLabel id="gender">Gender</InputLabel>
-            <Select
-              inputProps={{ name: "gender" }}
-              id="select_gender"
-              label="Gender"
-            >
-              <MenuItem value="M">Male</MenuItem>
-              <MenuItem value="F">Female</MenuItem>
-            </Select>
-          </FormControl>
-        </div>
-        <div className="inpts_center">
-          <FormControl
-            variant="outlined"
-            label="Department"
-            style={{
-              width: "240px",
-              margin: "20px",
-            }}
-          >
-            <InputLabel id="department">Department</InputLabel>
-            <Select
-              inputProps={{ name: "department" }}
-              label="Department"
-              id="select_department"
-            >
-              <MenuItem value="1">Labaratory</MenuItem>
-              <MenuItem value="2">OPD</MenuItem>
-              <MenuItem value="3">Accounts</MenuItem>
-              <MenuItem value="4">Martenity</MenuItem>
-            </Select>
-          </FormControl>
-          <TextField
-            name="phone_contact"
-            variant="outlined"
-            label="Phone Contact"
-            style={{
-              width: "240px",
-              margin: "20px",
-            }}
-          />
-          <TextField
-            name="email_address"
-            variant="outlined"
-            label="Email Address:(If Any)"
-            style={{
-              width: "240px",
-              margin: "20px",
-            }}
-          />
-          <TextField
-            name="role"
-            variant="outlined"
-            label="Role"
-            style={{
-              width: "240px",
-              margin: "20px",
-            }}
-          />
-        </div>
-        <div className="inpts_on_right">
-          <TextField
-            name="password"
-            variant="outlined"
-            label="Password"
-            style={{
-              width: "240px",
-              margin: "20px",
-            }}
-          />
-          <TextField
-            name="confirm_password"
-            variant="outlined"
-            label="Confirm Password"
-            style={{
-              width: "240px",
-              margin: "20px",
-            }}
-          />
-        </div>
-      </div>
-    </div>
-  );
-}

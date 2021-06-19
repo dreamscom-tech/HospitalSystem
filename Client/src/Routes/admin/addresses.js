@@ -12,6 +12,7 @@ import {
 import MuiAlert from "@material-ui/lab/Alert";
 import Nav from "./components/Nav";
 import Header from "./components/Header";
+import UsersApi from "../../api/users";
 import FormsApi from "../../api/forms";
 
 function Alert(props) {
@@ -25,8 +26,23 @@ class Addresses extends Component {
       open: false,
       message: "Please Wait...",
       messageState: "",
+      districts: [],
       value: "",
+      required: {
+        address: "",
+        id: "",
+        name: "",
+        description: "",
+      },
     };
+    this.districts();
+  }
+
+  async districts() {
+    const res = await UsersApi.data("/user/all/districts");
+    if (res) {
+      this.setState({ ...this.state, districts: res });
+    }
   }
 
   handleChange = (e) => {
@@ -39,7 +55,17 @@ class Addresses extends Component {
     const fd = new FormData(e.target);
     let _fcontent = {};
     fd.forEach((value, key) => {
-      _fcontent[key] = value;
+      if (value.length == 0) {
+        this.setState({
+          ...this.state,
+          error: true,
+          open: true,
+          message: "These Fields are required",
+          messageState: "warning",
+        });
+      } else {
+        _fcontent[key] = value;
+      }
     });
     let api = new FormsApi();
     let res = await api.post("/user/admin/new_address", _fcontent);
@@ -148,8 +174,18 @@ class Addresses extends Component {
                             width: "240px",
                             margin: "20px",
                           }}
+                          error={this.state.error}
+                          onChange={(e) => {
+                            this.setState({
+                              ...this.state,
+                              required: {
+                                ...this.state.required,
+                                test_name: e.target.value,
+                              },
+                            });
+                          }}
                         >
-                          <InputLabel id="address">Select Address</InputLabel>
+                          <InputLabel id="address">Address</InputLabel>
                           <Select
                             inputProps={{ name: "address" }}
                             label="Address"
@@ -163,13 +199,235 @@ class Addresses extends Component {
                           </Select>
                         </FormControl>
                         {this.state.value === "1" ? (
-                          <District />
+                          <>
+                            <TextField
+                              name="name"
+                              variant="outlined"
+                              label="District Name"
+                              style={{
+                                width: "240px",
+                                margin: "20px",
+                              }}
+                              error={this.state.error}
+                              onChange={(e) => {
+                                this.setState({
+                                  ...this.state,
+                                  required: {
+                                    ...this.state.required,
+                                    test_name: e.target.value,
+                                  },
+                                });
+                              }}
+                            />
+                          </>
                         ) : this.state.value === "2" ? (
-                          <SubCounty />
+                          <>
+                            <FormControl
+                              variant="outlined"
+                              label="District"
+                              style={{
+                                width: "240px",
+                                margin: "20px",
+                              }}
+                              error={this.state.error}
+                              onChange={(e) => {
+                                this.setState({
+                                  ...this.state,
+                                  required: {
+                                    ...this.state.required,
+                                    test_name: e.target.value,
+                                  },
+                                });
+                              }}
+                            >
+                              <InputLabel id="district">District</InputLabel>
+                              <Select
+                                inputProps={{ name: "id" }}
+                                id="select_district"
+                                label="District"
+                              >
+                                {console.log(this.state.districts)}
+                                {/* <MenuItem value="1">Masaka</MenuItem>
+                                <MenuItem value="2">Mbale</MenuItem> */}
+                              </Select>
+                            </FormControl>
+                            <TextField
+                              name="name"
+                              variant="outlined"
+                              label="Subcounty Name"
+                              style={{
+                                width: "240px",
+                                margin: "20px",
+                              }}
+                              error={this.state.error}
+                              onChange={(e) => {
+                                this.setState({
+                                  ...this.state,
+                                  required: {
+                                    ...this.state.required,
+                                    test_name: e.target.value,
+                                  },
+                                });
+                              }}
+                            />
+                            <TextField
+                              name="description"
+                              variant="outlined"
+                              label="Description"
+                              style={{
+                                width: "240px",
+                                margin: "20px",
+                              }}
+                              error={this.state.error}
+                              onChange={(e) => {
+                                this.setState({
+                                  ...this.state,
+                                  required: {
+                                    ...this.state.required,
+                                    test_name: e.target.value,
+                                  },
+                                });
+                              }}
+                            />
+                          </>
                         ) : this.state.value === "3" ? (
-                          <Parish />
+                          <>
+                            <FormControl
+                              variant="outlined"
+                              label="Sub County"
+                              style={{
+                                width: "240px",
+                                margin: "20px",
+                              }}
+                              error={this.state.error}
+                              onChange={(e) => {
+                                this.setState({
+                                  ...this.state,
+                                  required: {
+                                    ...this.state.required,
+                                    test_name: e.target.value,
+                                  },
+                                });
+                              }}
+                            >
+                              <InputLabel id="parish">Sub County</InputLabel>
+                              <Select
+                                inputProps={{ name: "id" }}
+                                id="select_subcounty"
+                                label="SubCounty"
+                              >
+                                <MenuItem value="1">Barapwo</MenuItem>
+                                <MenuItem value="2">Ayere</MenuItem>
+                              </Select>
+                            </FormControl>
+                            <TextField
+                              name="name"
+                              variant="outlined"
+                              label="Parish Name"
+                              style={{
+                                width: "240px",
+                                margin: "20px",
+                              }}
+                              error={this.state.error}
+                              onChange={(e) => {
+                                this.setState({
+                                  ...this.state,
+                                  required: {
+                                    ...this.state.required,
+                                    test_name: e.target.value,
+                                  },
+                                });
+                              }}
+                            />
+                            <TextField
+                              name="description"
+                              variant="outlined"
+                              label="Description"
+                              style={{
+                                width: "240px",
+                                margin: "20px",
+                              }}
+                              error={this.state.error}
+                              onChange={(e) => {
+                                this.setState({
+                                  ...this.state,
+                                  required: {
+                                    ...this.state.required,
+                                    test_name: e.target.value,
+                                  },
+                                });
+                              }}
+                            />
+                          </>
                         ) : this.state.value === "4" ? (
-                          <Village />
+                          <>
+                            <FormControl
+                              variant="outlined"
+                              label="Parish"
+                              style={{
+                                width: "240px",
+                                margin: "20px",
+                              }}
+                              error={this.state.error}
+                              onChange={(e) => {
+                                this.setState({
+                                  ...this.state,
+                                  required: {
+                                    ...this.state.required,
+                                    test_name: e.target.value,
+                                  },
+                                });
+                              }}
+                            >
+                              <InputLabel id="gender">Parish</InputLabel>
+                              <Select
+                                inputProps={{ name: "id" }}
+                                id="select_parish"
+                                label="District"
+                              >
+                                <MenuItem value="1">Masaka</MenuItem>
+                                <MenuItem value="2">Mbale</MenuItem>
+                              </Select>
+                            </FormControl>
+                            <TextField
+                              name="name"
+                              variant="outlined"
+                              label="Village Name"
+                              style={{
+                                width: "240px",
+                                margin: "20px",
+                              }}
+                              error={this.state.error}
+                              onChange={(e) => {
+                                this.setState({
+                                  ...this.state,
+                                  required: {
+                                    ...this.state.required,
+                                    test_name: e.target.value,
+                                  },
+                                });
+                              }}
+                            />
+                            <TextField
+                              name="description"
+                              variant="outlined"
+                              label="Description"
+                              style={{
+                                width: "240px",
+                                margin: "20px",
+                              }}
+                              error={this.state.error}
+                              onChange={(e) => {
+                                this.setState({
+                                  ...this.state,
+                                  required: {
+                                    ...this.state.required,
+                                    test_name: e.target.value,
+                                  },
+                                });
+                              }}
+                            />
+                          </>
                         ) : (
                           ""
                         )}
@@ -259,157 +517,3 @@ const styles = {
     alignItems: "center",
   },
 };
-
-function District() {
-  return (
-    <>
-      <TextField
-        name="district_name"
-        variant="outlined"
-        label="District Name"
-        style={{
-          width: "240px",
-          margin: "20px",
-        }}
-      />
-      <TextField
-        name="district_description"
-        variant="outlined"
-        label="District Description"
-        style={{
-          width: "240px",
-          margin: "20px",
-        }}
-      />
-    </>
-  );
-}
-
-function SubCounty() {
-  return (
-    <>
-      <FormControl
-        variant="outlined"
-        label="District"
-        style={{
-          width: "240px",
-          margin: "20px",
-        }}
-      >
-        <InputLabel id="district">District</InputLabel>
-        <Select
-          inputProps={{ name: "district" }}
-          id="select_district"
-          label="District"
-        >
-          <MenuItem value="1">Masaka</MenuItem>
-          <MenuItem value="2">Mbale</MenuItem>
-        </Select>
-      </FormControl>
-      <TextField
-        name="subcounty_name"
-        variant="outlined"
-        label="Subcounty Name"
-        style={{
-          width: "240px",
-          margin: "20px",
-        }}
-      />
-      <TextField
-        name="description"
-        variant="outlined"
-        label="Description"
-        style={{
-          width: "240px",
-          margin: "20px",
-        }}
-      />
-    </>
-  );
-}
-
-function Parish() {
-  return (
-    <>
-      <FormControl
-        variant="outlined"
-        label="Sub County"
-        style={{
-          width: "240px",
-          margin: "20px",
-        }}
-      >
-        <InputLabel id="parish">Sub County</InputLabel>
-        <Select
-          inputProps={{ name: "sub_county" }}
-          id="select_subcounty"
-          label="SubCounty"
-        >
-          <MenuItem value="1">Barapwo</MenuItem>
-          <MenuItem value="2">Ayere</MenuItem>
-        </Select>
-      </FormControl>
-      <TextField
-        name="parish_name"
-        variant="outlined"
-        label="Parish Name"
-        style={{
-          width: "240px",
-          margin: "20px",
-        }}
-      />
-      <TextField
-        name="description"
-        variant="outlined"
-        label="Description"
-        style={{
-          width: "240px",
-          margin: "20px",
-        }}
-      />
-    </>
-  );
-}
-
-function Village() {
-  return (
-    <>
-      <FormControl
-        variant="outlined"
-        label="Parish"
-        style={{
-          width: "240px",
-          margin: "20px",
-        }}
-      >
-        <InputLabel id="gender">Parish</InputLabel>
-        <Select
-          inputProps={{ name: "parish" }}
-          id="select_parish"
-          label="District"
-        >
-          <MenuItem value="1">Masaka</MenuItem>
-          <MenuItem value="2">Mbale</MenuItem>
-        </Select>
-      </FormControl>
-      <TextField
-        name="village_name"
-        variant="outlined"
-        label="Village Name"
-        style={{
-          width: "240px",
-          margin: "20px",
-        }}
-      />
-      <TextField
-        name="description"
-        variant="outlined"
-        label="Description"
-        style={{
-          width: "240px",
-          margin: "20px",
-        }}
-      />
-    </>
-  );
-}

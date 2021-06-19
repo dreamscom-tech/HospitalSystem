@@ -39,7 +39,7 @@ class Nav extends Component {
                         this.props.active === "departments" ? "active" : ""
                       } _a_replaced`}
                     >
-                      <span className="las la-users"></span>
+                      <span className="las la-address-book"></span>
                       <span>Departments</span>
                     </span>
                   </Link>
@@ -51,7 +51,7 @@ class Nav extends Component {
                         this.props.active === "patients" ? "active" : ""
                       } _a_replaced`}
                     >
-                      <span className="las la-users"></span>
+                      <span className="las la-user-injured"></span>
                       <span>Patients</span>
                     </span>
                   </Link>
@@ -63,7 +63,7 @@ class Nav extends Component {
                         this.props.active === "tests" ? "active" : ""
                       } _a_replaced`}
                     >
-                      <span className="las la-users"></span>
+                      <span className="las la-medkit"></span>
                       <span>Tests</span>
                     </span>
                   </Link>
@@ -75,7 +75,7 @@ class Nav extends Component {
                         this.props.active === "users" ? "active" : ""
                       } _a_replaced`}
                     >
-                      <span className="las la-users"></span>
+                      <span className="las la-user-plus"></span>
                       <span>Users</span>
                     </span>
                   </Link>
@@ -87,7 +87,7 @@ class Nav extends Component {
                         this.props.active === "payments" ? "active" : ""
                       } _a_replaced`}
                     >
-                      <span className="las la-users"></span>
+                      <span className="las la-comments-dollar"></span>
                       <span>Payments</span>
                     </span>
                   </Link>
@@ -99,7 +99,7 @@ class Nav extends Component {
                         this.props.active === "addresses" ? "active" : ""
                       } _a_replaced`}
                     >
-                      <span className="las la-users"></span>
+                      <span className="las la-location-arrow"></span>
                       <span>Addresses</span>
                     </span>
                   </Link>

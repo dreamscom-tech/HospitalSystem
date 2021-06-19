@@ -47,4 +47,11 @@ router.get("/departments", async (req, res) => {
   });
 });
 
+router.get("/districts", async (req, res) => {
+  conn.query(`SELECT * FROM districts_tbl`, (err, result) => {
+    if (err) throw err;
+    res.send(result);
+  });
+});
+
 module.exports = router;

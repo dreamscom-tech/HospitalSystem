@@ -16,6 +16,11 @@ class Tests extends Component {
       open: false,
       message: "Please Wait...",
       messageState: "",
+      required: {
+        test_name: "",
+        test_description: "",
+        amount: "",
+      },
     };
   }
 
@@ -25,7 +30,17 @@ class Tests extends Component {
     const fd = new FormData(e.target);
     let form_content = {};
     fd.forEach((value, key) => {
-      form_content[key] = value;
+      if (value.length == 0) {
+        this.setState({
+          ...this.state,
+          error: true,
+          open: true,
+          message: "These Fields are required",
+          messageState: "warning",
+        });
+      } else {
+        form_content[key] = value;
+      }
     });
     let api = new FormsApi();
     let res = await api.post("/user/admin/new_test", form_content);
@@ -126,7 +141,72 @@ class Tests extends Component {
                   </div>
                   <div className="card-body">
                     <div>
-                      <TestDetails />
+                      <div className="inputCtr" style={styles.input_ctr}>
+                        <h4>Add Test</h4>
+                        <div className="inputs_ctr" style={styles.input_group}>
+                          <TextField
+                            name="test_name"
+                            variant="outlined"
+                            label="Test Name"
+                            style={{
+                              width: "320px",
+                              margin: "20px",
+                              display: "block",
+                            }}
+                            error={this.state.error}
+                            onChange={(e) => {
+                              this.setState({
+                                ...this.state,
+                                required: {
+                                  ...this.state.required,
+                                  test_name: e.target.value,
+                                },
+                              });
+                            }}
+                          />
+                          <TextField
+                            name="test_description"
+                            variant="outlined"
+                            label="Test Description"
+                            style={{
+                              width: "320px",
+                              margin: "20px",
+                              display: "block",
+                            }}
+                            error={this.state.error}
+                            onChange={(e) => {
+                              this.setState({
+                                ...this.state,
+                                required: {
+                                  ...this.state.required,
+                                  test_description: e.target.value,
+                                },
+                              });
+                            }}
+                          />
+
+                          <TextField
+                            name="amount"
+                            variant="outlined"
+                            label="Amount(Shs)"
+                            style={{
+                              width: "320px",
+                              margin: "20px",
+                              display: "block",
+                            }}
+                            error={this.state.error}
+                            onChange={(e) => {
+                              this.setState({
+                                ...this.state,
+                                required: {
+                                  ...this.state.required,
+                                  amount: e.target.value,
+                                },
+                              });
+                            }}
+                          />
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </form>
@@ -246,44 +326,3 @@ const styles = {
     alignItems: "center",
   },
 };
-
-function TestDetails() {
-  return (
-    <div className="inputCtr" style={styles.input_ctr}>
-      <h4>Add Test</h4>
-      <div className="inputs_ctr" style={styles.input_group}>
-        <TextField
-          name="test_name"
-          variant="outlined"
-          label="Test Name"
-          style={{
-            width: "320px",
-            margin: "20px",
-            display: "block",
-          }}
-        />
-        <TextField
-          name="test_description"
-          variant="outlined"
-          label="Test Description"
-          style={{
-            width: "320px",
-            margin: "20px",
-            display: "block",
-          }}
-        />
-
-        <TextField
-          name="amount"
-          variant="outlined"
-          label="Amount(Shs)"
-          style={{
-            width: "320px",
-            margin: "20px",
-            display: "block",
-          }}
-        />
-      </div>
-    </div>
-  );
-}
