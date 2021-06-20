@@ -40,7 +40,7 @@ class Addresses extends Component {
 
   async districts() {
     const res = await UsersApi.data("/user/all/districts");
-    if (res) {
+    if (res !== "Error") {
       this.setState({ ...this.state, districts: res });
     }
   }
@@ -55,7 +55,7 @@ class Addresses extends Component {
     const fd = new FormData(e.target);
     let _fcontent = {};
     fd.forEach((value, key) => {
-      if (value.length == 0) {
+      if (value.length === 0) {
         this.setState({
           ...this.state,
           error: true,
@@ -164,7 +164,7 @@ class Addresses extends Component {
                       </Button>
                     </div>
                   </div>
-                  <div class="card-body">
+                  <div className="card-body">
                     <div className="inputCtr" style={styles.input_ctr}>
                       <div className="inputs_ctr" style={styles.input_group}>
                         <FormControl
@@ -191,6 +191,7 @@ class Addresses extends Component {
                             label="Address"
                             id="select_address"
                             onChange={this.handleChange}
+                            defaultValue=""
                           >
                             <MenuItem value="1">District</MenuItem>
                             <MenuItem value="2">Sub County</MenuItem>
@@ -245,10 +246,15 @@ class Addresses extends Component {
                                 inputProps={{ name: "id" }}
                                 id="select_district"
                                 label="District"
+                                defaultValue=""
                               >
-                                {console.log(this.state.districts)}
-                                {/* <MenuItem value="1">Masaka</MenuItem>
-                                <MenuItem value="2">Mbale</MenuItem> */}
+                                {this.state.districts.map((v, i) => {
+                                  return (
+                                    <MenuItem value={v.district_id} key={i}>
+                                      {v.district_name}
+                                    </MenuItem>
+                                  );
+                                })}
                               </Select>
                             </FormControl>
                             <TextField

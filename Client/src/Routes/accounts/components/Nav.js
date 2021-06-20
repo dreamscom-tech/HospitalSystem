@@ -41,8 +41,20 @@ class Nav extends Component {
                         this.props.active === "payments" ? "active" : ""
                       } _a_replaced`}
                     >
-                      <span className="las la-users"></span>
+                      <span className="las la-file-invoice-dollar"></span>
                       <span>Payments</span>
+                    </span>
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/payments">
+                    <span
+                      className={`${
+                        this.props.active === "pending" ? "active" : ""
+                      } _a_replaced`}
+                    >
+                      <span className="las la-folder-plus"></span>
+                      <span>Pending</span>
                     </span>
                   </Link>
                 </li>

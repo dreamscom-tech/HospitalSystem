@@ -3,21 +3,17 @@ import MuiAlert from "@material-ui/lab/Alert";
 import Nav from "./components/Nav";
 import Header from "./components/Header";
 import FormsApi from "../../api/forms";
-
-import { makeStyles, useTheme } from "@material-ui/core/styles";
-import Input from "@material-ui/core/Input";
-
 import {
+  Checkbox,
+  FormControlLabel,
+  FormHelperText,
+  FormGroup,
+  FormLabel,
   TextField,
   Snackbar,
   Button,
   IconButton,
-  Select,
-  InputLabel,
   FormControl,
-  MenuItem,
-  Chip,
-  Checkbox,
 } from "@material-ui/core";
 
 import "../../design/main.css";
@@ -44,6 +40,7 @@ class Screening extends Component {
     fd.forEach((value, key) => {
       _fcontent[key] = value;
     });
+    console.log("Data:", fd.getAll("social_history"));
     const api = new FormsApi();
     let res = await api.post("/user/receptionist/new_patient_unit", _fcontent);
     if (res.status === true) {
@@ -166,75 +163,7 @@ const styles = {
   },
 };
 
-//chip
-
-const useStyles = makeStyles((theme) => ({
-  formControl: {
-    margin: theme.spacing(1),
-    minWidth: 120,
-    maxWidth: 300,
-  },
-  chips: {
-    display: "flex",
-    flexWrap: "wrap",
-    alignItems: "center",
-  },
-  chip: {
-    margin: 10,
-  },
-  chip: {
-    maxWidth: 100,
-    whiteSpace: "nowrap",
-    overflow: "hidden",
-    textOverflow: "ellipsis",
-  },
-  noLabel: {
-    marginTop: theme.spacing(3),
-  },
-}));
-
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-};
-
-const names = ["Tobacco Use", "Alcohol", "Cigarates"];
-
-function getStyles(name, personName, theme) {
-  return {
-    fontWeight:
-      personName.indexOf(name) === -1
-        ? theme.typography.fontWeightRegular
-        : theme.typography.fontWeightMedium,
-  };
-}
-
-//chip
 function BioData() {
-  const classes = useStyles();
-  const theme = useTheme();
-  const [personName, setPersonName] = React.useState([]);
-
-  const handleChange = (event) => {
-    setPersonName(event.target.value);
-  };
-
-  const handleChangeMultiple = (event) => {
-    const { options } = event.target;
-    const value = [];
-    for (let i = 0, l = options.length; i < l; i += 1) {
-      if (options[i].selected) {
-        value.push(options[i].value);
-      }
-    }
-    setPersonName(value);
-  };
   return (
     <div className="inputCtr" style={styles.input_ctr}>
       <TextField
@@ -325,42 +254,24 @@ function BioData() {
             }}
           />
           <FormControl
-            variant="outlined"
+            component="fieldset"
             style={{
               width: "75%",
               margin: "20px",
             }}
           >
-            <InputLabel id="demo-mutiple-chip-label">Chip</InputLabel>
-            <Select
-              labelId="demo-mutiple-chip-label"
-              id="demo-mutiple-chip"
-              multiple
-              multiline
-              value={personName}
-              onChange={handleChange}
-              input={<Input id="select-multiple-chip" />}
-              renderValue={(selected) => (
-                <div>
-                  {selected.map((value) => (
-                    // <div>
-                    <Chip key={value} label={value} />
-                    // </div>
-                  ))}
-                </div>
-              )}
-              MenuProps={MenuProps}
-            >
-              {names.map((name) => (
-                <MenuItem
-                  key={name}
-                  value={name}
-                  style={getStyles(name, personName, theme)}
-                >
-                  {name}
-                </MenuItem>
-              ))}
-            </Select>
+            <FormLabel component="legend">Social History</FormLabel>
+            <FormGroup>
+              <FormControlLabel
+                control={<Checkbox name="social_history" color="primary" />}
+                label="Tobacco Use"
+              />
+              <FormControlLabel
+                control={<Checkbox name="social_history" color="primary" />}
+                label="Acohol"
+              />
+            </FormGroup>
+            <FormHelperText>Select Multiple</FormHelperText>
           </FormControl>
         </div>
       </div>

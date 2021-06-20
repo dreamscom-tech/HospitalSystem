@@ -9,6 +9,8 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  ListItemText,
+  ListItemIcon,
 } from "@material-ui/core";
 import user from "../../../app_config";
 import { Logout } from "../../../components/Login";
@@ -72,8 +74,18 @@ function Header() {
         open={Boolean(AnchorEl)}
         onClose={handleCloseActions}
       >
-        <MenuItem onClick={handleCloseActions}>Profile</MenuItem>
-        <MenuItem onClick={handleClickOpenDialog}>Log Out</MenuItem>
+        <MenuItem onClick={handleCloseActions}>
+          <span style={{ fontSize: 24, marginRight: 10 }}>
+            <i className="las la-user-alt"></i>
+          </span>
+          Profile
+        </MenuItem>
+        <MenuItem onClick={handleClickOpenDialog}>
+          <span style={{ fontSize: 24, marginRight: 10 }}>
+            <i class="las la-sign-out-alt"></i>
+          </span>
+          Log out
+        </MenuItem>
       </Menu>
 
       <Dialog

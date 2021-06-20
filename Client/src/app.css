@@ -36,7 +36,7 @@
   box-sizing: border-box;
   list-style-type: none;
   text-decoration: none;
-  font-family: "Ubuntu", sans-serif;
+  font-family: "Ubuntu", sans-serifs;
 }
 body {
   background-color: #f1f5f9;
@@ -307,7 +307,9 @@ td .status {
 .status.orange {
   background: orangered;
 }
-
+td {
+  white-space: nowrap;
+}
 @media only screen and (max-width: 1024px) {
   .cards {
     grid-template-columns: repeat(2, 1fr);
@@ -359,6 +361,7 @@ td .status {
   .card-body {
     overflow: auto;
   }
+
   #nav-toggle:not(:checked) + .sideBar-ctr {
     left: 0 !important;
     width: 200px;
