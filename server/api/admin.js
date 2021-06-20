@@ -217,7 +217,6 @@ router.post("/new_address", async (req, res) => {
               `INSERT INTO sub_county_tbl SET ?`,
               {
                 sub_county_name: name,
-                sub_county_description: description,
                 district_id: parseInt(id),
               },
               (err3, res3) => {
@@ -249,7 +248,6 @@ router.post("/new_address", async (req, res) => {
               `INSERT INTO parish_tbl SET ?`,
               {
                 parish_name: name,
-                parish_description: description,
                 sub_county_id: parseInt(id),
               },
               (err_insert, res_insert) => {
@@ -281,7 +279,6 @@ router.post("/new_address", async (req, res) => {
               `INSERT INTO village_tbl SET ?`,
               {
                 village_name: name,
-                village_description: description,
                 parish_id: parseInt(id),
               },
               (err_insert, res_insert) => {

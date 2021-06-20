@@ -54,4 +54,37 @@ router.get("/districts", async (req, res) => {
   });
 });
 
+router.get("/subcounties/:id", async (req, res) => {
+  conn.query(
+    `SELECT * FROM sub_county_tbl WHERE district_id = ?`,
+    [req.params.id],
+    (err, result) => {
+      if (err) throw err;
+      res.send(result);
+    }
+  );
+});
+
+router.get("/parishes/:id", async (req, res) => {
+  conn.query(
+    `SELECT * FROM parish_tbl WHERE sub_county_id = ?`,
+    [req.params.id],
+    (err, result) => {
+      if (err) throw err;
+      res.send(result);
+    }
+  );
+});
+
+router.get("/villages/:id", async (req, res) => {
+  conn.query(
+    `SELECT * FROM village_tbl WHERE parish_id = ?`,
+    [req.params.id],
+    (err, result) => {
+      if (err) throw err;
+      res.send(result);
+    }
+  );
+});
+
 module.exports = router;
