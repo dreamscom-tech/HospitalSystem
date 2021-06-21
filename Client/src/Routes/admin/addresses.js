@@ -146,17 +146,17 @@ class Addresses extends Component {
                   onSubmit={this.handleSubmit}
                   autoComplete="off"
                 >
-                  <div className="card-header">
-                    <h3>New Address</h3>
+                  <div className="card-header card-header-payments">
+                    <h3 className="class_payment_header">Add Address</h3>
                     <div className="">
                       <Button
                         type="submit"
                         variant="contained"
                         color="primary"
-                        style={{ marginInline: 10 }}
+                        style={{ marginRight: 10 }}
                       >
                         <span
-                          style={{ fontSize: "17.5px", marginInline: "10px" }}
+                          style={{ fontSize: "17.5px", marginRight: "10px" }}
                         >
                           <i className="las la-print"></i>
                         </span>
@@ -168,10 +168,10 @@ class Addresses extends Component {
                         aria-describedby={this.id}
                         variant="contained"
                         color="primary"
-                        style={{ marginInline: 10 }}
+                        style={{ marginLeft: 10 }}
                       >
                         <span
-                          style={{ fontSize: "17.5px", marginInline: "10px" }}
+                          style={{ fontSize: "17.5px", marginRight: "10px" }}
                         >
                           <i className="las la-save"></i>
                         </span>
@@ -180,346 +180,368 @@ class Addresses extends Component {
                     </div>
                   </div>
                   <div className="card-body">
-                    <div className="inputCtr" style={styles.input_ctr}>
-                      <div className="inputs_ctr" style={styles.input_group}>
-                        <FormControl
-                          variant="outlined"
-                          label="Address"
+                    <div>
+                      <div className="inputCtrPaymentsDepart">
+                        <h5>New Address</h5>
+                        <div
+                          className="inputs_ctr"
                           style={{
-                            width: "240px",
-                            margin: "20px",
-                          }}
-                          error={this.state.error}
-                          onChange={(e) => {
-                            this.setState({
-                              ...this.state,
-                              required: {
-                                ...this.state.required,
-                                test_name: e.target.value,
-                              },
-                            });
+                            alignItems: "center",
+                            flexDirection: "column",
                           }}
                         >
-                          <InputLabel id="address">Address</InputLabel>
-                          <Select
-                            inputProps={{ name: "address" }}
+                          <FormControl
+                            variant="outlined"
                             label="Address"
-                            id="select_address"
-                            onChange={this.handleChange}
-                            defaultValue=""
+                            style={{
+                              width: "75%",
+                              margin: "20px",
+                            }}
+                            error={this.state.error}
+                            onChange={(e) => {
+                              this.setState({
+                                ...this.state,
+                                required: {
+                                  ...this.state.required,
+                                  test_name: e.target.value,
+                                },
+                              });
+                            }}
                           >
-                            <MenuItem value="1">District</MenuItem>
-                            <MenuItem value="2">Sub County</MenuItem>
-                            <MenuItem value="3">Parish</MenuItem>
-                            <MenuItem value="4">Village</MenuItem>
-                          </Select>
-                        </FormControl>
-                        {this.state.value === "1" ? (
-                          <>
-                            <TextField
-                              name="name"
-                              variant="outlined"
-                              label="District Name"
-                              style={{
-                                width: "240px",
-                                margin: "20px",
-                              }}
-                              error={this.state.error}
-                              onChange={(e) => {
-                                this.setState({
-                                  ...this.state,
-                                  required: {
-                                    ...this.state.required,
-                                    name: e.target.value,
-                                  },
-                                });
-                              }}
-                            />
-                          </>
-                        ) : this.state.value === "2" ? (
-                          <>
-                            <FormControl
-                              variant="outlined"
-                              label="District"
-                              style={{
-                                width: "240px",
-                                margin: "20px",
-                              }}
-                              error={this.state.error}
-                              onChange={(e) => {
-                                this.setState({
-                                  ...this.state,
-                                  required: {
-                                    ...this.state.required,
-                                    id: e.target.value,
-                                  },
-                                });
-                              }}
+                            <InputLabel id="address">Address</InputLabel>
+                            <Select
+                              inputProps={{ name: "address" }}
+                              label="Address"
+                              id="select_address"
+                              onChange={this.handleChange}
+                              defaultValue=""
                             >
-                              <InputLabel id="district">District</InputLabel>
-                              <Select
-                                inputProps={{ name: "id" }}
-                                id="select_district"
+                              <MenuItem value="1">District</MenuItem>
+                              <MenuItem value="2">Sub County</MenuItem>
+                              <MenuItem value="3">Parish</MenuItem>
+                              <MenuItem value="4">Village</MenuItem>
+                            </Select>
+                          </FormControl>
+                          {this.state.value === "1" ? (
+                            <>
+                              <TextField
+                                name="name"
+                                variant="outlined"
+                                label="District Name"
+                                style={{
+                                  width: "75%",
+                                  margin: "20px",
+                                }}
+                                error={this.state.error}
+                                onChange={(e) => {
+                                  this.setState({
+                                    ...this.state,
+                                    required: {
+                                      ...this.state.required,
+                                      name: e.target.value,
+                                    },
+                                  });
+                                }}
+                              />
+                            </>
+                          ) : this.state.value === "2" ? (
+                            <>
+                              <FormControl
+                                variant="outlined"
                                 label="District"
-                                defaultValue=""
+                                style={{
+                                  width: "75%",
+                                  margin: "20px",
+                                }}
+                                error={this.state.error}
+                                onChange={(e) => {
+                                  this.setState({
+                                    ...this.state,
+                                    required: {
+                                      ...this.state.required,
+                                      id: e.target.value,
+                                    },
+                                  });
+                                }}
                               >
-                                {this.state.districts.length === 0
-                                  ? ""
-                                  : this.state.districts.map((v, i) => {
-                                      return (
-                                        <MenuItem value={v.district_id} key={i}>
-                                          {v.district_name}
-                                        </MenuItem>
-                                      );
-                                    })}
-                              </Select>
-                            </FormControl>
-                            <TextField
-                              name="name"
-                              variant="outlined"
-                              label="Subcounty Name"
-                              style={{
-                                width: "240px",
-                                margin: "20px",
-                              }}
-                              error={this.state.error}
-                              onChange={(e) => {
-                                this.setState({
-                                  ...this.state,
-                                  required: {
-                                    ...this.state.required,
-                                    name: e.target.value,
-                                  },
-                                });
-                              }}
-                            />
-                          </>
-                        ) : this.state.value === "3" ? (
-                          <>
-                            <FormControl
-                              variant="outlined"
-                              label="District"
-                              style={{
-                                width: "240px",
-                                margin: "20px",
-                              }}
-                            >
-                              <InputLabel id="parish">District</InputLabel>
-                              <Select
-                                inputProps={{ name: "district_id" }}
-                                id="select_district"
+                                <InputLabel id="district">District</InputLabel>
+                                <Select
+                                  inputProps={{ name: "id" }}
+                                  id="select_district"
+                                  label="District"
+                                  defaultValue=""
+                                >
+                                  {this.state.districts.length === 0
+                                    ? ""
+                                    : this.state.districts.map((v, i) => {
+                                        return (
+                                          <MenuItem
+                                            value={v.district_id}
+                                            key={i}
+                                          >
+                                            {v.district_name}
+                                          </MenuItem>
+                                        );
+                                      })}
+                                </Select>
+                              </FormControl>
+                              <TextField
+                                name="name"
+                                variant="outlined"
+                                label="Subcounty Name"
+                                style={{
+                                  width: "75%",
+                                  margin: "20px",
+                                }}
+                                error={this.state.error}
+                                onChange={(e) => {
+                                  this.setState({
+                                    ...this.state,
+                                    required: {
+                                      ...this.state.required,
+                                      name: e.target.value,
+                                    },
+                                  });
+                                }}
+                              />
+                            </>
+                          ) : this.state.value === "3" ? (
+                            <>
+                              <FormControl
+                                variant="outlined"
                                 label="District"
-                                onChange={this.fetchSubCounties}
-                                defaultValue=""
+                                style={{
+                                  width: "75%",
+                                  margin: "20px",
+                                }}
                               >
-                                {this.state.districts.length === 0
-                                  ? ""
-                                  : this.state.districts.map((x, y) => {
-                                      return (
-                                        <MenuItem value={x.district_id} key={y}>
-                                          {x.district_name}
-                                        </MenuItem>
-                                      );
-                                    })}
-                              </Select>
-                            </FormControl>
-                            <FormControl
-                              variant="outlined"
-                              label="Sub County"
-                              style={{
-                                width: "240px",
-                                margin: "20px",
-                              }}
-                              error={this.state.error}
-                              onChange={(e) => {
-                                this.setState({
-                                  ...this.state,
-                                  required: {
-                                    ...this.state.required,
-                                    name: e.target.value,
-                                  },
-                                });
-                              }}
-                            >
-                              <InputLabel id="subcounty">Sub County</InputLabel>
-                              <Select
-                                inputProps={{ name: "id" }}
-                                id="select_subcounty"
-                                label="SubCounty"
-                                defaultValue=""
+                                <InputLabel id="parish">District</InputLabel>
+                                <Select
+                                  inputProps={{ name: "district_id" }}
+                                  id="select_district"
+                                  label="District"
+                                  onChange={this.fetchSubCounties}
+                                  defaultValue=""
+                                >
+                                  {this.state.districts.length === 0
+                                    ? ""
+                                    : this.state.districts.map((x, y) => {
+                                        return (
+                                          <MenuItem
+                                            value={x.district_id}
+                                            key={y}
+                                          >
+                                            {x.district_name}
+                                          </MenuItem>
+                                        );
+                                      })}
+                                </Select>
+                              </FormControl>
+                              <FormControl
+                                variant="outlined"
+                                label="Sub County"
+                                style={{
+                                  width: "75%",
+                                  margin: "20px",
+                                }}
+                                error={this.state.error}
+                                onChange={(e) => {
+                                  this.setState({
+                                    ...this.state,
+                                    required: {
+                                      ...this.state.required,
+                                      name: e.target.value,
+                                    },
+                                  });
+                                }}
                               >
-                                {this.state.subCounties.length === 0
-                                  ? ""
-                                  : this.state.subCounties.map((a, b) => {
-                                      return (
-                                        <MenuItem
-                                          value={a.sub_county_id}
-                                          key={b}
-                                        >
-                                          {a.sub_county_name}
-                                        </MenuItem>
-                                      );
-                                    })}
-                              </Select>
-                            </FormControl>
-                            <TextField
-                              name="name"
-                              variant="outlined"
-                              label="Parish Name"
-                              style={{
-                                width: "240px",
-                                margin: "20px",
-                              }}
-                              error={this.state.error}
-                              onChange={(e) => {
-                                this.setState({
-                                  ...this.state,
-                                  required: {
-                                    ...this.state.required,
-                                    name: e.target.value,
-                                  },
-                                });
-                              }}
-                            />
-                          </>
-                        ) : this.state.value === "4" ? (
-                          <>
-                            <FormControl
-                              variant="outlined"
-                              label="Parish"
-                              style={{
-                                width: "240px",
-                                margin: "20px",
-                              }}
-                              error={this.state.error}
-                              onChange={(e) => {
-                                this.setState({
-                                  ...this.state,
-                                  required: {
-                                    ...this.state.required,
-                                    name: e.target.value,
-                                  },
-                                });
-                              }}
-                            >
-                              <InputLabel id="district">District</InputLabel>
-                              <Select
-                                inputProps={{ name: "district_id" }}
-                                id="select_parish"
-                                label="District"
-                                defaultValue=""
-                                onChange={this.fetchSubCounties}
-                              >
-                                {this.state.districts.length === 0
-                                  ? ""
-                                  : this.state.districts.map((v, i) => {
-                                      return (
-                                        <MenuItem value={v.district_id} key={i}>
-                                          {v.district_name}
-                                        </MenuItem>
-                                      );
-                                    })}
-                              </Select>
-                            </FormControl>
-                            <FormControl
-                              variant="outlined"
-                              label="subcounty"
-                              style={{
-                                width: "240px",
-                                margin: "20px",
-                              }}
-                              error={this.state.error}
-                              onChange={(e) => {
-                                this.setState({
-                                  ...this.state,
-                                  required: {
-                                    ...this.state.required,
-                                    name: e.target.value,
-                                  },
-                                });
-                              }}
-                            >
-                              <InputLabel id="subcounty">Sub County</InputLabel>
-                              <Select
-                                inputProps={{ name: "subcounty_id" }}
-                                id="select_subcounty"
-                                label="subcounty"
-                                defaultValue=""
-                                onChange={this.fetchParishes}
-                              >
-                                {this.state.subCounties.length === 0
-                                  ? ""
-                                  : this.state.subCounties.map((a, b) => {
-                                      return (
-                                        <MenuItem
-                                          value={a.sub_county_id}
-                                          key={b}
-                                        >
-                                          {a.sub_county_name}
-                                        </MenuItem>
-                                      );
-                                    })}
-                              </Select>
-                            </FormControl>
-                            <FormControl
-                              variant="outlined"
-                              label="Parish"
-                              style={{
-                                width: "240px",
-                                margin: "20px",
-                              }}
-                              error={this.state.error}
-                              onChange={(e) => {
-                                this.setState({
-                                  ...this.state,
-                                  required: {
-                                    ...this.state.required,
-                                    name: e.target.value,
-                                  },
-                                });
-                              }}
-                            >
-                              <InputLabel id="gender">Parish</InputLabel>
-                              <Select
-                                inputProps={{ name: "id" }}
-                                id="select_parish"
+                                <InputLabel id="subcounty">
+                                  Sub County
+                                </InputLabel>
+                                <Select
+                                  inputProps={{ name: "id" }}
+                                  id="select_subcounty"
+                                  label="SubCounty"
+                                  defaultValue=""
+                                >
+                                  {this.state.subCounties.length === 0
+                                    ? ""
+                                    : this.state.subCounties.map((a, b) => {
+                                        return (
+                                          <MenuItem
+                                            value={a.sub_county_id}
+                                            key={b}
+                                          >
+                                            {a.sub_county_name}
+                                          </MenuItem>
+                                        );
+                                      })}
+                                </Select>
+                              </FormControl>
+                              <TextField
+                                name="name"
+                                variant="outlined"
+                                label="Parish Name"
+                                style={{
+                                  width: "75%",
+                                  margin: "20px",
+                                }}
+                                error={this.state.error}
+                                onChange={(e) => {
+                                  this.setState({
+                                    ...this.state,
+                                    required: {
+                                      ...this.state.required,
+                                      name: e.target.value,
+                                    },
+                                  });
+                                }}
+                              />
+                            </>
+                          ) : this.state.value === "4" ? (
+                            <>
+                              <FormControl
+                                variant="outlined"
                                 label="Parish"
-                                defaultValue=""
+                                style={{
+                                  width: "75%",
+                                  margin: "20px",
+                                }}
+                                error={this.state.error}
+                                onChange={(e) => {
+                                  this.setState({
+                                    ...this.state,
+                                    required: {
+                                      ...this.state.required,
+                                      name: e.target.value,
+                                    },
+                                  });
+                                }}
                               >
-                                {this.state.parishes.length === 0
-                                  ? ""
-                                  : this.state.parishes.map((a, b) => {
-                                      return (
-                                        <MenuItem value={a.parish_id} key={b}>
-                                          {a.parish_name}
-                                        </MenuItem>
-                                      );
-                                    })}
-                              </Select>
-                            </FormControl>
-                            <TextField
-                              name="name"
-                              variant="outlined"
-                              label="Village Name"
-                              style={{
-                                width: "240px",
-                                margin: "20px",
-                              }}
-                              error={this.state.error}
-                              onChange={(e) => {
-                                this.setState({
-                                  ...this.state,
-                                  required: {
-                                    ...this.state.required,
-                                    name: e.target.value,
-                                  },
-                                });
-                              }}
-                            />
-                          </>
-                        ) : (
-                          ""
-                        )}
+                                <InputLabel id="district">District</InputLabel>
+                                <Select
+                                  inputProps={{ name: "district_id" }}
+                                  id="select_parish"
+                                  label="District"
+                                  defaultValue=""
+                                  onChange={this.fetchSubCounties}
+                                >
+                                  {this.state.districts.length === 0
+                                    ? ""
+                                    : this.state.districts.map((v, i) => {
+                                        return (
+                                          <MenuItem
+                                            value={v.district_id}
+                                            key={i}
+                                          >
+                                            {v.district_name}
+                                          </MenuItem>
+                                        );
+                                      })}
+                                </Select>
+                              </FormControl>
+                              <FormControl
+                                variant="outlined"
+                                label="subcounty"
+                                style={{
+                                  width: "75%",
+                                  margin: "20px",
+                                }}
+                                error={this.state.error}
+                                onChange={(e) => {
+                                  this.setState({
+                                    ...this.state,
+                                    required: {
+                                      ...this.state.required,
+                                      name: e.target.value,
+                                    },
+                                  });
+                                }}
+                              >
+                                <InputLabel id="subcounty">
+                                  Sub County
+                                </InputLabel>
+                                <Select
+                                  inputProps={{ name: "subcounty_id" }}
+                                  id="select_subcounty"
+                                  label="subcounty"
+                                  defaultValue=""
+                                  onChange={this.fetchParishes}
+                                >
+                                  {this.state.subCounties.length === 0
+                                    ? ""
+                                    : this.state.subCounties.map((a, b) => {
+                                        return (
+                                          <MenuItem
+                                            value={a.sub_county_id}
+                                            key={b}
+                                          >
+                                            {a.sub_county_name}
+                                          </MenuItem>
+                                        );
+                                      })}
+                                </Select>
+                              </FormControl>
+                              <FormControl
+                                variant="outlined"
+                                label="Parish"
+                                style={{
+                                  width: "75%",
+                                  margin: "20px",
+                                }}
+                                error={this.state.error}
+                                onChange={(e) => {
+                                  this.setState({
+                                    ...this.state,
+                                    required: {
+                                      ...this.state.required,
+                                      name: e.target.value,
+                                    },
+                                  });
+                                }}
+                              >
+                                <InputLabel id="gender">Parish</InputLabel>
+                                <Select
+                                  inputProps={{ name: "id" }}
+                                  id="select_parish"
+                                  label="Parish"
+                                  defaultValue=""
+                                >
+                                  {this.state.parishes.length === 0
+                                    ? ""
+                                    : this.state.parishes.map((a, b) => {
+                                        return (
+                                          <MenuItem value={a.parish_id} key={b}>
+                                            {a.parish_name}
+                                          </MenuItem>
+                                        );
+                                      })}
+                                </Select>
+                              </FormControl>
+                              <TextField
+                                name="name"
+                                variant="outlined"
+                                label="Village Name"
+                                style={{
+                                  width: "75%",
+                                  margin: "20px",
+                                }}
+                                error={this.state.error}
+                                onChange={(e) => {
+                                  this.setState({
+                                    ...this.state,
+                                    required: {
+                                      ...this.state.required,
+                                      name: e.target.value,
+                                    },
+                                  });
+                                }}
+                              />
+                            </>
+                          ) : (
+                            ""
+                          )}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -547,8 +569,8 @@ class Addresses extends Component {
                   </div>
                   <div className="card-body">
                     <h5>Location</h5>
-                    <div className="inputCtr" style={styles.input_ctr}>
-                      <div className="inputs_ctr" style={styles.input_group}>
+                    <div className="inputCtr">
+                      <div className="inputs_ctr">
                         <table width="100%">
                           <thead>
                             <tr>
@@ -589,20 +611,3 @@ class Addresses extends Component {
 }
 
 export default Addresses;
-
-const styles = {
-  input_ctr: {
-    width: "70%",
-    margin: "auto",
-  },
-  input_group: {
-    width: "100%",
-    border: "1px solid rgba(0,0,0,0.1)",
-    borderRadius: "5px",
-    margin: "15px auto",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "space-around",
-    alignItems: "center",
-  },
-};

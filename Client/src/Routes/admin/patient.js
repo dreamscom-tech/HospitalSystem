@@ -19,17 +19,17 @@ class Patient extends Component {
             <div className="recent-grid-left">
               <div className="projects">
                 <div className="card">
-                  <div className="card-header">
-                    <h3>Patient Details</h3>
+                  <div className="card-header card-header-payments">
+                    <h3 className="class_payment_header">Patient Details</h3>
                     <div className="">
                       <Button
                         type="submit"
                         variant="contained"
                         color="primary"
-                        style={{ marginInline: 10 }}
+                        style={{ marginRight: 10 }}
                       >
                         <span
-                          style={{ fontSize: "17.5px", marginInline: "10px" }}
+                          style={{ fontSize: "17.5px", marginRight: "10px" }}
                         >
                           <i className="las la-print"></i>
                         </span>
@@ -46,8 +46,8 @@ class Patient extends Component {
               </div>
               <div className="projects">
                 <div className="card">
-                  <div className="card-header">
-                    <h3>Patient Units</h3>
+                  <div className="card-header card-header-payment">
+                    <h3 className="class_payment_header">Patient Units</h3>
                     <Button variant="contained" color="primary">
                       <span
                         style={{ fontSize: "17.5px", marginInline: "10px" }}
@@ -74,29 +74,12 @@ class Patient extends Component {
 
 export default Patient;
 
-const styles = {
-  input_ctr: {
-    width: "90%",
-    margin: "auto",
-  },
-  input_group: {
-    width: "100%",
-    border: "1px solid rgba(0,0,0,0.1)",
-    borderRadius: "5px",
-    margin: "15px auto",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "space-around",
-    alignItems: "center",
-  },
-};
-
 function Details() {
   return (
     <>
-      <div className="inputCtr" style={styles.input_ctr}>
+      <div className="inputCtr" style={styles.ctr}>
         <h3>Patient Number : 1603AB2</h3>
-        <div className="inputs_ctr" style={styles.input_group}>
+        <div className="inputs_ctr">
           <table width="100%">
             <tr>
               <td>
@@ -179,9 +162,12 @@ function Details() {
           </table>
         </div>
       </div>
-      <div className="inputCtr" style={styles.input_ctr}>
+      <div className="inputCtr" style={styles.ctr}>
         <h5>Next of kin</h5>
-        <div className="inputs_ctr" style={styles.input_group}>
+        <div
+          className="inputs_ctr"
+          style={{ flexDirection: "column", alignItems: "center" }}
+        >
           <table width="100%">
             <tr>
               <td>
@@ -229,8 +215,8 @@ function Details() {
 function Units() {
   return (
     <>
-      <div className="inputCtr" style={styles.input_ctr}>
-        <div className="inputs_ctr" style={styles.input_group}>
+      <div className="inputCtr" style={styles.ctr}>
+        <div className="inputs_ctr">
           <table width="100%">
             <tr>
               <td>
@@ -294,3 +280,10 @@ function Units() {
     </>
   );
 }
+
+const styles = {
+  ctr: {
+    width: "90%",
+    margin: "auto",
+  },
+};

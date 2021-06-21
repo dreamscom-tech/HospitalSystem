@@ -20,17 +20,19 @@ class Patients extends Component {
             <div className="recent-grid-left">
               <div className="projects">
                 <div className="card">
-                  <div className="card-header">
-                    <h3>Registered Patients</h3>
+                  <div className="card-header card-header-payments">
+                    <h3 className="class_payment_header">
+                      Registered Patients
+                    </h3>
                     <div className="">
                       <Button
                         type="submit"
                         variant="contained"
                         color="primary"
-                        style={{ marginInline: 10 }}
+                        style={{ marginRight: 10 }}
                       >
                         <span
-                          style={{ fontSize: "17.5px", marginInline: "10px" }}
+                          style={{ fontSize: "17.5px", marginRight: "10px" }}
                         >
                           <i className="las la-print"></i>
                         </span>

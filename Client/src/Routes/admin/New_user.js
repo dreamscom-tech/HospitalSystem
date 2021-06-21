@@ -180,7 +180,7 @@ class New_user extends Component {
                                 inputProps={{ name: "gender" }}
                                 id="select_gender"
                                 label="Gender"
-                                value="M"
+                                defaultValue="M"
                               >
                                 <MenuItem value="M">Male</MenuItem>
                                 <MenuItem value="F">Female</MenuItem>
@@ -203,7 +203,7 @@ class New_user extends Component {
                                 inputProps={{ name: "department" }}
                                 label="Department"
                                 id="select_department"
-                                value="1"
+                                defaultValue="1"
                               >
                                 <MenuItem value="1">Labaratory</MenuItem>
                                 <MenuItem value="2">OPD</MenuItem>

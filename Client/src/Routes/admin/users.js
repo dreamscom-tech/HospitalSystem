@@ -20,18 +20,18 @@ class Users extends Component {
             <div className="recent-grid-left">
               <div className="projects">
                 <div className="card">
-                  <div className="card-header">
-                    <h3>Registered Users</h3>
+                  <div className="card-header card-header-payment">
+                    <h3 className="class_payment_header">Registered Users</h3>
                     <div className="">
                       <Link to="/register">
                         <Button
                           type="submit"
                           variant="contained"
                           color="primary"
-                          style={{ marginInline: 10 }}
+                          style={{ marginRight: 10 }}
                         >
                           <span
-                            style={{ fontSize: "17.5px", marginInline: "10px" }}
+                            style={{ fontSize: "17.5px", marginRight: "10px" }}
                           >
                             <i className="las la-plus"></i>
                           </span>

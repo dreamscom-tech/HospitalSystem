@@ -105,17 +105,17 @@ class Department extends Component {
                   autoComplete="off"
                   onSubmit={this.handleSubmit}
                 >
-                  <div className="card-header">
-                    <h3>New Department</h3>
+                  <div className="card-header card-header-payments">
+                    <h3 className="class_payment_header">New Department</h3>
                     <div className="">
                       <Button
                         type="submit"
                         variant="contained"
                         color="primary"
-                        style={{ marginInline: 10 }}
+                        style={{ marginRight: 10 }}
                       >
                         <span
-                          style={{ fontSize: "17.5px", marginInline: "10px" }}
+                          style={{ fontSize: "17.5px", marginRight: "10px" }}
                         >
                           <i className="las la-print"></i>
                         </span>
@@ -127,10 +127,10 @@ class Department extends Component {
                         aria-describedby={this.id}
                         variant="contained"
                         color="primary"
-                        style={{ marginInline: 10 }}
+                        style={{ marginLeft: 10 }}
                       >
                         <span
-                          style={{ fontSize: "17.5px", marginInline: "10px" }}
+                          style={{ fontSize: "17.5px", marginRigth: "10px" }}
                         >
                           <i className="las la-save"></i>
                         </span>
@@ -140,17 +140,22 @@ class Department extends Component {
                   </div>
                   <div className="card-body">
                     <div>
-                      <div className="inputCtr" style={styles.input_ctr}>
+                      <div className="inputCtrPaymentsDepart">
                         <h4>Add Department</h4>
-                        <div className="inputs_ctr" style={styles.input_group}>
+                        <div
+                          className="inputs_ctr"
+                          style={{
+                            alignItems: "center",
+                            flexDirection: "column",
+                          }}
+                        >
                           <TextField
                             name="depart_name"
                             variant="outlined"
                             label="Department Name"
                             style={{
-                              width: "320px",
+                              width: "75%",
                               margin: "20px",
-                              display: "block",
                             }}
                             error={this.state.error}
                             onChange={(e) => {
@@ -168,9 +173,8 @@ class Department extends Component {
                             variant="outlined"
                             label="Department Description"
                             style={{
-                              width: "320px",
+                              width: "75%",
                               margin: "20px",
-                              display: "block",
                             }}
                             error={this.state.error}
                             onChange={(e) => {
@@ -282,20 +286,3 @@ class Department extends Component {
 }
 
 export default Department;
-
-const styles = {
-  input_ctr: {
-    width: "70%",
-    margin: "auto",
-  },
-  input_group: {
-    width: "100%",
-    border: "1px solid rgba(0,0,0,0.1)",
-    borderRadius: "5px",
-    margin: "15px auto",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "space-around",
-    alignItems: "center",
-  },
-};
