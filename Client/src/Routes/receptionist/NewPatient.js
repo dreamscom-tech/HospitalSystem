@@ -17,6 +17,7 @@ import FormsApi from "../../api/forms";
 import "../../design/main.css";
 import "../../design/forms.css";
 import UsersApi from "../../api/users";
+import { Redirect } from "react-router-dom";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -40,12 +41,51 @@ class NewPatient extends Component {
         surname: "",
         other_names: "",
       },
+      redirect: {
+        status: false,
+        url: null,
+      },
+      address: {
+        districts: [
+          {
+            district_id: "null",
+            district_name: "No Sub Counties Added",
+          },
+        ],
+        sub_counties: [
+          {
+            subcounty_id: "null",
+            subcounty_name: "No Sub Counties Added",
+          },
+        ],
+        parishes: [
+          {
+            parish_id: "null",
+            parish_name: "No Sub Counties Added",
+          },
+        ],
+        villages: [
+          {
+            village_id: "null",
+            village_name: "No Sub Counties Added",
+          },
+        ],
+      },
     };
     this.onOpenFile();
   }
   onOpenFile = async () => {
     const p_number = await UsersApi.data("/user/receptionist/pnumber");
-
+    const districts = await UsersApi.data("/user/all/districts");
+    if (districts.length !== 0 && districts !== "Error") {
+      this.setState({
+        ...this.state,
+        address: {
+          ...this.state.address,
+          districts,
+        },
+      });
+    }
     if (p_number.status === true) {
       this.setState({
         ...this.state,
@@ -71,16 +111,28 @@ class NewPatient extends Component {
     });
     const api = new FormsApi();
     let res = await api.post("/user/receptionist/new_patient", _fcontent);
-    if (res.status === true) {
-      this.setState({
-        ...this.state,
-        message: res.data,
-        messageState: "success",
-      });
+    if (res !== "Error") {
+      if (res.status === true) {
+        this.setState({
+          ...this.state,
+          message: "Patient Added.....",
+          messageState: "success",
+          redirect: {
+            ...this.state.redirect,
+            url: "/triage",
+          },
+        });
+      } else {
+        this.setState({
+          ...this.state,
+          message: "Failed, Server Error...",
+          messageState: "error",
+        });
+      }
     } else {
       this.setState({
         ...this.state,
-        message: res.data,
+        message: "Failed, Cannot Connect to Server...",
         messageState: "error",
       });
     }
@@ -90,13 +142,27 @@ class NewPatient extends Component {
     if (reason === "clickaway") {
       return;
     }
-    this.setState({ ...this.state, open: false });
+    this.setState({
+      ...this.state,
+      message: "",
+      messageState: "",
+      open: false,
+    });
+    if (this.state.redirect.url !== null) {
+      this.setState({
+        ...this.state,
+        redirect: {
+          ...this.state.redirect,
+          status: true,
+        },
+      });
+    }
   };
 
   handleSlideForward = () => {
     let err = false;
     Object.values(this.state.required).forEach((e) => {
-      if (e.length == 0) {
+      if (e.length === 0) {
         err = true;
         this.setState({
           ...this.state,
@@ -128,6 +194,10 @@ class NewPatient extends Component {
     }
   };
   render() {
+    const { redirect } = this.state;
+    if (redirect.status) {
+      return <Redirect to={redirect.url} />;
+    }
     return (
       <>
         <Snackbar
@@ -415,41 +485,170 @@ class NewPatient extends Component {
                         }
                       >
                         <div className="inputCtr">
-                          <h4>Patient Address</h4>
+                          <h4>Patient Address &amp; Next Of Kin</h4>
                           <div className="inputs_ctr">
                             <div className="inpts_on_left">
-                              <TextField
-                                name="district"
+                              <FormControl
                                 variant="outlined"
-                                required
-                                className="req"
-                                label="District"
                                 style={{
                                   width: "75%",
                                   margin: "20px",
                                 }}
-                                onError={this.handleInputError}
-                              />
-                              <TextField
-                                name="sub_county"
+                              >
+                                <InputLabel id="district">District</InputLabel>
+                                <Select
+                                  inputProps={{ name: "district" }}
+                                  required
+                                  labelId="district"
+                                  // id="select_gender"
+                                  label="District"
+                                  defaultValue=""
+                                  onChange={async (e) => {
+                                    const sub_counties = await UsersApi.data(
+                                      `/user/all/subcounties/${e.target.value}`
+                                    );
+                                    if (
+                                      sub_counties.length !== 0 &&
+                                      sub_counties !== "Error"
+                                    ) {
+                                      this.setState({
+                                        ...this.state,
+                                        address: {
+                                          ...this.state.address,
+                                          sub_counties,
+                                        },
+                                      });
+                                    }
+                                  }}
+                                >
+                                  {this.state.address.districts.map((v, i) => {
+                                    return (
+                                      <MenuItem value={v.district_id} key={i}>
+                                        {v.district_name}
+                                      </MenuItem>
+                                    );
+                                  })}
+                                </Select>
+                              </FormControl>
+                              <FormControl
                                 variant="outlined"
-                                label="Sub County"
                                 style={{
                                   width: "75%",
                                   margin: "20px",
                                 }}
-                              />
-                              <TextField
-                                name="parish"
+                              >
+                                <InputLabel id="sub_county">
+                                  Sub County
+                                </InputLabel>
+                                <Select
+                                  inputProps={{ name: "sub_county" }}
+                                  required
+                                  labelId="sub_county"
+                                  // id="select_su"
+                                  // label="Sub County"
+                                  defaultValue=""
+                                  onChange={async (e) => {
+                                    const parishes = await UsersApi.data(
+                                      `/user/all/parishes/${e.target.value}`
+                                    );
+                                    if (
+                                      parishes.length !== 0 &&
+                                      parishes !== "Error"
+                                    ) {
+                                      this.setState({
+                                        ...this.state,
+                                        address: {
+                                          ...this.state.address,
+                                          parishes,
+                                        },
+                                      });
+                                    }
+                                  }}
+                                >
+                                  {this.state.address.sub_counties.map(
+                                    (v, i) => {
+                                      return (
+                                        <MenuItem
+                                          value={v.subcounty_id}
+                                          key={i}
+                                        >
+                                          {v.subcounty_name}
+                                        </MenuItem>
+                                      );
+                                    }
+                                  )}
+                                </Select>
+                              </FormControl>
+                              <FormControl
                                 variant="outlined"
-                                label="Parish"
                                 style={{
                                   width: "75%",
                                   margin: "20px",
                                 }}
-                              />
+                              >
+                                <InputLabel id="parish">Parish</InputLabel>
+                                <Select
+                                  inputProps={{ name: "parish" }}
+                                  required
+                                  labelId="parish"
+                                  // id="select_su"
+                                  // label="Sub County"
+                                  defaultValue=""
+                                  onChange={async (e) => {
+                                    const villages = await UsersApi.data(
+                                      `/user/all/villages/${e.target.value}`
+                                    );
+                                    if (
+                                      villages.length !== 0 &&
+                                      villages !== "Error"
+                                    ) {
+                                      this.setState({
+                                        ...this.state,
+                                        address: {
+                                          ...this.state.address,
+                                          villages,
+                                        },
+                                      });
+                                    }
+                                  }}
+                                >
+                                  {this.state.address.parishes.map((v, i) => {
+                                    return (
+                                      <MenuItem value={v.parish_id} key={i}>
+                                        {v.parish_name}
+                                      </MenuItem>
+                                    );
+                                  })}
+                                </Select>
+                              </FormControl>
                             </div>
                             <div className="inpts_center">
+                              <FormControl
+                                variant="outlined"
+                                style={{
+                                  width: "75%",
+                                  margin: "20px",
+                                }}
+                              >
+                                <InputLabel id="village">Village</InputLabel>
+                                <Select
+                                  inputProps={{ name: "village" }}
+                                  required
+                                  labelId="village"
+                                  // id="select_su"
+                                  // label="Sub County"
+                                  defaultValue=""
+                                >
+                                  {this.state.address.villages.map((v, i) => {
+                                    return (
+                                      <MenuItem value={v.village_id} key={i}>
+                                        {v.village_name}
+                                      </MenuItem>
+                                    );
+                                  })}
+                                </Select>
+                              </FormControl>
+
                               <TextField
                                 name="village"
                                 variant="outlined"
