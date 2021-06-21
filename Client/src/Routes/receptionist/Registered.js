@@ -40,14 +40,27 @@ class Screening extends Component {
     fd.forEach((value, key) => {
       _fcontent[key] = value;
     });
-    console.log("Data:", fd.getAll("social_history"));
     const api = new FormsApi();
     let res = await api.post("/user/receptionist/new_patient_unit", _fcontent);
-    if (res.status === true) {
+    if (res !== "Error") {
+      if (res.status === true) {
+        this.setState({
+          ...this.state,
+          message: "Triage Process Successfull...",
+          messageState: "success",
+        });
+      } else {
+        this.setState({
+          ...this.state,
+          message: "Not Added. !!!An Error Occurred",
+          messageState: "warning",
+        });
+      }
+    } else {
       this.setState({
         ...this.state,
-        message: "Patient Registered SuccessFully...",
-        messageState: "success",
+        message: "Not Added. !!!An Error Occurred",
+        messageState: "warning",
       });
     }
   };
@@ -56,7 +69,12 @@ class Screening extends Component {
     if (reason === "clickaway") {
       return;
     }
-    this.setState({ ...this.state, open: false });
+    this.setState({
+      ...this.state,
+      message: "Please Wait...",
+      messageState: "",
+      open: false,
+    });
   };
 
   render() {
@@ -68,7 +86,7 @@ class Screening extends Component {
             horizontal: "center",
           }}
           open={this.state.open}
-          autoHideDuration={5000}
+          autoHideDuration={10000}
           onClose={this.closePopUp}
           action={
             <React.Fragment>
@@ -263,15 +281,27 @@ function BioData() {
             <FormLabel component="legend">Social History</FormLabel>
             <FormGroup>
               <FormControlLabel
-                control={<Checkbox name="social_history" color="primary" />}
+                control={
+                  <Checkbox
+                    name="social_history"
+                    color="primary"
+                    value="Tobacco Use"
+                  />
+                }
                 label="Tobacco Use"
               />
               <FormControlLabel
-                control={<Checkbox name="social_history" color="primary" />}
-                label="Acohol"
+                control={
+                  <Checkbox
+                    name="social_history"
+                    color="primary"
+                    value="Alcohol"
+                  />
+                }
+                label="Alcohol"
               />
             </FormGroup>
-            <FormHelperText>Select Multiple</FormHelperText>
+            <FormHelperText>Select Options</FormHelperText>
           </FormControl>
         </div>
       </div>
