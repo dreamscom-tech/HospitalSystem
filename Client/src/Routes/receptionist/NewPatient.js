@@ -49,25 +49,25 @@ class NewPatient extends Component {
         districts: [
           {
             district_id: "null",
-            district_name: "No Sub Counties Added",
+            district_name: "No District Added",
           },
         ],
         sub_counties: [
           {
-            subcounty_id: "null",
-            subcounty_name: "No Sub Counties Added",
+            sub_county_id: "null",
+            sub_county_name: "No Sub County Added",
           },
         ],
         parishes: [
           {
             parish_id: "null",
-            parish_name: "No Sub Counties Added",
+            parish_name: "No Parish Added",
           },
         ],
         villages: [
           {
             village_id: "null",
-            village_name: "No Sub Counties Added",
+            village_name: "No Village Added",
           },
         ],
       },
@@ -355,7 +355,7 @@ class NewPatient extends Component {
                                   labelId="gender"
                                   id="select_gender"
                                   label="Gender"
-                                  value="M"
+                                  defaultValue=""
                                 >
                                   <MenuItem value="M">Male</MenuItem>
                                   <MenuItem value="F">Female</MenuItem>
@@ -390,15 +390,32 @@ class NewPatient extends Component {
                                   margin: "20px",
                                 }}
                               />
-                              <TextField
-                                name="education_level"
+                              <FormControl
                                 variant="outlined"
-                                label="Education Level"
                                 style={{
                                   width: "75%",
                                   margin: "20px",
                                 }}
-                              />
+                              >
+                                <InputLabel id="education_level">
+                                  Education Level
+                                </InputLabel>
+                                <Select
+                                  inputProps={{ name: "education_level" }}
+                                  labelId="education_level"
+                                  id="select_gender"
+                                  label="Education Level"
+                                  defaultValue=""
+                                >
+                                  <MenuItem value="primary">Primary</MenuItem>
+                                  <MenuItem value="o level">O Level</MenuItem>
+                                  <MenuItem value="a level">A Level</MenuItem>
+                                  <MenuItem value="tertiary">Tertiary</MenuItem>
+                                  <MenuItem value="university">
+                                    University
+                                  </MenuItem>
+                                </Select>
+                              </FormControl>
                             </div>
                             <div className="inpts_on_right">
                               <FormControl
@@ -500,7 +517,6 @@ class NewPatient extends Component {
                                   inputProps={{ name: "district" }}
                                   required
                                   labelId="district"
-                                  // id="select_gender"
                                   label="District"
                                   defaultValue=""
                                   onChange={async (e) => {
@@ -545,7 +561,7 @@ class NewPatient extends Component {
                                   required
                                   labelId="sub_county"
                                   // id="select_su"
-                                  // label="Sub County"
+                                  label="Sub County"
                                   defaultValue=""
                                   onChange={async (e) => {
                                     const parishes = await UsersApi.data(
@@ -569,10 +585,10 @@ class NewPatient extends Component {
                                     (v, i) => {
                                       return (
                                         <MenuItem
-                                          value={v.subcounty_id}
+                                          value={v.sub_county_id}
                                           key={i}
                                         >
-                                          {v.subcounty_name}
+                                          {v.sub_county_name}
                                         </MenuItem>
                                       );
                                     }
@@ -591,8 +607,7 @@ class NewPatient extends Component {
                                   inputProps={{ name: "parish" }}
                                   required
                                   labelId="parish"
-                                  // id="select_su"
-                                  // label="Sub County"
+                                  label="Parish"
                                   defaultValue=""
                                   onChange={async (e) => {
                                     const villages = await UsersApi.data(
@@ -636,7 +651,7 @@ class NewPatient extends Component {
                                   required
                                   labelId="village"
                                   // id="select_su"
-                                  // label="Sub County"
+                                  label="Villages"
                                   defaultValue=""
                                 >
                                   {this.state.address.villages.map((v, i) => {
@@ -648,29 +663,10 @@ class NewPatient extends Component {
                                   })}
                                 </Select>
                               </FormControl>
-
-                              <TextField
-                                name="village"
-                                variant="outlined"
-                                label="Village"
-                                style={{
-                                  width: "75%",
-                                  margin: "20px",
-                                }}
-                              />
                               <TextField
                                 name="tribe"
                                 variant="outlined"
                                 label="Tribe"
-                                style={{
-                                  width: "75%",
-                                  margin: "20px",
-                                }}
-                              />
-                              <TextField
-                                name="address"
-                                variant="outlined"
-                                label="Address"
                                 style={{
                                   width: "75%",
                                   margin: "20px",
@@ -696,15 +692,30 @@ class NewPatient extends Component {
                                   margin: "20px",
                                 }}
                               />
-                              <TextField
-                                name="nk_relationship"
+                              <FormControl
                                 variant="outlined"
-                                label="Relationship With Patient"
                                 style={{
                                   width: "75%",
                                   margin: "20px",
                                 }}
-                              />
+                              >
+                                <InputLabel id="nk_relationship">
+                                  Relationship With Patient
+                                </InputLabel>
+                                <Select
+                                  inputProps={{ name: "nk_relationship" }}
+                                  labelId="nk_relationship"
+                                  id="nk_relationship"
+                                  label="Relationship With Patient"
+                                  defaultValue=""
+                                >
+                                  <MenuItem value="mother">Mother</MenuItem>
+                                  <MenuItem value="father">Father</MenuItem>
+                                  <MenuItem value="guardian">Guardian</MenuItem>
+                                  <MenuItem value="relative">Relative</MenuItem>
+                                  <MenuItem value="friend">Friend</MenuItem>
+                                </Select>
+                              </FormControl>
                               <TextField
                                 name="nk_telephone"
                                 variant="outlined"
@@ -756,18 +767,3 @@ class NewPatient extends Component {
 }
 
 export default NewPatient;
-
-const styles = {
-  input_ctr: {
-    width: "75%",
-    margin: "auto",
-  },
-  input_group: {
-    width: "100%",
-    border: "1px solid rgba(0,0,0,0.1)",
-    borderRadius: "5px",
-    margin: "15px auto",
-    display: "flex",
-    justifyContent: "space-around",
-  },
-};
