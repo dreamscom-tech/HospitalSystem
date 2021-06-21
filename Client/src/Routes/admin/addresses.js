@@ -336,7 +336,7 @@ class Addresses extends Component {
                                   ...this.state,
                                   required: {
                                     ...this.state.required,
-                                    test_name: e.target.value,
+                                    name: e.target.value,
                                   },
                                 });
                               }}
@@ -376,7 +376,7 @@ class Addresses extends Component {
                                   ...this.state,
                                   required: {
                                     ...this.state.required,
-                                    test_name: e.target.value,
+                                    name: e.target.value,
                                   },
                                 });
                               }}
@@ -397,7 +397,7 @@ class Addresses extends Component {
                                   ...this.state,
                                   required: {
                                     ...this.state.required,
-                                    test_name: e.target.value,
+                                    name: e.target.value,
                                   },
                                 });
                               }}
@@ -474,7 +474,7 @@ class Addresses extends Component {
                                   ...this.state,
                                   required: {
                                     ...this.state.required,
-                                    test_name: e.target.value,
+                                    name: e.target.value,
                                   },
                                 });
                               }}
@@ -511,7 +511,7 @@ class Addresses extends Component {
                                   ...this.state,
                                   required: {
                                     ...this.state.required,
-                                    test_name: e.target.value,
+                                    name: e.target.value,
                                   },
                                 });
                               }}
