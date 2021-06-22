@@ -16,6 +16,7 @@ import {
   FormControl,
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
+import user from "./app_config";
 
 import "../../design/main.css";
 import "../../design/forms.css";
@@ -43,6 +44,7 @@ class Screening extends Component {
     fd.forEach((value, key) => {
       _fcontent[key] = value;
     });
+    _fcontent["user"] = user.user.user_id;
     const api = new FormsApi();
     let res = await api.post("/user/receptionist/new_patient_unit", _fcontent);
     if (res !== "Error") {

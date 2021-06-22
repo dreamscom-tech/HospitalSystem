@@ -18,6 +18,7 @@ import "../../design/main.css";
 import "../../design/forms.css";
 import UsersApi from "../../api/users";
 import { Redirect } from "react-router-dom";
+import user from "./app_config";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -109,6 +110,7 @@ class NewPatient extends Component {
     fd.forEach((value, key) => {
       _fcontent[key] = value;
     });
+    _fcontent["user"] = user.user.user_id;
     const api = new FormsApi();
     let res = await api.post("/user/receptionist/new_patient", _fcontent);
     if (res !== "Error") {
