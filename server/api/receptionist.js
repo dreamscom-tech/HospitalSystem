@@ -3,15 +3,14 @@ const conn = require("../database/db");
 
 router.get("/pnumber", (req, res) => {
   conn.query(
-    "SELECT patient_number FROM patients_tbl ORDER BY date DESC LIMIT 1",
+    "SELECT patient_number FROM patients_tbl ORDER BY patient_id DESC LIMIT 1",
     (err, sql_res) => {
       if (err) {
         console.log(err);
       } else {
-        console.log(sql_res);
         let last_id =
           sql_res.length > 0
-            ? parseInt(sql_res[0].patient_id.substr(6)) + 1
+            ? parseInt(sql_res[0].patient_number.substr(6)) + 1
             : 1;
         let id =
           last_id < 10

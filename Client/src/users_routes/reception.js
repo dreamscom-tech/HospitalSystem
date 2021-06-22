@@ -21,7 +21,7 @@ class Receptionist extends Component {
           <Switch>
             <Route path="/" exact component={Dashboard} />
             <Route path="/new" exact component={NewPatient} />
-            <Route path="/triage" exact component={Triage} />
+            <Route path="/triage/:id" exact component={Triage} />
             <Route path="/all_patients" exact component={AllPatients} />
             <Route path="*" component={NotFound} />
           </Switch>

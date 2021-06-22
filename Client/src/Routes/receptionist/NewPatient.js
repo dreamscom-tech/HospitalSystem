@@ -119,7 +119,7 @@ class NewPatient extends Component {
           messageState: "success",
           redirect: {
             ...this.state.redirect,
-            url: "/triage",
+            url: `/triage/${this.state.onOpenState.patient_number || 0}`,
           },
         });
       } else {
@@ -433,7 +433,7 @@ class NewPatient extends Component {
                                   labelId="marital_status"
                                   id="select_marital_status"
                                   label="Marital Status"
-                                  value="Single"
+                                  defaultValue=""
                                 >
                                   <MenuItem value="Single">Single</MenuItem>
                                   <MenuItem value="Married">Married</MenuItem>
@@ -453,7 +453,7 @@ class NewPatient extends Component {
                                   labelId="religion"
                                   id="select_religion"
                                   label="Religion"
-                                  value="Christian"
+                                  defaultValue=""
                                 >
                                   <MenuItem value="Christian">
                                     Christian

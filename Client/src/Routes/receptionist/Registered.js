@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import MuiAlert from "@material-ui/lab/Alert";
 import Nav from "./components/Nav";
 import Header from "./components/Header";
@@ -15,8 +15,11 @@ import {
   IconButton,
   FormControl,
 } from "@material-ui/core";
+import { Link } from "react-router-dom";
 
 import "../../design/main.css";
+import "../../design/forms.css";
+import { useParams } from "react-router-dom";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -182,19 +185,58 @@ const styles = {
 };
 
 function BioData() {
+  //validate patient number
+  function validate_p_number(i) {
+    if (i.length === 9 && i[2] === "/" && i[5] === "/") {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  //validate patient number
+  let { id } = useParams();
+  const [pnumber, setPnumber] = useState(id);
+  const [BMI, setBMI] = useState({ weight: null, height: null });
   return (
-    <div className="inputCtr" style={styles.input_ctr}>
+    <div className="inputCtr">
       <TextField
         name="patient_number"
         variant="outlined"
         label="Patient Number"
+        label={pnumber === "0" ? "Insert Patient ID" : "Patient Number"}
         style={{
           width: "200px",
           margin: "20px 0px",
         }}
+        onChange={(e) => {
+          if (validate_p_number(e.target.value)) {
+            setPnumber(e.target.value);
+          } else {
+            setPnumber(id);
+          }
+        }}
       />
-      <div className="inputs_ctr" style={styles.input_group}>
-        <div className="inpts_on_left" style={{ flex: 1 }}>
+      <Link to="all_patients">
+        <Button
+          variant="contained"
+          color="primary"
+          style={{
+            width: "150px",
+            margin: "20px",
+            display: pnumber === "0" ? "inline-block" : "none",
+          }}
+        >
+          Select Patient
+        </Button>
+      </Link>
+      <div
+        className="inputs_ctr"
+        style={{
+          pointerEvents: pnumber === "0" ? "none" : "all",
+          opacity: pnumber === "0" ? 0.3 : 1,
+        }}
+      >
+        <div className="inpts_on_left">
           <TextField
             name="muac"
             variant="outlined"
@@ -205,6 +247,7 @@ function BioData() {
             }}
           />
           <TextField
+            type="number"
             name="weight"
             variant="outlined"
             label="Weight(KG)"
@@ -212,8 +255,12 @@ function BioData() {
               width: "75%",
               margin: "20px",
             }}
+            onChange={(e) => {
+              setBMI({ ...BMI, weight: parseFloat(e.target.value) });
+            }}
           />
           <TextField
+            type="number"
             name="height"
             variant="outlined"
             label="Height"
@@ -221,18 +268,27 @@ function BioData() {
               width: "75%",
               margin: "20px",
             }}
+            onChange={(e) => {
+              setBMI({ ...BMI, height: parseFloat(e.target.value) });
+            }}
           />
           <TextField
             name="bmi"
             variant="outlined"
             label="BMI"
+            value={
+              BMI.weight && BMI.height
+                ? Math.round((BMI.weight / (BMI.height * BMI.height)) * 100) /
+                  100
+                : "..."
+            }
             style={{
               width: "75%",
               margin: "20px",
             }}
           />
         </div>
-        <div className="inpts_center" style={{ flex: 1 }}>
+        <div className="inpts_center">
           <TextField
             name="blood_pressure"
             variant="outlined"
@@ -261,7 +317,7 @@ function BioData() {
             }}
           />
         </div>
-        <div className="inpts_on_right" style={{ flex: 1 }}>
+        <div className="inpts_on_right">
           <TextField
             name="patient_classification"
             variant="outlined"

@@ -47,7 +47,7 @@ class Nav extends Component {
                   </Link>
                 </li>
                 <li>
-                  <Link to="/triage">
+                  <Link to="/triage/0">
                     <span
                       className={`${
                         this.props.active === "screening" ? "active" : ""
