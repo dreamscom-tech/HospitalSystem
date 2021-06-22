@@ -16,7 +16,7 @@ import {
   FormControl,
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import user from "./app_config";
+import user from "../../app_config";
 
 import "../../design/main.css";
 import "../../design/forms.css";

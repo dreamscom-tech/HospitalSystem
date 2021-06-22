@@ -18,7 +18,7 @@ import "../../design/main.css";
 import "../../design/forms.css";
 import UsersApi from "../../api/users";
 import { Redirect } from "react-router-dom";
-import user from "./app_config";
+import user from "../../app_config";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
