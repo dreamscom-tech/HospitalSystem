@@ -41,9 +41,11 @@ router.get("/pnumber", (req, res) => {
 
 router.post("/new_patient", async (req, res) => {
   let {
+    patient_number,
     surname,
     first_name,
     dob,
+    age,
     gender,
     phone_contact,
     email_address,
@@ -52,9 +54,6 @@ router.post("/new_patient", async (req, res) => {
     marital_status,
     religion,
     tribe,
-    district,
-    sub_county,
-    parish,
     village,
     nk_surname,
     nk_first_name,
@@ -64,15 +63,14 @@ router.post("/new_patient", async (req, res) => {
     nk_occupation,
   } = req.body;
 
-  let patient_num = num(3);
-
   conn.query(
-    `INSERT INTO patient_details_tbl SET ?`,
+    `INSERT INTO patients_tbl SET ?`,
     {
       first_name: first_name,
-      sur_name: surname,
+      surname: surname,
       phone_number: phone_contact,
       DOB: dob,
+      age: age,
       gender: gender,
       patient_email: email_address,
       marital_status: marital_status,
@@ -80,11 +78,8 @@ router.post("/new_patient", async (req, res) => {
       education_level: education_level,
       religion: religion,
       tribe: tribe,
-      district: district,
-      subcounty: sub_county,
-      village: village,
-      parish: parish,
-      patient_details_id: patient_num,
+      village_id: parseInt(village),
+      patient_number: patient_number,
       date: new Date(),
     },
     (err2, res2) => {
@@ -104,7 +99,7 @@ router.post("/new_patient", async (req, res) => {
             next_of_kin_address: nk_address,
             next_of_kin_occupation: nk_occupation,
             next_of_kin_phone: nk_telephone,
-            patient_id: patient_num,
+            patient_id: patient_number,
           },
           (err3, res3) => {
             if (err3) {

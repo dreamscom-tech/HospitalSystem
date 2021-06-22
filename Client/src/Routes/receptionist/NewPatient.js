@@ -115,7 +115,7 @@ class NewPatient extends Component {
       if (res.status === true) {
         this.setState({
           ...this.state,
-          message: "Patient Added.....",
+          message: res.data,
           messageState: "success",
           redirect: {
             ...this.state.redirect,
@@ -132,7 +132,7 @@ class NewPatient extends Component {
     } else {
       this.setState({
         ...this.state,
-        message: "Failed, Cannot Connect to Server...",
+        message: res.data,
         messageState: "error",
       });
     }
