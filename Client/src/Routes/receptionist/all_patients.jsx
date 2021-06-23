@@ -9,22 +9,17 @@ class AllPatients extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      AnchorEl: null,
-      _pnumber: "...",
-      _pnumber_month: "...",
-      _doctors: "...",
-      _pending_consultions: "...",
+      patients: [],
     };
     this.patients();
   }
-  //cards Requests
+  //patient Request
   async patients() {
     const res = (await UsersApi.data("/user/all/patients")) || [];
     if (res) {
-      this.setState({ ...this.state, _pnumber: res.length });
+      this.setState({ ...this.state, patients: res === "Error" ? [] : res });
     }
   }
-
   render() {
     return (
       <>
@@ -55,66 +50,32 @@ class AllPatients extends Component {
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td>Patient No.</td>
-                          <td>Surname</td>
-                          <td>Other Names</td>
-                          <td>Age</td>
-                          <td>Gender</td>
-                          <td>Contact</td>
-                          <td>
-                            <Button variant="contained" color="primary">
-                              Edit
-                            </Button>
-                          </td>
-                          <td>
-                            <Button variant="contained" color="primary">
-                              <div className="">
-                                <i className="las la-print"></i>Print
-                              </div>
-                            </Button>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Patient No.</td>
-                          <td>Surname</td>
-                          <td>Other Names</td>
-                          <td>Age</td>
-                          <td>Gender</td>
-                          <td>Contact</td>
-                          <td>
-                            <Button variant="contained" color="primary">
-                              Edit
-                            </Button>
-                          </td>
-                          <td>
-                            <Button variant="contained" color="primary">
-                              <div className="">
-                                <i className="las la-print"></i>Print
-                              </div>
-                            </Button>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Patient No.</td>
-                          <td>Surname</td>
-                          <td>Other Names</td>
-                          <td>Age</td>
-                          <td>Gender</td>
-                          <td>Contact</td>
-                          <td>
-                            <Button variant="contained" color="primary">
-                              Edit
-                            </Button>
-                          </td>
-                          <td>
-                            <Button variant="contained" color="primary">
-                              <div className="">
-                                <i className="las la-print"></i>Print
-                              </div>
-                            </Button>
-                          </td>
-                        </tr>
+                        {this.state.patients.length === 0
+                          ? ""
+                          : this.state.patients.map((v, i) => {
+                              return (
+                                <tr>
+                                  <td>v.patient_number</td>
+                                  <td>v.surname</td>
+                                  <td>v.first_name</td>
+                                  <td>v.age</td>
+                                  <td>v.gender</td>
+                                  <td>v.phone_contact</td>
+                                  <td>
+                                    <Button variant="contained" color="primary">
+                                      Edit
+                                    </Button>
+                                  </td>
+                                  <td>
+                                    <Button variant="contained" color="primary">
+                                      <div className="">
+                                        <i className="las la-print"></i>Print
+                                      </div>
+                                    </Button>
+                                  </td>
+                                </tr>
+                              );
+                            })}
                       </tbody>
                     </table>
                   </div>

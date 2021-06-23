@@ -49,25 +49,25 @@ class NewPatient extends Component {
       address: {
         districts: [
           {
-            district_id: "null",
+            district_id: "0",
             district_name: "No District Added",
           },
         ],
         sub_counties: [
           {
-            sub_county_id: "null",
+            sub_county_id: "0",
             sub_county_name: "No Sub County Added",
           },
         ],
         parishes: [
           {
-            parish_id: "null",
+            parish_id: "0",
             parish_name: "No Parish Added",
           },
         ],
         villages: [
           {
-            village_id: "null",
+            village_id: "0",
             village_name: "No Village Added",
           },
         ],
@@ -121,7 +121,7 @@ class NewPatient extends Component {
           messageState: "success",
           redirect: {
             ...this.state.redirect,
-            url: `/triage/${this.state.onOpenState.patient_number || 0}`,
+            url: `/triage?patient-number=${this.state.onOpenState.patient_number}`,
           },
         });
       } else {
@@ -654,7 +654,7 @@ class NewPatient extends Component {
                                   labelId="village"
                                   // id="select_su"
                                   label="Villages"
-                                  defaultValue=""
+                                  defaultValue="0"
                                 >
                                   {this.state.address.villages.map((v, i) => {
                                     return (

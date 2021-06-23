@@ -79,7 +79,7 @@ router.post("/new_patient", async (req, res) => {
       religion: religion,
       tribe: tribe,
       village_id: parseInt(village),
-      user:user,
+      user: user,
       patient_number: patient_number,
       date: new Date(),
     },

@@ -15,7 +15,7 @@ import {
   IconButton,
   FormControl,
 } from "@material-ui/core";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import user from "../../app_config";
 
 import "../../design/main.css";
@@ -196,7 +196,10 @@ function BioData() {
     }
   }
   //validate patient number
-  let { id } = useParams();
+  let location = useLocation();
+  let id = new URLSearchParams(location.search).get("patient-number") || "0";
+
+  console.log(id);
   const [pnumber, setPnumber] = useState(id);
   const [BMI, setBMI] = useState({ weight: null, height: null });
   return (
@@ -206,6 +209,7 @@ function BioData() {
         variant="outlined"
         label="Patient Number"
         label={pnumber === "0" ? "Insert Patient ID" : "Patient Number"}
+        defaultValue=""
         style={{
           width: "200px",
           margin: "20px 0px",
