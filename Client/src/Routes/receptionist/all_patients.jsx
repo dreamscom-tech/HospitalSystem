@@ -50,32 +50,36 @@ class AllPatients extends Component {
                         </tr>
                       </thead>
                       <tbody>
-                        {this.state.patients.length === 0
-                          ? ""
-                          : this.state.patients.map((v, i) => {
-                              return (
-                                <tr>
-                                  <td>v.patient_number</td>
-                                  <td>v.surname</td>
-                                  <td>v.first_name</td>
-                                  <td>v.age</td>
-                                  <td>v.gender</td>
-                                  <td>v.phone_contact</td>
-                                  <td>
-                                    <Button variant="contained" color="primary">
-                                      Edit
-                                    </Button>
-                                  </td>
-                                  <td>
-                                    <Button variant="contained" color="primary">
-                                      <div className="">
-                                        <i className="las la-print"></i>Print
-                                      </div>
-                                    </Button>
-                                  </td>
-                                </tr>
-                              );
-                            })}
+                        {this.state.patients.length === 0 ? (
+                          <tr>
+                            <td>No Patients Registered</td>
+                          </tr>
+                        ) : (
+                          this.state.patients.map((v, i) => {
+                            return (
+                              <tr key={i}>
+                                <td>{v.patient_number}</td>
+                                <td>{v.surname}</td>
+                                <td>{v.first_name}</td>
+                                <td>{v.age}</td>
+                                <td>{v.gender}</td>
+                                <td>{v.phone_number}</td>
+                                <td>
+                                  <Button variant="contained" color="primary">
+                                    Edit
+                                  </Button>
+                                </td>
+                                <td>
+                                  <Button variant="contained" color="primary">
+                                    <div className="">
+                                      <i className="las la-print"></i>Print
+                                    </div>
+                                  </Button>
+                                </td>
+                              </tr>
+                            );
+                          })
+                        )}
                       </tbody>
                     </table>
                   </div>
