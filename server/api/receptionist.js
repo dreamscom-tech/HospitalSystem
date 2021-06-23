@@ -42,7 +42,7 @@ router.post("/new_patient", async (req, res) => {
   let {
     patient_number,
     surname,
-    first_name,
+    other_names,
     dob,
     age,
     gender,
@@ -54,6 +54,7 @@ router.post("/new_patient", async (req, res) => {
     religion,
     tribe,
     village,
+    user,
     nk_surname,
     nk_first_name,
     nk_relationship,
@@ -65,7 +66,7 @@ router.post("/new_patient", async (req, res) => {
   conn.query(
     `INSERT INTO patients_tbl SET ?`,
     {
-      first_name: first_name,
+      first_name: other_names,
       surname: surname,
       phone_number: phone_contact,
       DOB: dob,
@@ -78,6 +79,7 @@ router.post("/new_patient", async (req, res) => {
       religion: religion,
       tribe: tribe,
       village_id: parseInt(village),
+      user:user,
       patient_number: patient_number,
       date: new Date(),
     },
