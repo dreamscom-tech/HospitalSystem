@@ -17,11 +17,7 @@ import {
   FormLabel,
   InputLabel,
   Select,
-  Snackbar,
-  IconButton,
-  Muiert,
 } from "@material-ui/core";
-import MuiAlert from "@material-ui/lab/Alert";
 import Nav from "./components/Nav";
 import Header from "./components/Header";
 import FormsApi from "../../api/forms";
@@ -96,10 +92,6 @@ class AllPatients extends Component {
 }
 
 export default AllPatients;
-
-function Alert(props) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
 
 function Row({ v, i }) {
   const [AnchorEl, setAnchorEl] = useState(null);

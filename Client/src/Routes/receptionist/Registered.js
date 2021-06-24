@@ -199,7 +199,6 @@ function BioData() {
   let location = useLocation();
   let id = new URLSearchParams(location.search).get("patient-number") || "0";
 
-  console.log(id);
   const [pnumber, setPnumber] = useState(id);
   const [BMI, setBMI] = useState({ weight: null, height: null });
   return (
@@ -207,9 +206,8 @@ function BioData() {
       <TextField
         name="patient_number"
         variant="outlined"
-        label="Patient Number"
         label={pnumber === "0" ? "Insert Patient ID" : "Patient Number"}
-        defaultValue=""
+        defaultValue={pnumber === "0" ? "" : pnumber}
         style={{
           width: "200px",
           margin: "20px 0px",
