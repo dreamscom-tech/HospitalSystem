@@ -128,46 +128,72 @@ router.post("/new_patient_unit", async (req, res) => {
     height,
     weight,
     bmi,
-    z_score_weight,
-    z_score_height,
+    user,
     blood_pressure,
     blood_sugar,
     palliative_care,
     patient_classification,
-    tobacco_use,
+    social_history,
+    patient_number,
   } = req.body;
 
   conn.query(
-    "INSERT INTO patient_units SET ?",
-    {
-      patient_id: 1,
-      user_id: 2,
-      muac: muac,
-      weight: weight,
-      height: height,
-      bmi: bmi,
-      z_score_height: z_score_height,
-      z_score_weight: z_score_weight,
-      blood_pressure: blood_pressure,
-      blood_sugar: blood_sugar,
-      palliative_care: palliative_care,
-      tobacco_use: tobacco_use,
-      patient_classification: patient_classification,
-      created_at: new Date(),
-    },
-    (err1, res1) => {
-      if (err1) {
-        console.log(err1);
-        res.send({ data: "An Error Occurred. Try Again", status: false });
+    `SELECT patient_id FROM patients_tbl WHERE patient_number = ?`,
+    [patient_number],
+    (err0, res0) => {
+      if (err0) {
+        console.log(err0);
+        res.send({ data: "An Error Occured", status: false });
       } else {
-        res.send({ data: "Patient Units Added", status: true });
+        conn.query(
+          "INSERT INTO patient_units SET ?",
+          {
+            patient_id: parseInt(res0[0].patient_id),
+            user_id: user,
+            muac: muac,
+            weight: weight,
+            height: height,
+            bmi: bmi,
+            blood_pressure: blood_pressure,
+            blood_sugar: blood_sugar,
+            palliative_care: palliative_care,
+            patient_classification: patient_classification,
+            social_history: JSON.stringify(social_history),
+            created_at: new Date(),
+          },
+          (err1, res1) => {
+            if (err1) {
+              console.log(err1);
+              res.send({ data: "An Error Occurred. Try Again", status: false });
+            } else {
+              res.send({ data: "Patient Units Added", status: true });
+            }
+          }
+        );
       }
     }
   );
 });
 router.post("/new_doctor_referral", async (req, res) => {
-  console.log(req.body);
-  res.send({ data: "Patient Assign Added", status: true });
+  let { patient, user, doctor, reason } = req.body;
+  conn.query(
+    `INSERT INTO referrals_tbl SET ?`,
+    {
+      user_id: user,
+      patient_id: patient,
+      refer_to: doctor,
+      reason_for: reason,
+      refer_date: new Date(),
+    },
+    (err, result) => {
+      if (err) {
+        console.log(err);
+        res.send({ data: "An Error Occured.Try Again", status: false });
+      } else {
+        res.send({ data: "Patient Assign Added", status: true });
+      }
+    }
+  );
 });
 
 module.exports = router;
