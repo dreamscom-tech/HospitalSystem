@@ -87,4 +87,14 @@ router.get("/villages/:id", async (req, res) => {
   );
 });
 
+router.get("/doctors", async (req, res) => {
+  conn.query(
+    `SELECT * FROM system_users WHERE user_role = 'doctor'`,
+    (err, result) => {
+      if (err) throw err;
+      res.send(result);
+    }
+  );
+});
+
 module.exports = router;
