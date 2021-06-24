@@ -165,5 +165,9 @@ router.post("/new_patient_unit", async (req, res) => {
     }
   );
 });
+router.post("/new_doctor_referral", async (req, res) => {
+  console.log(req.body);
+  res.send({ data: "Patient Assign Added", status: true });
+});
 
 module.exports = router;

@@ -17,11 +17,16 @@ import {
   FormLabel,
   InputLabel,
   Select,
+  Snackbar,
+  IconButton,
+  Muiert,
 } from "@material-ui/core";
+import MuiAlert from "@material-ui/lab/Alert";
 import Nav from "./components/Nav";
 import Header from "./components/Header";
+import FormsApi from "../../api/forms";
 import UsersApi from "../../api/users";
-import { Link } from "react-router-dom";
+import user from "../../app_config";
 
 class AllPatients extends Component {
   constructor(props) {
@@ -92,11 +97,20 @@ class AllPatients extends Component {
 
 export default AllPatients;
 
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
 function Row({ v, i }) {
   const [AnchorEl, setAnchorEl] = useState(null);
   const [open, setOpen] = React.useState(false);
   const [pnumber, setPNumber] = React.useState("");
   const [doctors, setDoctors] = React.useState([]);
+  const [appointment, setAppointment] = useState({
+    patient: v.patient_id,
+    user: user.user.user_id,
+  });
+
   getDoctors();
   async function getDoctors() {
     const doctors = await UsersApi.data("/user/all/doctors");
@@ -119,6 +133,7 @@ function Row({ v, i }) {
   const handleCloseDialog = () => {
     setOpen(false);
   };
+
   return (
     <>
       <tr key={i}>
@@ -188,6 +203,9 @@ function Row({ v, i }) {
                 labelId="doctor"
                 label="Doctor"
                 defaultValue=""
+                onChange={(e) => {
+                  setAppointment({ ...appointment, doctor: e.target.value });
+                }}
               >
                 {doctors.length === 0 ? (
                   <MenuItem value="null">No Doctors Available</MenuItem>
@@ -210,7 +228,11 @@ function Row({ v, i }) {
               }}
             >
               <FormLabel component="legend">Reason:</FormLabel>
-              <RadioGroup>
+              <RadioGroup
+                onChange={(e) => {
+                  setAppointment({ ...appointment, reason: e.target.value });
+                }}
+              >
                 <FormControlLabel
                   value="consultation"
                   control={<Radio />}
@@ -230,7 +252,23 @@ function Row({ v, i }) {
           <Button onClick={handleCloseDialog} color="primary">
             Cancel
           </Button>
-          <Button variant="contained" color="primary" autoFocus>
+          <Button
+            variant="contained"
+            color="primary"
+            autoFocus
+            onClick={async () => {
+              const api = new FormsApi();
+              let res = await api.post(
+                "/user/receptionist/new_doctor_referral",
+                appointment
+              );
+              if (res !== "Error") {
+                if (res.status === true) {
+                  handleCloseDialog();
+                }
+              }
+            }}
+          >
             Assign
           </Button>
         </DialogActions>
