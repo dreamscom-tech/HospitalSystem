@@ -128,31 +128,29 @@ router.post("/new_patient_unit", async (req, res) => {
     height,
     weight,
     bmi,
-    z_score_weight,
-    z_score_height,
+    user,
     blood_pressure,
     blood_sugar,
     palliative_care,
     patient_classification,
-    tobacco_use,
+    social_history,
   } = req.body;
+  console.log(req.body);
 
   conn.query(
     "INSERT INTO patient_units SET ?",
     {
-      patient_id: 1,
-      user_id: 2,
+      patient_id: patient_number,
+      user_id: user,
       muac: muac,
       weight: weight,
       height: height,
       bmi: bmi,
-      z_score_height: z_score_height,
-      z_score_weight: z_score_weight,
       blood_pressure: blood_pressure,
       blood_sugar: blood_sugar,
       palliative_care: palliative_care,
-      tobacco_use: tobacco_use,
       patient_classification: patient_classification,
+      social_history: JSON.stringify(social_history),
       created_at: new Date(),
     },
     (err1, res1) => {
