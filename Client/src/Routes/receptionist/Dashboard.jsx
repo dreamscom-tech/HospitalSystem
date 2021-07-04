@@ -70,8 +70,10 @@ class Dashboard extends Component {
     }
   }
   async referrals() {
-    const res = (await UsersApi.data("/user/all/referrals")) || [];
+    const res =
+      (await UsersApi.data(`/user/all/referrals/${user.user.user_id}`)) || [];
     if (res) {
+      console.log(res);
       this.setState({ ...this.state, referrals: res === "Error" ? [] : res });
     }
   }
@@ -175,7 +177,7 @@ class Dashboard extends Component {
               <div className="projects">
                 <div className="card">
                   <div className="card-header">
-                    <h3>Referrals Que</h3>
+                    <h3>Referrals Queue Made</h3>
                     <Button
                       variant="contained"
                       color="primary"
@@ -214,9 +216,11 @@ class Dashboard extends Component {
                     <table width="100%">
                       <thead>
                         <tr>
-                          <td>Patient</td>
-                          <td>Department</td>
-                          <td>Status</td>
+                          <td>Patient Number</td>
+                          <td>Patient Name</td>
+                          <td>Referred To</td>
+                          <td>Reason</td>
+                          <td>Cancel Referral</td>
                         </tr>
                       </thead>
                       <tbody>
@@ -229,206 +233,6 @@ class Dashboard extends Component {
                             return <ReferralRow v={v} i={i} key={i} />;
                           })
                         )}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="recent-grid">
-              <div className="projects">
-                <div className="card">
-                  <div className="card-header">
-                    <h3>Recent Patients</h3>
-                    <Button variant="contained" color="primary">
-                      See all
-                      <span
-                        style={{ fontSize: "17.5px", marginInline: "10px" }}
-                      >
-                        <span className="las la-arrow-right"></span>
-                      </span>
-                    </Button>
-                  </div>
-                  <div className="card-body">
-                    <table width="100%">
-                      <thead>
-                        <tr>
-                          <td>Patient</td>
-                          <td>Department</td>
-                          <td>Status</td>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>Fat</td>
-                          <td>OPD</td>
-                          <td>
-                            <span className="status purple"></span>Sick
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Dan</td>
-                          <td>OPD</td>
-                          <td>
-                            <span className="status pink"></span>Very Sick
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Hajara</td>
-                          <td>OPD</td>
-                          <td>
-                            <span className="status orange"></span>Treatment
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-              <div className="projects">
-                <div className="card">
-                  <div className="card-header">
-                    <h3>Recent Patients</h3>
-                    <Button variant="contained" color="primary">
-                      See all
-                      <span
-                        style={{ fontSize: "17.5px", marginInline: "10px" }}
-                      >
-                        <span className="las la-arrow-right"></span>
-                      </span>
-                    </Button>
-                  </div>
-                  <div className="card-body">
-                    <table width="100%">
-                      <thead>
-                        <tr>
-                          <td>Patient</td>
-                          <td>Department</td>
-                          <td>Status</td>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>Fat</td>
-                          <td>OPD</td>
-                          <td>
-                            <span className="status purple"></span>Sick
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Dan</td>
-                          <td>OPD</td>
-                          <td>
-                            <span className="status pink"></span>Very Sick
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Hajara</td>
-                          <td>OPD</td>
-                          <td>
-                            <span className="status orange"></span>Treatment
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="recent-grid">
-              <div className="projects">
-                <div className="card">
-                  <div className="card-header">
-                    <h3>Recent Patients</h3>
-                    <Button variant="contained" color="primary">
-                      See all
-                      <span
-                        style={{ fontSize: "17.5px", marginInline: "10px" }}
-                      >
-                        <span className="las la-arrow-right"></span>
-                      </span>
-                    </Button>
-                  </div>
-                  <div className="card-body">
-                    <table width="100%">
-                      <thead>
-                        <tr>
-                          <td>Patient</td>
-                          <td>Department</td>
-                          <td>Status</td>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>Fat</td>
-                          <td>OPD</td>
-                          <td>
-                            <span className="status purple"></span>Sick
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Dan</td>
-                          <td>OPD</td>
-                          <td>
-                            <span className="status pink"></span>Very Sick
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Hajara</td>
-                          <td>OPD</td>
-                          <td>
-                            <span className="status orange"></span>Treatment
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-              <div className="projects">
-                <div className="card">
-                  <div className="card-header">
-                    <h3>Recent Patients</h3>
-                    <Button variant="contained" color="primary">
-                      See all
-                      <span
-                        style={{ fontSize: "17.5px", marginInline: "10px" }}
-                      >
-                        <span className="las la-arrow-right"></span>
-                      </span>
-                    </Button>
-                  </div>
-                  <div className="card-body">
-                    <table width="100%">
-                      <thead>
-                        <tr>
-                          <td>Patient</td>
-                          <td>Department</td>
-                          <td>Status</td>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>Fat</td>
-                          <td>OPD</td>
-                          <td>
-                            <span className="status purple"></span>Sick
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Dan</td>
-                          <td>OPD</td>
-                          <td>
-                            <span className="status pink"></span>Very Sick
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Hajara</td>
-                          <td>OPD</td>
-                          <td>
-                            <span className="status orange"></span>Treatment
-                          </td>
-                        </tr>
                       </tbody>
                     </table>
                   </div>
@@ -619,8 +423,8 @@ function ReferralRow({ v, i }) {
       <tr key={i}>
         <td>{v.patient_number}</td>
         <td>{`${v.surname} ${v.first_name}`}</td>
-        <td>{v.age}</td>
-        <td>{v.phone_number}</td>
+        <td>{`${v.user_name} - ${v.user_role}`}</td>
+        <td>{v.reason_for}</td>
         <td>
           <Button
             variant="contained"

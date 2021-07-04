@@ -97,11 +97,17 @@ router.get("/doctors", async (req, res) => {
   );
 });
 
-router.get("/referrals", async (req, res) => {
-  conn.query(`SELECT * FROM referrals_tbl`, (err, result) => {
-    if (err) throw err;
-    res.send(result);
-  });
+router.get("/referrals/:user_id", async (req, res) => {
+  conn.query(
+    `SELECT * FROM referrals_tbl JOIN patients_tbl ON referrals_tbl.patient_id =
+  patients_tbl.patient_id JOIN system_users ON system_users.user_id=referrals_tbl.refer_to
+  WHERE referrals_tbl.user_id = ?`,
+    [req.params.user_id],
+    (err, result) => {
+      if (err) throw err;
+      res.send(result);
+    }
+  );
 });
 
 module.exports = router;
