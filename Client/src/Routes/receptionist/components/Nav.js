@@ -11,6 +11,9 @@ class Nav extends Component {
       <>
         <div className="sideBar-ctr">
           <div className="sidebar">
+            <label htmlFor="nav-toggle" className="close-on-sm">
+              <span className="las la-times"></span>
+            </label>
             <div className="sidebar-brand">
               <h2>
                 <span
