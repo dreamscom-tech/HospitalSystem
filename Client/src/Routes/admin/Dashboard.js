@@ -12,11 +12,15 @@ class Dashboard extends Component {
       departments_number: "...",
       tests_number: "...",
       patients_number: "...",
+      recent_patients: [],
+      recent_users: [],
     };
     this.users();
     this.patients();
     this.tests();
     this.departments();
+    this.recentPatients();
+    this.recentUsers();
   }
 
   async users() {
@@ -44,6 +48,26 @@ class Dashboard extends Component {
     const res = (await UsersApi.data("/user/all/tests")) || [];
     if (res) {
       this.setState({ ...this.state, tests_number: res.length });
+    }
+  }
+
+  async recentPatients() {
+    const res = (await UsersApi.data("/user/all/recent_patients")) || [];
+    if (res) {
+      this.setState({
+        ...this.state,
+        recent_patients: res === "Error" ? [] : res,
+      });
+    }
+  }
+
+  async recentUsers() {
+    const res = (await UsersApi.data("/user/all/recent_users")) || [];
+    if (res) {
+      this.setState({
+        ...this.state,
+        recent_users: res === "Error" ? [] : res,
+      });
     }
   }
 
@@ -111,33 +135,33 @@ class Dashboard extends Component {
                     <table width="100%">
                       <thead>
                         <tr>
-                          <td>Patient</td>
-                          <td>Department</td>
-                          <td>Status</td>
+                          <td>Patient No.</td>
+                          <td>Name</td>
+                          <td></td>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td>Fat</td>
-                          <td>OPD</td>
-                          <td>
-                            <span className="status purple"></span>Sick
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Dan</td>
-                          <td>OPD</td>
-                          <td>
-                            <span className="status pink"></span>Very Sick
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Hajara</td>
-                          <td>OPD</td>
-                          <td>
-                            <span className="status orange"></span>Treatment
-                          </td>
-                        </tr>
+                        {this.state.recent_patients.length === 0 ? (
+                          <tr>
+                            <td>No Patient Added</td>
+                          </tr>
+                        ) : (
+                          this.state.recent_patients.map((v, i) => {
+                            return (
+                              <>
+                                <tr key={i}>
+                                  <td>{v.patient_number}</td>
+                                  <td>{v.first_name}</td>
+                                  <td>
+                                    <Button variant="contained" color="primary">
+                                      Details
+                                    </Button>
+                                  </td>
+                                </tr>
+                              </>
+                            );
+                          })
+                        )}
                       </tbody>
                     </table>
                   </div>
@@ -160,227 +184,33 @@ class Dashboard extends Component {
                     <table width="100%">
                       <thead>
                         <tr>
-                          <td>User</td>
-                          <td>Department</td>
-                          <td>Contact</td>
+                          <td>User No</td>
+                          <td>Name</td>
+                          <td></td>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td>Fat</td>
-                          <td>OPD</td>
-                          <td>0789346569</td>
-                        </tr>
-                        <tr>
-                          <td>Dan</td>
-                          <td>IPD</td>
-                          <td>0756789097</td>
-                        </tr>
-                        <tr>
-                          <td>Hajara</td>
-                          <td>Lab</td>
-                          <td>0778956432</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="recent-grid">
-              <div className="projects">
-                <div className="card">
-                  <div className="card-header">
-                    <h3>Recent Departments</h3>
-                    <Button variant="contained" color="primary">
-                      See all
-                      <span
-                        style={{ fontSize: "17.5px", marginInline: "10px" }}
-                      >
-                        <span className="las la-arrow-right"></span>
-                      </span>
-                    </Button>
-                  </div>
-                  <div className="card-body">
-                    <table width="100%">
-                      <thead>
-                        <tr>
-                          <td>Patient</td>
-                          <td>Department</td>
-                          <td>Status</td>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>Fat</td>
-                          <td>OPD</td>
-                          <td>
-                            <span className="status purple"></span>Sick
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Dan</td>
-                          <td>OPD</td>
-                          <td>
-                            <span className="status pink"></span>Very Sick
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Hajara</td>
-                          <td>OPD</td>
-                          <td>
-                            <span className="status orange"></span>Treatment
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-              <div className="projects">
-                <div className="card">
-                  <div className="card-header">
-                    <h3>Recent Tests</h3>
-                    <Button variant="contained" color="primary">
-                      See all
-                      <span
-                        style={{ fontSize: "17.5px", marginInline: "10px" }}
-                      >
-                        <span className="las la-arrow-right"></span>
-                      </span>
-                    </Button>
-                  </div>
-                  <div className="card-body">
-                    <table width="100%">
-                      <thead>
-                        <tr>
-                          <td>Patient</td>
-                          <td>Department</td>
-                          <td>Status</td>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>Fat</td>
-                          <td>OPD</td>
-                          <td>
-                            <span className="status purple"></span>Sick
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Dan</td>
-                          <td>OPD</td>
-                          <td>
-                            <span className="status pink"></span>Very Sick
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Hajara</td>
-                          <td>OPD</td>
-                          <td>
-                            <span className="status orange"></span>Treatment
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="recent-grid">
-              <div className="projects">
-                <div className="card">
-                  <div className="card-header">
-                    <h3>Recent Patients</h3>
-                    <Button variant="contained" color="primary">
-                      See all
-                      <span
-                        style={{ fontSize: "17.5px", marginInline: "10px" }}
-                      >
-                        <span className="las la-arrow-right"></span>
-                      </span>
-                    </Button>
-                  </div>
-                  <div className="card-body">
-                    <table width="100%">
-                      <thead>
-                        <tr>
-                          <td>Patient</td>
-                          <td>Department</td>
-                          <td>Status</td>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>Fat</td>
-                          <td>OPD</td>
-                          <td>
-                            <span className="status purple"></span>Sick
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Dan</td>
-                          <td>OPD</td>
-                          <td>
-                            <span className="status pink"></span>Very Sick
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Hajara</td>
-                          <td>OPD</td>
-                          <td>
-                            <span className="status orange"></span>Treatment
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-              <div className="projects">
-                <div className="card">
-                  <div className="card-header">
-                    <h3>Recent Patients</h3>
-                    <Button variant="contained" color="primary">
-                      See all
-                      <span
-                        style={{ fontSize: "17.5px", marginInline: "10px" }}
-                      >
-                        <span className="las la-arrow-right"></span>
-                      </span>
-                    </Button>
-                  </div>
-                  <div className="card-body">
-                    <table width="100%">
-                      <thead>
-                        <tr>
-                          <td>Patient</td>
-                          <td>Department</td>
-                          <td>Status</td>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>Fat</td>
-                          <td>OPD</td>
-                          <td>
-                            <span className="status purple"></span>Sick
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Dan</td>
-                          <td>OPD</td>
-                          <td>
-                            <span className="status pink"></span>Very Sick
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Hajara</td>
-                          <td>OPD</td>
-                          <td>
-                            <span className="status orange"></span>Treatment
-                          </td>
-                        </tr>
+                        {this.state.recent_users.length === 0 ? (
+                          <tr>
+                            <td>No Users Added</td>
+                          </tr>
+                        ) : (
+                          this.state.recent_users.map((v, i) => {
+                            return (
+                              <>
+                                <tr key={i}>
+                                  <td>{v.user_number}</td>
+                                  <td>{v.surname}</td>
+                                  <td>
+                                    <Button variant="contained" color="primary">
+                                      Details
+                                    </Button>
+                                  </td>
+                                </tr>
+                              </>
+                            );
+                          })
+                        )}
                       </tbody>
                     </table>
                   </div>

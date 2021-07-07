@@ -37,7 +37,7 @@ router.post("/login", async (req, res) => {
 });
 
 router.post("/new_test", async (req, res) => {
-  let { test_name, test_description, amount } = req.body;
+  let { test_name, amount } = req.body;
 
   conn.query(
     `SELECT * FROM tests_tbl WHERE test_name=?`,
@@ -53,7 +53,6 @@ router.post("/new_test", async (req, res) => {
               `INSERT INTO tests_tbl SET ?`,
               {
                 test_name: test_name,
-                test_description: test_description,
                 test_amount: parseFloat(amount),
               },
               (err, result) => {
