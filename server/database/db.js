@@ -5,13 +5,9 @@ const config = {
   user: "dreamscom",
   password: "dreamscom@256",
   database: "hospital_db_secure",
+  // socketPath: "/cloudsql/hospitalsystem-318608:us-central1:hospitalsystem",
 };
-if (process.env.NODE_ENV == "production") {
-  config = {
-    ...config,
-    socketPath: "/cloudsql/hospitalsystem-318608:us-central1:hospitalsystem",
-  };
-}
+
 const conn = mysql.createConnection(config);
 conn.connect((err) => {
   if (err) throw err;
