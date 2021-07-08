@@ -18,7 +18,6 @@ class Department extends Component {
       messageState: "",
       required: {
         depart_name: "",
-        department_description: "",
       },
     };
   }
@@ -109,7 +108,6 @@ class Department extends Component {
                     <h3 className="class_payment_header">New Department</h3>
                     <div className="">
                       <Button
-                        type="submit"
                         variant="contained"
                         color="primary"
                         style={{ marginRight: 10 }}
@@ -153,25 +151,6 @@ class Department extends Component {
                             name="depart_name"
                             variant="outlined"
                             label="Department Name"
-                            style={{
-                              width: "75%",
-                              margin: "20px",
-                            }}
-                            error={this.state.error}
-                            onChange={(e) => {
-                              this.setState({
-                                ...this.state,
-                                required: {
-                                  ...this.state.required,
-                                  depart_name: e.target.value,
-                                },
-                              });
-                            }}
-                          />
-                          <TextField
-                            name="department_description"
-                            variant="outlined"
-                            label="Department Description"
                             style={{
                               width: "75%",
                               margin: "20px",

@@ -110,25 +110,4 @@ router.get("/referrals/:user_id", async (req, res) => {
   );
 });
 
-router.get("/recent_patients", async (req, res) => {
-  conn.query(
-    `SELECT patient_id,patient_number,first_name FROM patients_tbl ORDER BY patient_id DESC LIMIT 5`,
-    (err, result) => {
-      if (err) throw err;
-      console.log(result);
-      res.send(result);
-    }
-  );
-});
-
-router.get("/recent_users", async (req, res) => {
-  conn.query(
-    `SELECT user_id,user_number,surname FROM system_users ORDER BY user_id DESC LIMIT 5`,
-    (err, result) => {
-      if (err) throw err;
-      res.send(result);
-    }
-  );
-});
-
 module.exports = router;

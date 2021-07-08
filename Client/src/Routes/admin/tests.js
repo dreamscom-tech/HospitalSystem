@@ -109,7 +109,6 @@ class Tests extends Component {
                     <h3 className="class_payment_header">New Test</h3>
                     <div className="">
                       <Button
-                        type="submit"
                         variant="contained"
                         color="primary"
                         style={{ marginRight: 10 }}
