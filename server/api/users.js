@@ -19,7 +19,6 @@ router.get("/patient/:id", async (req, res) => {
     [req.params.id],
     (err, result) => {
       if (err) throw err;
-      console.log(result);
       res.send(result);
     }
   );
