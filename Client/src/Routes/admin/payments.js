@@ -38,7 +38,7 @@ class Payments extends Component {
               <div className="card-single">
                 <div className="">
                   <h3>UGX 2500000</h3>
-                  <span>This Month</span>
+                  <span>This Period</span>
                 </div>
                 <div className="">
                   <span className="las la-users"> </span>
@@ -55,7 +55,7 @@ class Payments extends Component {
               </div>
             </div>
             <div className="recent-grid-left">
-              <div class="projects">
+              <div className="projects">
                 <div className="card">
                   <div className="card-header">
                     <h3>Recent Payments</h3>
@@ -153,7 +153,7 @@ class Payments extends Component {
                   </div>
                 </div>
               </div>
-              <div class="projects">
+              <div className="projects">
                 <div className="card">
                   <div className="card-header">
                     <h3>Payments Available</h3>

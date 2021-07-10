@@ -89,4 +89,40 @@ router.post("/new_referral", async (req, res) => {
   );
 });
 
+router.get("/referrals/patients_clinical_info", async (req, res) => {
+  conn.query(
+    `SELECT * FROM clinical_tbl JOIN patients_tbl ON clinical_tbl.patient_id =
+    patients_tbl.patient_id WHERE clinical_tbl.user_id = ?`,
+    [req.query.doctor],
+    (first_err, first_result) => {
+      if (first_err) {
+        throw first_err;
+      } else {
+        conn.query(
+          `SELECT * FROM referrals_tbl JOIN patients_tbl ON referrals_tbl.patient_id =
+    patients_tbl.patient_id JOIN system_users ON system_users.user_id=referrals_tbl.refer_to
+    WHERE referrals_tbl.refer_to = ?`,
+          [req.query.doctor],
+          (next_err, next_result) => {
+            if (next_err) {
+              throw next_err;
+            } else {
+              let patients_without_clinical_info = [];
+              next_result.forEach((e) => {
+                let patient_exits = first_result.find(
+                  (patient) => patient.patient_id === e.patient_id
+                );
+                if (!patient_exits) {
+                  patients_without_clinical_info.push(e);
+                }
+              });
+              res.send(patients_without_clinical_info);
+            }
+          }
+        );
+      }
+    }
+  );
+});
+
 module.exports = router;

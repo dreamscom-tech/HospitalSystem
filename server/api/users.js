@@ -9,21 +9,39 @@ router.get("/patients", async (req, res) => {
 });
 
 router.get("/patients_this_month", async (req, res) => {
-  setTimeout(() => {
-    res.send([1, 2, 3, 4, 5, 6, 7, 8, 9]);
-  }, 4000);
+  conn.query(`SELECT * FROM patients_tbl`, (err, result) => {
+    if (err) {
+      throw err;
+    } else {
+      res.send(result);
+    }
+  });
 });
 
 router.get("/doctors_today", async (req, res) => {
-  setTimeout(() => {
-    res.send([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
-  }, 4000);
+  conn.query(
+    `SELECT * FROM system_users WHERE user_role = "doctor"`,
+    (err, result) => {
+      if (err) {
+        throw err;
+      } else {
+        res.send(result);
+      }
+    }
+  );
 });
 
 router.get("/pending_consultions", async (req, res) => {
-  setTimeout(() => {
-    res.send([1, 2, 3, 4]);
-  }, 4000);
+  conn.query(
+    `SELECT * FROM referrals_tbl WHERE reason_for = "consultation"`,
+    (err, result) => {
+      if (err) {
+        throw err;
+      } else {
+        res.send(result);
+      }
+    }
+  );
 });
 
 router.get("/tests", async (req, res) => {
@@ -98,16 +116,29 @@ router.get("/doctors", async (req, res) => {
 });
 
 router.get("/referrals/:user_id", async (req, res) => {
-  conn.query(
-    `SELECT * FROM referrals_tbl JOIN patients_tbl ON referrals_tbl.patient_id =
+  if (req.query.refer_to) {
+    conn.query(
+      `SELECT * FROM referrals_tbl JOIN patients_tbl ON referrals_tbl.patient_id =
   patients_tbl.patient_id JOIN system_users ON system_users.user_id=referrals_tbl.refer_to
-  WHERE referrals_tbl.user_id = ?`,
-    [req.params.user_id],
-    (err, result) => {
-      if (err) throw err;
-      res.send(result);
-    }
-  );
+  WHERE referrals_tbl.refer_to = ?`,
+      [req.query.refer_to],
+      (err, result) => {
+        if (err) throw err;
+        res.send(result);
+      }
+    );
+  } else {
+    conn.query(
+      `SELECT * FROM referrals_tbl JOIN patients_tbl ON referrals_tbl.patient_id =
+    patients_tbl.patient_id JOIN system_users ON system_users.user_id=referrals_tbl.refer_to
+    WHERE referrals_tbl.user_id = ?`,
+      [req.params.user_id],
+      (err, result) => {
+        if (err) throw err;
+        res.send(result);
+      }
+    );
+  }
 });
 
 module.exports = router;

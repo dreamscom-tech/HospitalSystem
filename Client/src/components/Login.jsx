@@ -26,7 +26,7 @@ function Login() {
         const data = Base64.encode(JSON.stringify(res.user));
         localStorage.setItem("token", data);
         window.location.replace("/");
-        setloaderOpen(false);
+        // setloaderOpen(false);
       }
     } else {
       setServerError("Server Error...");

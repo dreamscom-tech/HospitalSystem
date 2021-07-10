@@ -435,6 +435,9 @@ td {
   text-decoration: none;
   font-family: "Ubuntu", sans-serifs;
 }
+a {
+  color: black;
+}
 body {
   background-color: #f1f5f9;
 }

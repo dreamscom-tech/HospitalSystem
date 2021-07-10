@@ -17,18 +17,20 @@ import {
   FormLabel,
   InputLabel,
   Select,
+  CircularProgress,
 } from "@material-ui/core";
 import Nav from "./components/Nav";
 import Header from "./components/Header";
 import FormsApi from "../../api/forms";
 import UsersApi from "../../api/users";
 import user from "../../app_config";
+import { Link } from "react-router-dom";
 
 class AllPatients extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      patients: [],
+      patients: null,
     };
     this.patients();
   }
@@ -69,7 +71,17 @@ class AllPatients extends Component {
                         </tr>
                       </thead>
                       <tbody>
-                        {this.state.patients.length === 0 ? (
+                        {this.state.patients === null ? (
+                          <tr>
+                            <td>
+                              <CircularProgress
+                                color="primary"
+                                size={30}
+                                thickness={3.0}
+                              />
+                            </td>
+                          </tr>
+                        ) : this.state.patients.length === 0 ? (
                           <tr>
                             <td>No Patients Registered</td>
                           </tr>
@@ -130,11 +142,11 @@ function Row({ v, i }) {
     <>
       <tr key={i}>
         <td>{v.patient_number}</td>
-        <td>{v.surname}</td>
-        <td>{v.first_name}</td>
-        <td>{v.age}</td>
-        <td>{v.gender}</td>
-        <td>{v.phone_number}</td>
+        <td>{v.patient_surname}</td>
+        <td>{v.patient_first_name}</td>
+        <td>{v.patient_age}</td>
+        <td>{v.patient_gender}</td>
+        <td>{v.patient_phone_number}</td>
         <td>
           <Button variant="contained" color="primary">
             Edit
@@ -166,6 +178,9 @@ function Row({ v, i }) {
         >
           Assign To Doctor
         </MenuItem>
+        <Link to={`/triage?patient-number=${v.patient_number}`}>
+          <MenuItem>Triage</MenuItem>
+        </Link>
       </Menu>
       <Dialog
         open={open}
@@ -205,7 +220,7 @@ function Row({ v, i }) {
                   doctors.map((v, i) => {
                     return (
                       <MenuItem value={v.user_id} key={i}>
-                        {v.user_name}
+                        {v.user_username}
                       </MenuItem>
                     );
                   })
@@ -236,7 +251,7 @@ function Row({ v, i }) {
                   label="Clinical Information"
                 />
               </RadioGroup>
-              <FormHelperText>Select Options</FormHelperText>
+              <FormHelperText>Select An Option</FormHelperText>
             </FormControl>
           </form>
         </DialogContent>

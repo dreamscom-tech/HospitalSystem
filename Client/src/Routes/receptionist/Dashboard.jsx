@@ -97,7 +97,7 @@ class Dashboard extends Component {
                   <h1>{this.state._pnumber_month}</h1>
                   <span>
                     Patients Registered <br />
-                    <span style={{ fontSize: "13px" }}>This Month</span>
+                    <span style={{ fontSize: "13px" }}>This Period</span>
                   </span>
                 </div>
                 <div className="">
@@ -285,9 +285,9 @@ function Row({ v, i }) {
     <>
       <tr key={i}>
         <td>{v.patient_number}</td>
-        <td>{`${v.surname} ${v.first_name}`}</td>
-        <td>{v.age}</td>
-        <td>{v.phone_number}</td>
+        <td>{`${v.patient_surname} ${v.patient_first_name}`}</td>
+        <td>{v.patient_age}</td>
+        <td>{v.patient_phone_number}</td>
         <td>
           <Button
             variant="contained"
@@ -353,7 +353,7 @@ function Row({ v, i }) {
                   doctors.map((v, i) => {
                     return (
                       <MenuItem value={v.user_id} key={i}>
-                        {v.user_name}
+                        {v.user_username}
                       </MenuItem>
                     );
                   })
@@ -422,8 +422,8 @@ function ReferralRow({ v, i }) {
     <>
       <tr key={i}>
         <td>{v.patient_number}</td>
-        <td>{`${v.surname} ${v.first_name}`}</td>
-        <td>{`${v.user_name} - ${v.user_role}`}</td>
+        <td>{`${v.patient_surname} ${v.patient_first_name}`}</td>
+        <td>{`${v.user_username} - ${v.user_role}`}</td>
         <td>{v.reason_for}</td>
         <td>
           <Button

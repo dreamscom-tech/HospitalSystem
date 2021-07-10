@@ -21,11 +21,10 @@ function num(l) {
 
 router.post("/login", async (req, res) => {
   conn.query(
-    `SELECT * FROM system_users WHERE user_name = ? AND password = ?`,
+    `SELECT * FROM system_users WHERE user_username = ? AND user_password = ?`,
     [req.body.username, req.body.password],
     (err, result) => {
       if (err) {
-        console.log(err);
         res.send({ status: false });
       } else {
         result.length == 0

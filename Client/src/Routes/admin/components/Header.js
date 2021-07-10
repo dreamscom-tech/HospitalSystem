@@ -59,7 +59,7 @@ function Header() {
           >
             <img src={Avatar} alt="" width="40px" height="40px" />
             <div className="">
-              <h4>{user.user.user_name}</h4>
+              <h4>{user.user.user_username}</h4>
               <small>{user.user.user_role}</small>
             </div>
           </div>
@@ -82,7 +82,7 @@ function Header() {
         </MenuItem>
         <MenuItem onClick={handleClickOpenDialog}>
           <span style={{ fontSize: 24, marginRight: 10 }}>
-            <i class="las la-sign-out-alt"></i>
+            <i className="las la-sign-out-alt"></i>
           </span>
           Log out
         </MenuItem>

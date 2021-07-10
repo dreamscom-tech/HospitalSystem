@@ -1,7 +1,6 @@
 import React, { Component, useState } from "react";
 import {
   Button,
-  TextField,
   Menu,
   MenuItem,
   FormControl,
@@ -47,8 +46,11 @@ class Dashboard extends Component {
   async patients() {
     const res = (await UsersApi.data("/user/all/patients")) || [];
     if (res) {
-      this.setState({ ...this.state, _pnumber: res.length });
       this.setState({ ...this.state, patients: res === "Error" ? [] : res });
+      this.setState({
+        ...this.state,
+        _pnumber: res === "Error" ? [].length : res.length,
+      });
     }
   }
   async patients_this_month() {
@@ -71,9 +73,10 @@ class Dashboard extends Component {
   }
   async referrals() {
     const res =
-      (await UsersApi.data(`/user/all/referrals/${user.user.user_id}`)) || [];
+      (await UsersApi.data(
+        `/user/all/referrals/${user.user.user_id}/?refer_to=${user.user.user_id}`
+      )) || [];
     if (res) {
-      console.log(res);
       this.setState({ ...this.state, referrals: res === "Error" ? [] : res });
     }
   }
@@ -97,7 +100,7 @@ class Dashboard extends Component {
                   <h1>{this.state._pnumber_month}</h1>
                   <span>
                     Patients Registered <br />
-                    <span style={{ fontSize: "13px" }}>This Month</span>
+                    <span style={{ fontSize: "13px" }}>This Period</span>
                   </span>
                 </div>
                 <div className="">
@@ -177,7 +180,7 @@ class Dashboard extends Component {
               <div className="projects">
                 <div className="card">
                   <div className="card-header">
-                    <h3>Referrals Queue Made</h3>
+                    <h3>Referrals</h3>
                     <Button
                       variant="contained"
                       color="primary"
@@ -218,9 +221,8 @@ class Dashboard extends Component {
                         <tr>
                           <td>Patient Number</td>
                           <td>Patient Name</td>
-                          <td>Referred To</td>
                           <td>Reason</td>
-                          <td>Cancel Referral</td>
+                          <td></td>
                         </tr>
                       </thead>
                       <tbody>
@@ -285,9 +287,9 @@ function Row({ v, i }) {
     <>
       <tr key={i}>
         <td>{v.patient_number}</td>
-        <td>{`${v.surname} ${v.first_name}`}</td>
-        <td>{v.age}</td>
-        <td>{v.phone_number}</td>
+        <td>{`${v.patient_surname} ${v.patient_first_name}`}</td>
+        <td>{v.patient_age}</td>
+        <td>{v.patient_phone_number}</td>
         <td>
           <Button
             variant="contained"
@@ -353,7 +355,7 @@ function Row({ v, i }) {
                   doctors.map((v, i) => {
                     return (
                       <MenuItem value={v.user_id} key={i}>
-                        {v.user_name}
+                        {v.user_username}
                       </MenuItem>
                     );
                   })
@@ -422,8 +424,7 @@ function ReferralRow({ v, i }) {
     <>
       <tr key={i}>
         <td>{v.patient_number}</td>
-        <td>{`${v.surname} ${v.first_name}`}</td>
-        <td>{`${v.user_name} - ${v.user_role}`}</td>
+        <td>{`${v.patient_surname} ${v.patient_first_name}`}</td>
         <td>{v.reason_for}</td>
         <td>
           <Button
@@ -433,7 +434,7 @@ function ReferralRow({ v, i }) {
               alert("Beta Version.....");
             }}
           >
-            Cancel
+            Remove
           </Button>
         </td>
       </tr>
