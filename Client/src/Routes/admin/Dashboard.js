@@ -12,8 +12,6 @@ class Dashboard extends Component {
       departments_number: "...",
       tests_number: "...",
       patients: [],
-      recent_patients: [],
-      recent_users: [],
     };
     this.users();
     this.patients();
@@ -25,15 +23,6 @@ class Dashboard extends Component {
     const res = (await UsersApi.data("/user/all/users")) || [];
     if (res !== "Error") {
       this.setState({ ...this.state, users: res });
-      let recent = [];
-      recent.push(
-        res[res.length - 1],
-        res[res.length - 2],
-        res[res.length - 3],
-        res[res.length - 4],
-        res[res.length - 5]
-      );
-      this.setState({ ...this.state, recent_users: recent });
     } else {
       this.setState({ ...this.state, users: [] });
     }
@@ -50,17 +39,8 @@ class Dashboard extends Component {
     const res = (await UsersApi.data("/user/all/patients")) || [];
     if (res !== "Error") {
       this.setState({ ...this.state, patients: res });
-      let recent = [];
-      recent.push(
-        res[res.length - 1],
-        res[res.length - 2],
-        res[res.length - 3],
-        res[res.length - 4],
-        res[res.length - 5]
-      );
-      this.setState({ ...this.state, recent_patients: recent });
     } else {
-      this.setState({ ...this.state, recent_patients: [] });
+      this.setState({ ...this.state, patients: [] });
     }
   }
 
@@ -142,18 +122,43 @@ class Dashboard extends Component {
                         </tr>
                       </thead>
                       <tbody>
-                        {this.state.recent_patients.length === 0 ? (
+                        {this.state.patients.length === 0 ? (
                           <tr>
                             <td>No Patient Added</td>
                           </tr>
+                        ) : this.state.patients.length >= 5 ? (
+                          this.state.patients
+                            .slice(
+                              this.state.patients.length - 5,
+                              this.state.patients.length
+                            )
+                            .map((v, i) => {
+                              return (
+                                <>
+                                  <tr key={i}>
+                                    <td>{v.patient_number}</td>
+                                    <td>{v.patient_first_name}</td>
+                                    <td>{v.patient_surname}</td>
+                                    <td>
+                                      <Button
+                                        variant="contained"
+                                        color="primary"
+                                      >
+                                        Details
+                                      </Button>
+                                    </td>
+                                  </tr>
+                                </>
+                              );
+                            })
                         ) : (
-                          this.state.recent_patients.map((v, i) => {
+                          this.state.patients.map((v, i) => {
                             return (
                               <>
                                 <tr key={i}>
                                   <td>{v.patient_number}</td>
-                                  <td>{v.first_name}</td>
-                                  <td>{v.surname}</td>
+                                  <td>{v.patient_first_name}</td>
+                                  <td>{v.patient_surname}</td>
                                   <td>
                                     <Button variant="contained" color="primary">
                                       Details
@@ -193,17 +198,42 @@ class Dashboard extends Component {
                         </tr>
                       </thead>
                       <tbody>
-                        {this.state.recent_users.length === 0 ? (
+                        {this.state.users.length === 0 ? (
                           <tr>
-                            <td>No Users Added</td>
+                            <td>No User Added</td>
                           </tr>
+                        ) : this.state.users.length >= 5 ? (
+                          this.state.users
+                            .slice(
+                              this.state.users.length - 5,
+                              this.state.users.length
+                            )
+                            .map((v, i) => {
+                              return (
+                                <>
+                                  <tr key={i}>
+                                    <td>{v.user_number}</td>
+                                    <td>{v.user_surname}</td>
+                                    <td>{v.user_role}</td>
+                                    <td>
+                                      <Button
+                                        variant="contained"
+                                        color="primary"
+                                      >
+                                        Details
+                                      </Button>
+                                    </td>
+                                  </tr>
+                                </>
+                              );
+                            })
                         ) : (
-                          this.state.recent_users.map((v, i) => {
+                          this.state.users.map((v, i) => {
                             return (
                               <>
                                 <tr key={i}>
                                   <td>{v.user_number}</td>
-                                  <td>{v.surname}</td>
+                                  <td>{v.user_surname}</td>
                                   <td>{v.user_role}</td>
                                   <td>
                                     <Button variant="contained" color="primary">
@@ -217,6 +247,7 @@ class Dashboard extends Component {
                         )}
                       </tbody>
                     </table>
+                    {console.log(this.state.recent_users)}
                   </div>
                 </div>
               </div>

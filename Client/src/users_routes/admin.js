@@ -33,7 +33,7 @@ class Admin extends Component {
             <Route path="/users" exact component={Users} />
             <Route path="/register" exact component={Register} />
             <Route path="/payments" exact component={Payments} />
-            <Route path="/patient_details" exact component={Patient} />
+            <Route path="/patient" exact component={Patient} />
             <Route path="/addresses" exact component={Addresses} />
             <Route path="/user_details" exact component={User} />
             <Route path="*" component={NotFound} />

@@ -4,6 +4,7 @@ import MuiAlert from "@material-ui/lab/Alert";
 import Nav from "./components/Nav";
 import Header from "./components/Header";
 import FormsApi from "../../api/forms";
+import UsersApi from "../../api/users";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -20,7 +21,16 @@ class Tests extends Component {
         test_name: "",
         amount: "",
       },
+      tests: [],
     };
+    this.tests();
+  }
+
+  async tests() {
+    const res = (await UsersApi.data("/user/all/tests")) || [];
+    if (res) {
+      this.setState({ ...this.state, tests: res });
+    }
   }
 
   handleSubmit = async (e) => {
@@ -208,76 +218,38 @@ class Tests extends Component {
                     <thead>
                       <tr>
                         <td>Name</td>
-                        <td>Qty</td>
                         <td>Amount(Shs)</td>
-                        <td>Details</td>
+                        <td></td>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>CBC Test</td>
-                        <td>1</td>
-                        <td>3000</td>
-                        <td>
-                          <Button variant="contained" color="primary">
-                            <span
-                              style={{
-                                fontSize: "10px",
-                                marginInline: "3px",
-                              }}
-                            ></span>
-                            Details
-                          </Button>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>AIDS Test</td>
-                        <td>5</td>
-                        <td>3000</td>
-                        <td>
-                          <Button variant="contained" color="primary">
-                            <span
-                              style={{
-                                fontSize: "10px",
-                                marginInline: "3px",
-                              }}
-                            ></span>
-                            Details
-                          </Button>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>CBC Test</td>
-                        <td>4</td>
-                        <td>3000</td>
-                        <td>
-                          <Button variant="contained" color="primary">
-                            <span
-                              style={{
-                                fontSize: "10px",
-                                marginInline: "3px",
-                              }}
-                            ></span>
-                            Details
-                          </Button>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>CBC Test</td>
-                        <td>3</td>
-                        <td>3000</td>
-                        <td>
-                          <Button variant="contained" color="primary">
-                            <span
-                              style={{
-                                fontSize: "10px",
-                                marginInline: "3px",
-                              }}
-                            ></span>
-                            Details
-                          </Button>
-                        </td>
-                      </tr>
+                      {this.state.tests.length === 0 ? (
+                        <tr>
+                          <td>No Tests Added</td>
+                        </tr>
+                      ) : (
+                        this.state.tests.map((v, i) => {
+                          return (
+                            <>
+                              <tr key={i}>
+                                <td>{v.test_name}</td>
+                                <td>{v.test_amount}</td>
+                                <td>
+                                  <Button variant="contained" color="primary">
+                                    <span
+                                      style={{
+                                        fontSize: "10px",
+                                        marginInline: "3px",
+                                      }}
+                                    ></span>
+                                    Actions
+                                  </Button>
+                                </td>
+                              </tr>
+                            </>
+                          );
+                        })
+                      )}
                     </tbody>
                   </table>
                 </div>

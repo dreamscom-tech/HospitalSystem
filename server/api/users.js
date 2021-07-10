@@ -8,6 +8,23 @@ router.get("/patients", async (req, res) => {
   });
 });
 
+router.get("/patient/:id", async (req, res) => {
+  conn.query(
+    `SELECT * FROM patients_tbl JOIN village_tbl ON patients_tbl.patient_village_id=village_tbl.village_id
+    JOIN parish_tbl ON village_tbl.parish_id=parish_tbl.parish_id JOIN sub_county_tbl ON parish_tbl.sub_county_id
+    =sub_county_tbl.sub_county_id JOIN districts_tbl ON sub_county_tbl.district_id=districts_tbl.district_id
+    JOIN next_of_kin_tbl ON patients_tbl.patient_number=next_of_kin_tbl.patient_id JOIN patient_units ON
+    patients_tbl.patient_id=patient_units.patient_id
+     WHERE patients_tbl.patient_id = ?`,
+    [req.params.id],
+    (err, result) => {
+      if (err) throw err;
+      console.log(result);
+      res.send(result);
+    }
+  );
+});
+
 router.get("/patients_this_month", async (req, res) => {
   setTimeout(() => {
     res.send([1, 2, 3, 4, 5, 6, 7, 8, 9]);

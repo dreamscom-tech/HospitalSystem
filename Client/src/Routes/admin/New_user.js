@@ -226,10 +226,6 @@ class New_user extends Component {
                                         </MenuItem>
                                       );
                                     })}
-                                {/* <MenuItem value="1">Labaratory</MenuItem>
-                                <MenuItem value="2">OPD</MenuItem>
-                                <MenuItem value="3">Accounts</MenuItem>
-                                <MenuItem value="4">Martenity</MenuItem> */}
                               </Select>
                             </FormControl>
                             <TextField
@@ -262,6 +258,7 @@ class New_user extends Component {
                           </div>
                           <div className="inpts_on_right">
                             <TextField
+                              type="password"
                               name="password"
                               variant="outlined"
                               label="Password"
@@ -271,6 +268,7 @@ class New_user extends Component {
                               }}
                             />
                             <TextField
+                              type="password"
                               name="confirm_password"
                               variant="outlined"
                               label="Confirm Password"

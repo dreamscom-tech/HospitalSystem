@@ -71,7 +71,6 @@ router.post("/new_test", async (req, res) => {
 
 router.post("/new_department", async (req, res) => {
   let { depart_name } = req.body;
-  console.log(req.body);
   conn.query(
     `SELECT * FROM department_tbl WHERE department_name=?`,
     [depart_name],
@@ -143,16 +142,16 @@ router.post("/new_user", async (req, res) => {
               conn.query(
                 `INSERT INTO system_users SET ?`,
                 {
-                  surname: surname,
-                  other_name: other_name,
-                  phone_number: phone_contact,
+                  user_surname: surname,
+                  user_other_name: other_name,
+                  user_phone_number: phone_contact,
                   user_name: username,
-                  email: email_address,
+                  user_email: email_address,
                   user_role: role,
-                  department_id: parseInt(department),
-                  gender: gender,
+                  user_department_id: parseInt(department),
+                  user_gender: gender,
                   user_number: num(3),
-                  password: password,
+                  user_password: password,
                 },
                 (err2, res2) => {
                   if (err2) {

@@ -4,6 +4,7 @@ import MuiAlert from "@material-ui/lab/Alert";
 import Nav from "./components/Nav";
 import Header from "./components/Header";
 import FormsApi from "../../api/forms";
+import UsersApi from "../../api/users";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -16,10 +17,19 @@ class Department extends Component {
       open: false,
       message: "Please Wait...",
       messageState: "",
+      departments: [],
       required: {
         depart_name: "",
       },
     };
+    this.departments();
+  }
+
+  async departments() {
+    const res = (await UsersApi.data("/user/all/departments")) || [];
+    if (res) {
+      this.setState({ ...this.state, departments: res });
+    }
   }
 
   handleSubmit = async (e) => {
@@ -187,71 +197,36 @@ class Department extends Component {
                     <thead>
                       <tr>
                         <td>Name</td>
-                        <td>Workers</td>
-                        <td>Actions</td>
+                        <td></td>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>LAB</td>
-                        <td>4</td>
-                        <td>
-                          <Button variant="contained" color="primary">
-                            <span
-                              style={{
-                                fontSize: "10px",
-                                marginInline: "3px",
-                              }}
-                            ></span>
-                            Details
-                          </Button>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>Reception</td>
-                        <td>2</td>
-                        <td>
-                          <Button variant="contained" color="primary">
-                            <span
-                              style={{
-                                fontSize: "10px",
-                                marginInline: "3px",
-                              }}
-                            ></span>
-                            Details
-                          </Button>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>OPD</td>
-                        <td>3</td>
-                        <td>
-                          <Button variant="contained" color="primary">
-                            <span
-                              style={{
-                                fontSize: "10px",
-                                marginInline: "3px",
-                              }}
-                            ></span>
-                            Details
-                          </Button>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>Martenity</td>
-                        <td>8</td>
-                        <td>
-                          <Button variant="contained" color="primary">
-                            <span
-                              style={{
-                                fontSize: "10px",
-                                marginInline: "3px",
-                              }}
-                            ></span>
-                            Details
-                          </Button>
-                        </td>
-                      </tr>
+                      {this.state.departments.length > 0 ? (
+                        this.state.departments.map((v, i) => {
+                          return (
+                            <>
+                              <tr key={i}>
+                                <td>{v.department_name}</td>
+                                <td>
+                                  <Button variant="contained" color="primary">
+                                    <span
+                                      style={{
+                                        fontSize: "10px",
+                                        marginInline: "3px",
+                                      }}
+                                    ></span>
+                                    Actions
+                                  </Button>
+                                </td>
+                              </tr>
+                            </>
+                          );
+                        })
+                      ) : (
+                        <tr>
+                          <td>No Department Added</td>
+                        </tr>
+                      )}
                     </tbody>
                   </table>
                 </div>

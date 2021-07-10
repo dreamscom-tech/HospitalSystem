@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const url = "https://hospitalplus.dreamscom.tech/api";
+const url = "http://localhost:8000/api";
 
 export default class UsersApi {
   ///new Login
