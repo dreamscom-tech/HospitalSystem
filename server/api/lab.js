@@ -10,7 +10,7 @@ router.post("/new_sample_collection", async (req, res) => {
       patient_id: patient_number,
       specimen_taken: specimens,
       reason: reason,
-      date: new Date(),
+      collection_date: new Date(),
     },
     (err1, res1) => {
       if (err1) {
@@ -32,7 +32,7 @@ router.post("/new_lab_report", async (req, res) => {
       patient_id: patient_number,
       tests_made: tests_made,
       user_id: 1,
-      date: new Date(),
+      result_date: new Date(),
     },
     (err1, res1) => {
       if (err1) {

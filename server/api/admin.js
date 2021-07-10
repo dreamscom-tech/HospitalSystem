@@ -36,7 +36,7 @@ router.post("/login", async (req, res) => {
 });
 
 router.post("/new_test", async (req, res) => {
-  let { test_name, test_description, amount } = req.body;
+  let { test_name, amount } = req.body;
 
   conn.query(
     `SELECT * FROM tests_tbl WHERE test_name=?`,
@@ -52,7 +52,6 @@ router.post("/new_test", async (req, res) => {
               `INSERT INTO tests_tbl SET ?`,
               {
                 test_name: test_name,
-                test_description: test_description,
                 test_amount: parseFloat(amount),
               },
               (err, result) => {
@@ -70,7 +69,7 @@ router.post("/new_test", async (req, res) => {
 });
 
 router.post("/new_department", async (req, res) => {
-  let { depart_name, department_description } = req.body;
+  let { depart_name } = req.body;
   conn.query(
     `SELECT * FROM department_tbl WHERE department_name=?`,
     [depart_name],
@@ -80,19 +79,24 @@ router.post("/new_department", async (req, res) => {
         res.send({ data: "An Error Occured", status: false });
       } else {
         res1.length > 0
-          ? res.send({ data: "Department Exists", status: false })
+          ? res.send({ data: "Department Exists.", status: false })
           : conn.query(
               `INSERT INTO department_tbl SET ?`,
               {
                 department_name: depart_name,
-                department_description: department_description,
               },
               (err2, res2) => {
                 if (err2) {
                   console.log(err2);
-                  res.send({ data: "Error Occured", status: false });
+                  res.send({
+                    data: "Error Occured.",
+                    status: false,
+                  });
                 } else {
-                  res.send({ data: "Department Already Exists", status: true });
+                  res.send({
+                    data: "Department Added Successfully",
+                    status: true,
+                  });
                 }
               }
             );
@@ -137,16 +141,16 @@ router.post("/new_user", async (req, res) => {
               conn.query(
                 `INSERT INTO system_users SET ?`,
                 {
-                  surname: surname,
-                  other_name: other_name,
-                  phone_number: phone_contact,
+                  user_surname: surname,
+                  user_other_name: other_name,
+                  user_phone_number: phone_contact,
                   user_name: username,
-                  email: email_address,
+                  user_email: email_address,
                   user_role: role,
-                  department_id: parseInt(department),
-                  gender: gender,
+                  user_department_id: parseInt(department),
+                  user_gender: gender,
                   user_number: num(3),
-                  password: password,
+                  user_password: password,
                 },
                 (err2, res2) => {
                   if (err2) {

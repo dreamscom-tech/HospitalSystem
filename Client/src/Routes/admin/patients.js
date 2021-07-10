@@ -3,12 +3,26 @@ import { Link } from "react-router-dom";
 import { Button } from "@material-ui/core";
 import Nav from "./components/Nav";
 import Header from "./components/Header";
+import UsersApi from "../../api/users";
 
 class Patients extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      patients: [],
+    };
+    this.patients();
   }
+
+  async patients() {
+    const res = (await UsersApi.data("/user/all/patients")) || [];
+    if (res !== "Error") {
+      this.setState({ ...this.state, patients: res });
+    } else {
+      this.setState({ ...this.state, patients: [] });
+    }
+  }
+
   render() {
     return (
       <>
@@ -46,123 +60,40 @@ class Patients extends Component {
                         <tr>
                           <td>Name</td>
                           <td>Contact</td>
-                          <td>Location</td>
+                          <td>Number</td>
                           <td>Date of Birth</td>
                           <td>Actions</td>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td>Sam</td>
-                          <td>0789435123</td>
-                          <td>Lira</td>
-                          <td>04/03/2000</td>
-                          <td>
-                            <div>
-                              <Link to="/patient_details">
-                                <Button variant="contained" color="primary">
-                                  <span
-                                    style={{
-                                      fontSize: "10px",
-                                      marginInline: "3px",
-                                    }}
-                                  ></span>
-                                  Details
-                                </Button>
-                              </Link>
-                            </div>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Sam</td>
-                          <td>0789435123</td>
-                          <td>Lira</td>
-                          <td>04/03/2000</td>
-                          <td>
-                            <div>
-                              <Link to="/patient_details">
-                                <Button variant="contained" color="primary">
-                                  <span
-                                    style={{
-                                      fontSize: "10px",
-                                      marginInline: "3px",
-                                    }}
-                                  ></span>
-                                  Details
-                                </Button>
-                              </Link>
-                            </div>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Sam</td>
-                          <td>0789435123</td>
-                          <td>Lira</td>
-                          <td>04/03/2000</td>
-                          <td>
-                            <div>
-                              <Link to="/patient_details">
-                                <Button variant="contained" color="primary">
-                                  <span
-                                    style={{
-                                      fontSize: "10px",
-                                      marginInline: "3px",
-                                    }}
-                                  ></span>
-                                  Details
-                                </Button>
-                              </Link>
-                            </div>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Sam</td>
-                          <td>0789435123</td>
-                          <td>Lira</td>
-                          <td>04/03/2000</td>
-                          <td>
-                            <div>
-                              <Link to="/patient_details">
-                                <Button variant="contained" color="primary">
-                                  <span
-                                    style={{
-                                      fontSize: "10px",
-                                      marginInline: "3px",
-                                    }}
-                                  ></span>
-                                  Details
-                                </Button>
-                              </Link>
-                            </div>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Sam</td>
-                          <td>0789435123</td>
-                          <td>Lira</td>
-                          <td>04/03/2000</td>
-                          <td>
-                            <div>
-                              <Link to="/patient_details">
-                                <Button variant="contained" color="primary">
-                                  <span
-                                    style={{
-                                      fontSize: "10px",
-                                      marginInline: "3px",
-                                    }}
-                                  ></span>
-                                  Details
-                                </Button>
-                              </Link>
-                            </div>
-                          </td>
-                        </tr>
+                        {this.state.patients.map((v, i) => {
+                          return (
+                            <>
+                              <tr key={i}>
+                                <td>{v.patient_surname}</td>
+                                <td>{v.patient_phone_number}</td>
+                                <td>{v.patient_number}</td>
+                                <td>{v.patient_DOB}</td>
+                                <td>
+                                  <Button variant="contained" color="primary">
+                                    <span
+                                      style={{
+                                        fontSize: "10px",
+                                        marginInline: "3px",
+                                      }}
+                                    ></span>
+                                    Details
+                                  </Button>
+                                </td>
+                              </tr>
+                            </>
+                          );
+                        })}
                       </tbody>
                     </table>
                   </div>
                 </div>
               </div>
-              <div className="projects"></div>
             </div>
           </main>
         </div>

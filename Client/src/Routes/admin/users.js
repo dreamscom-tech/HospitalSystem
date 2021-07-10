@@ -3,12 +3,26 @@ import { Link } from "react-router-dom";
 import { Button } from "@material-ui/core";
 import Nav from "./components/Nav";
 import Header from "./components/Header";
+import UsersApi from "../../api/users";
 
 class Users extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      users: [],
+    };
+    this.users();
   }
+
+  async users() {
+    const res = (await UsersApi.data("/user/all/users")) || [];
+    if (res !== "Error") {
+      this.setState({ ...this.state, users: res });
+    } else {
+      this.setState({ ...this.state, users: [] });
+    }
+  }
+
   render() {
     return (
       <>
@@ -46,103 +60,46 @@ class Users extends Component {
                         <tr>
                           <td>Name</td>
                           <td>Contact</td>
-                          <td>Department</td>
-                          <td>Actions</td>
+                          <td>Role</td>
+                          <td></td>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td>Sam</td>
-                          <td>0789435123</td>
-                          <td>Lira</td>
-                          <td>
-                            <div>
-                              <Link to="/user_details">
-                                <Button variant="contained" color="primary">
-                                  <span
-                                    style={{
-                                      fontSize: "10px",
-                                      marginInline: "3px",
-                                    }}
-                                  ></span>
-                                  Details
-                                </Button>
-                              </Link>
-                            </div>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Sam</td>
-                          <td>0789435123</td>
-                          <td>Lira</td>
-                          <td>
-                            <div>
-                              <Button variant="contained" color="primary">
-                                <span
-                                  style={{
-                                    fontSize: "10px",
-                                    marginInline: "3px",
-                                  }}
-                                ></span>
-                                Details
-                              </Button>
-                            </div>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Sam</td>
-                          <td>0789435123</td>
-                          <td>Lira</td>
-                          <td>
-                            <div>
-                              <Button variant="contained" color="primary">
-                                <span
-                                  style={{
-                                    fontSize: "10px",
-                                    marginInline: "3px",
-                                  }}
-                                ></span>
-                                Details
-                              </Button>
-                            </div>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Sam</td>
-                          <td>0789435123</td>
-                          <td>Lira</td>
-                          <td>
-                            <div>
-                              <Button variant="contained" color="primary">
-                                <span
-                                  style={{
-                                    fontSize: "10px",
-                                    marginInline: "3px",
-                                  }}
-                                ></span>
-                                Details
-                              </Button>
-                            </div>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Sam</td>
-                          <td>0789435123</td>
-                          <td>Lira</td>
-                          <td>
-                            <div>
-                              <Button variant="contained" color="primary">
-                                <span
-                                  style={{
-                                    fontSize: "10px",
-                                    marginInline: "3px",
-                                  }}
-                                ></span>
-                                Details
-                              </Button>
-                            </div>
-                          </td>
-                        </tr>
+                        {this.state.users.length === 0 ? (
+                          <tr>
+                            <td>No User Added</td>
+                          </tr>
+                        ) : (
+                          this.state.users.map((v, i) => {
+                            return (
+                              <>
+                                <tr key={i}>
+                                  <td>{v.user_surname}</td>
+                                  <td>{v.user_phone_number}</td>
+                                  <td>{v.user_role}</td>
+                                  <td>
+                                    <div>
+                                      <Link to="/user_details">
+                                        <Button
+                                          variant="contained"
+                                          color="primary"
+                                        >
+                                          <span
+                                            style={{
+                                              fontSize: "10px",
+                                              marginInline: "3px",
+                                            }}
+                                          ></span>
+                                          Details
+                                        </Button>
+                                      </Link>
+                                    </div>
+                                  </td>
+                                </tr>
+                              </>
+                            );
+                          })
+                        )}
                       </tbody>
                     </table>
                   </div>

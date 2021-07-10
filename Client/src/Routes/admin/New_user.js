@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { Component } from "react";
 import {
   TextField,
   Snackbar,
@@ -13,6 +13,7 @@ import MuiAlert from "@material-ui/lab/Alert";
 import Nav from "./components/Nav";
 import Header from "./components/Header";
 import FormsApi from "../../api/forms";
+import UsersApi from "../../api/users";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -25,7 +26,16 @@ class New_user extends Component {
       open: false,
       message: "Please Wait...",
       messageState: "",
+      departments: [],
     };
+    this.fetchDepartments();
+  }
+
+  async fetchDepartments() {
+    const res = (await UsersApi.data("/user/all/departments")) || [];
+    if (res !== "Error") {
+      this.setState({ ...this.state, departments: res });
+    }
   }
 
   handleSubmit = async (e) => {
@@ -114,7 +124,6 @@ class New_user extends Component {
                       </div>
                       <div className="">
                         <Button
-                          type="submit"
                           aria-describedby={this.id}
                           variant="contained"
                           color="primary"
@@ -203,12 +212,20 @@ class New_user extends Component {
                                 inputProps={{ name: "department" }}
                                 label="Department"
                                 id="select_department"
-                                defaultValue="1"
+                                defaultValue=""
                               >
-                                <MenuItem value="1">Labaratory</MenuItem>
-                                <MenuItem value="2">OPD</MenuItem>
-                                <MenuItem value="3">Accounts</MenuItem>
-                                <MenuItem value="4">Martenity</MenuItem>
+                                {this.state.departments.length === 0
+                                  ? ""
+                                  : this.state.departments.map((v, i) => {
+                                      return (
+                                        <MenuItem
+                                          value={v.department_id}
+                                          key={i}
+                                        >
+                                          {v.department_name}
+                                        </MenuItem>
+                                      );
+                                    })}
                               </Select>
                             </FormControl>
                             <TextField
@@ -241,6 +258,7 @@ class New_user extends Component {
                           </div>
                           <div className="inpts_on_right">
                             <TextField
+                              type="password"
                               name="password"
                               variant="outlined"
                               label="Password"
@@ -250,6 +268,7 @@ class New_user extends Component {
                               }}
                             />
                             <TextField
+                              type="password"
                               name="confirm_password"
                               variant="outlined"
                               label="Confirm Password"
