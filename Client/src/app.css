@@ -566,10 +566,10 @@ header h2 {
   color: #222;
 }
 header label span {
-  font-size: 1.7rem;
   padding-right: 1rem;
   cursor: pointer;
 }
+
 .search-wrapper {
   border: 1px solid #ccc;
   border-radius: 30px;
@@ -653,6 +653,12 @@ main {
   grid-gap: 2rem;
   grid-template-columns: 60% auto;
 }
+.recent-grid-right {
+  margin-top: 1rem;
+  display: grid;
+  grid-gap: 2rem;
+  grid-template-columns: auto 60%;
+}
 .fullwidth-ctr {
   display: grid;
   grid-gap: 2rem;
@@ -716,7 +722,8 @@ td {
   }
   .fullwidth-ctr,
   .recent-grid,
-  .recent-grid-left {
+  .recent-grid-left,
+  .recent-grid-right {
     grid-template-columns: 100%;
   }
 }

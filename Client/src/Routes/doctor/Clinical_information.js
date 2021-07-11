@@ -56,6 +56,7 @@ class ClinicalInformationClass extends Component {
     fd.forEach((value, key) => {
       _fcontent[key] = value;
     });
+    _fcontent["user"] = user.user.user_id;
     const api = new FormsApi();
     let res = await api.post("/user/doctor/new_clinical_info", _fcontent);
     if (res.status === true) {
@@ -299,95 +300,3 @@ const styles = {
     alignItems: "center",
   },
 };
-
-function ClinicalInformation() {
-  return (
-    <div className="">
-      <h4>Clinical Info. Form</h4>
-      <div className="inputs_ctr">
-        <div className="inpts_on_left">
-          <TextField
-            name="patient_number"
-            variant="outlined"
-            label="Patient Number"
-            style={{
-              width: "75%",
-              margin: "20px",
-            }}
-          />
-          <TextareaAutosize
-            aria-label="minimum height"
-            minRows={3}
-            placeholder="Minimum 3 rows"
-          />
-          ;
-          <TextField
-            name="patient_name"
-            variant="outlined"
-            label="Patient Name"
-            style={{
-              width: "75%",
-              margin: "20px",
-            }}
-          />
-          <TextField
-            name="amount"
-            variant="outlined"
-            label="Amount(Shs)"
-            style={{
-              width: "75%",
-              margin: "20px",
-            }}
-          />
-          <TextField
-            name="balance"
-            variant="outlined"
-            label="Balance(Shs)"
-            style={{
-              width: "75%",
-              margin: "20px",
-            }}
-          />
-        </div>
-        <div className="inpts_center">
-          <TextField
-            name="patient_number"
-            variant="outlined"
-            label="Patient Number"
-            style={{
-              width: "75%",
-              margin: "20px",
-            }}
-          />
-          <TextField
-            name="patient_name"
-            variant="outlined"
-            label="Patient Name"
-            style={{
-              width: "75%",
-              margin: "20px",
-            }}
-          />
-          <TextField
-            name="amount"
-            variant="outlined"
-            label="Amount(Shs)"
-            style={{
-              width: "75%",
-              margin: "20px",
-            }}
-          />
-          <TextField
-            name="balance"
-            variant="outlined"
-            label="Balance(Shs)"
-            style={{
-              width: "75%",
-              margin: "20px",
-            }}
-          />
-        </div>
-      </div>
-    </div>
-  );
-}
