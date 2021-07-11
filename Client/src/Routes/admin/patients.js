@@ -75,15 +75,19 @@ class Patients extends Component {
                                 <td>{v.patient_number}</td>
                                 <td>{v.patient_DOB}</td>
                                 <td>
-                                  <Button variant="contained" color="primary">
-                                    <span
-                                      style={{
-                                        fontSize: "10px",
-                                        marginInline: "3px",
-                                      }}
-                                    ></span>
-                                    Details
-                                  </Button>
+                                  <Link
+                                    to={`/patient?patient-id=${v.patient_id}`}
+                                  >
+                                    <Button variant="contained" color="primary">
+                                      <span
+                                        style={{
+                                          fontSize: "10px",
+                                          marginInline: "3px",
+                                        }}
+                                      ></span>
+                                      Details
+                                    </Button>
+                                  </Link>
                                 </td>
                               </tr>
                             </>

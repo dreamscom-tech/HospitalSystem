@@ -246,15 +246,32 @@ class New_user extends Component {
                                 margin: "20px",
                               }}
                             />
-                            <TextField
-                              name="role"
+                            <FormControl
                               variant="outlined"
                               label="Role"
                               style={{
                                 width: "75%",
                                 margin: "20px",
                               }}
-                            />
+                            >
+                              <InputLabel id="role">Role</InputLabel>
+                              <Select
+                                inputProps={{ name: "role" }}
+                                id="select_role"
+                                label="Role"
+                                defaultValue=""
+                              >
+                                <MenuItem value="doctor">Doctor</MenuItem>
+                                <MenuItem value="lab">Lab Technician</MenuItem>
+                                <MenuItem value="receptionist">
+                                  Receptionist
+                                </MenuItem>
+                                <MenuItem value="accountant">
+                                  Accountant
+                                </MenuItem>
+                                <MenuItem value="admin">Admin</MenuItem>
+                              </Select>
+                            </FormControl>
                           </div>
                           <div className="inpts_on_right">
                             <TextField
