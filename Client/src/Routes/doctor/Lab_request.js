@@ -269,7 +269,16 @@
 // }
 
 import React, { Component } from "react";
-import { TextField, Snackbar, Button, IconButton } from "@material-ui/core";
+import {
+  TextField,
+  Snackbar,
+  Button,
+  IconButton,
+  Select,
+  InputLabel,
+  FormControl,
+  MenuItem,
+} from "@material-ui/core";
 import MuiAlert from "@material-ui/lab/Alert";
 import Nav from "./components/Nav";
 import Header from "./components/Header";
@@ -292,6 +301,7 @@ class LabRequest extends Component {
       message: "Please Wait...",
       messageState: "",
       referrals: [],
+      lab_technicians: [],
       tests: [],
       tests_selected: [],
       activePatient: {
@@ -302,6 +312,7 @@ class LabRequest extends Component {
     };
     this.patients();
     this.tests();
+    this.lab_technicians();
   }
 
   //start functions
@@ -318,6 +329,15 @@ class LabRequest extends Component {
     const res = (await UsersApi.data(`/user/all/tests`)) || [];
     if (res) {
       this.setState({ ...this.state, tests: res === "Error" ? [] : res });
+    }
+  }
+  async lab_technicians() {
+    const res = (await UsersApi.data(`/user/all/lab_technicians`)) || [];
+    if (res) {
+      this.setState({
+        ...this.state,
+        lab_technicians: res === "Error" ? [] : res,
+      });
     }
   }
   //start functions
@@ -579,6 +599,38 @@ class LabRequest extends Component {
                                 margin: "20px",
                               }}
                             />
+                            <FormControl
+                              variant="outlined"
+                              style={{
+                                width: "90%",
+                                margin: "20px",
+                              }}
+                            >
+                              <InputLabel id="lab_user">
+                                Lab Technician
+                              </InputLabel>
+                              <Select
+                                inputProps={{ name: "lab_user" }}
+                                labelId="lab_user"
+                                id="select_lab_user"
+                                label="Lab User"
+                                defaultValue=""
+                              >
+                                {this.state.lab_technicians.length === 0 ? (
+                                  <MenuItem value="1">
+                                    No Lab User Available
+                                  </MenuItem>
+                                ) : (
+                                  this.state.lab_technicians.map((v, i) => {
+                                    return (
+                                      <MenuItem value={v.user_id} key={i}>
+                                        {v.user_username}
+                                      </MenuItem>
+                                    );
+                                  })
+                                )}
+                              </Select>
+                            </FormControl>
                             <div className="saved_tests">
                               <div className="selected_tests_hdr">
                                 Tests Selected

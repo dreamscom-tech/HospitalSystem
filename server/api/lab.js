@@ -45,4 +45,17 @@ router.post("/new_lab_report", async (req, res) => {
   );
 });
 
+router.get("/patients_referred", (req, res) => {
+  conn.query(
+    "SELECT * FROM lab_requests WHERE lab_referred_to = ?",
+    req.query.user,
+    (first_err, first_res) => {
+      if (first_err) {
+        console.log(first_err);
+      } else {
+        res.send(first_res);
+      }
+    }
+  );
+});
 module.exports = router;

@@ -63,6 +63,7 @@ router.post("/new_lab_request", async (req, res) => {
       patient_id: patient_number,
       test_required: tests_required,
       type_of_specimen: specimens,
+
       user_id: 1,
       request_date: new Date(),
     },
