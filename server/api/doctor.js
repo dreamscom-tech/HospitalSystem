@@ -2,22 +2,32 @@ const router = require("express").Router();
 const conn = require("../database/db");
 
 router.post("/new_clinical_info", async (req, res) => {
-  let { patient_number, clinical_notes, therapy } = req.body;
+  let { patient_number, clinical_notes, therapy, user } = req.body;
   conn.query(
-    `INSERT INTO clinical_tbl SET ?`,
-    {
-      patient_id: patient_number,
-      clinical_notes: clinical_notes,
-      therapy: therapy,
-      user_id: 1,
-      date: new Date(),
-    },
-    (err1, res1) => {
-      if (err1) {
-        console.log(err1);
-        res.send({ data: "An Error Occured. Try Again", status: false });
+    `SELECT patient_id FROM patients_tbl WHERE patient_number = ?`,
+    patient_number,
+    (first_err, first_result) => {
+      if (first_err) {
+        throw first_err;
       } else {
-        res.send({ data: "Clinical Notes Added.", status: true });
+        conn.query(
+          `INSERT INTO clinical_tbl SET ?`,
+          {
+            patient_id: first_result[0].patient_id,
+            clinical_notes: clinical_notes,
+            therapy: therapy,
+            user_id: user,
+            date: new Date(),
+          },
+          (err1, res1) => {
+            if (err1) {
+              console.log(err1);
+              res.send({ data: "An Error Occured. Try Again", status: false });
+            } else {
+              res.send({ data: "Clinical Notes Added.", status: true });
+            }
+          }
+        );
       }
     }
   );
@@ -120,6 +130,23 @@ router.get("/referrals/patients_clinical_info", async (req, res) => {
             }
           }
         );
+      }
+    }
+  );
+});
+
+module.exports = router;
+
+router.get("/lab/patients_clinical_info", async (req, res) => {
+  conn.query(
+    `SELECT * FROM clinical_tbl JOIN patients_tbl ON clinical_tbl.patient_id =
+    patients_tbl.patient_id WHERE clinical_tbl.user_id = ?`,
+    [req.query.doctor],
+    (err, result) => {
+      if (err) {
+        throw err;
+      } else {
+        res.send(result);
       }
     }
   );
