@@ -152,42 +152,38 @@ class Patient extends Component {
                               <td>
                                 <span style={{ fontWeight: "bolder" }}>
                                   District :
-                                </span>{" "}
-                                Lira
+                                </span>
+                                {this.state.patient.district_name}
                               </td>
                               <td>
                                 <span style={{ fontWeight: "bolder" }}>
                                   Subcounty :
                                 </span>
-                                Barapwo
+                                {this.state.patient.sub_county_name}
                               </td>
                             </tr>
                             <tr>
                               <td>
                                 <span style={{ fontWeight: "bolder" }}>
                                   Parish :
-                                </span>{" "}
-                                Odokomit
+                                </span>
+                                {this.state.patient.parish_name}
                               </td>
                               <td>
                                 <span style={{ fontWeight: "bolder" }}>
                                   Village :
-                                </span>{" "}
-                                Ayere
+                                </span>
+                                {this.state.patient.village_name}
                               </td>
                             </tr>
                             <tr>
                               <td>
                                 <span style={{ fontWeight: "bolder" }}>
                                   Date :
-                                </span>{" "}
-                                24/06/2020
-                              </td>
-                              <td>
-                                <span style={{ fontWeight: "bolder" }}>
-                                  Time :
-                                </span>{" "}
-                                12:35PM
+                                </span>
+                                {new Date(
+                                  this.state.patient.patient_date
+                                ).getDate()}
                               </td>
                             </tr>
                           </table>
@@ -202,57 +198,45 @@ class Patient extends Component {
                                 <span style={{ fontWeight: "bolder" }}>
                                   Weight :
                                 </span>
-                                56kg
+                                {this.state.patient.weight}
+                                {"Kg"}
                               </td>
                               <td>
                                 <span style={{ fontWeight: "bolder" }}>
                                   Height :
-                                </span>{" "}
-                                170cm
+                                </span>
+                                {this.state.patient.height}
+                                {"cm"}
                               </td>
                             </tr>
+
                             <tr>
                               <td>
                                 <span style={{ fontWeight: "bolder" }}>
-                                  Z-Score-Weight :
-                                </span>
-                                24cm
-                              </td>
-                              <td>
-                                <span style={{ fontWeight: "bolder" }}>
-                                  Z-Score-Height :
-                                </span>
-                                12cm
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <span style={{ fontWeight: "bolder" }}>
-                                  {" "}
                                   Pressure :
-                                </span>{" "}
-                                25Pa
+                                </span>
+                                {this.state.patient.blood_pressure}
+                                {"Pa"}
                               </td>
                               <td>
                                 <span style={{ fontWeight: "bolder" }}>
-                                  {" "}
-                                  Sugar :
-                                </span>{" "}
-                                14
+                                  Sugar Level :
+                                </span>
+                                {this.state.patient.blood_sugar}
                               </td>
                             </tr>
                             <tr>
                               <td>
                                 <span style={{ fontWeight: "bolder" }}>
                                   MUAC :
-                                </span>{" "}
-                                45
+                                </span>
+                                {this.state.patient.muac}
                               </td>
                               <td>
                                 <span style={{ fontWeight: "bolder" }}>
                                   BMI :
-                                </span>{" "}
-                                28
+                                </span>
+                                {this.state.patient.bmi}
                               </td>
                             </tr>
                             <tr>
@@ -260,7 +244,7 @@ class Patient extends Component {
                                 <span style={{ fontWeight: "bolder" }}>
                                   Palliative Care :
                                 </span>
-                                23
+                                {this.state.patient.palliative_care}
                               </td>
                               <td>
                                 <span style={{ fontWeight: "bolder" }}>
@@ -308,14 +292,14 @@ class Patient extends Component {
                               <td>
                                 <span style={{ fontWeight: "bolder" }}>
                                   Firstname :
-                                </span>{" "}
-                                Samuel
+                                </span>
+                                {this.state.patient.next_of_kin_first_name}
                               </td>
                               <td>
                                 <span style={{ fontWeight: "bolder" }}>
                                   Othername :
                                 </span>
-                                Wekobosya
+                                {this.state.patient.next_of_kin_surname}
                               </td>
                             </tr>
                             <tr>
@@ -323,13 +307,13 @@ class Patient extends Component {
                                 <span style={{ fontWeight: "bolder" }}>
                                   Relationship :
                                 </span>
-                                Father
+                                {this.state.patient.next_of_kin_relationship}
                               </td>
                               <td>
                                 <span style={{ fontWeight: "bolder" }}>
                                   Address :
-                                </span>{" "}
-                                Lira
+                                </span>
+                                {this.state.patient.next_of_kin_address}
                               </td>
                             </tr>
                             <tr>
@@ -337,13 +321,13 @@ class Patient extends Component {
                                 <span style={{ fontWeight: "bolder" }}>
                                   Contact :
                                 </span>
-                                0754435234
+                                {this.state.patient.next_of_kin_phone}
                               </td>
                               <td>
                                 <span style={{ fontWeight: "bolder" }}>
                                   Occupation :
                                 </span>
-                                Designer
+                                {this.state.patient.next_of_kin_occupation}
                               </td>
                             </tr>
                             <tr>
