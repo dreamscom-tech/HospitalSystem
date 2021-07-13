@@ -44,7 +44,10 @@ class Dashboard extends Component {
   }
   //cards Requests
   async patients() {
-    const res = (await UsersApi.data("/user/lab/patients_referred")) || [];
+    const res =
+      (await UsersApi.data(
+        `/user/lab/patients_referred?user=${user.user.user_id}`
+      )) || [];
     if (res) {
       this.setState({ ...this.state, _pnumber: res.length });
       this.setState({ ...this.state, patients: res === "Error" ? [] : res });

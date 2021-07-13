@@ -2,13 +2,14 @@ const router = require("express").Router();
 const conn = require("../database/db");
 
 router.post("/new_sample_collection", async (req, res) => {
+  console.log(req.body);
   let { patient_number, specimens, reason } = req.body;
   conn.query(
     `INSERT INTO lab_sample_collection SET ?`,
     {
       user_id: 1,
       patient_id: patient_number,
-      specimen_taken: specimens,
+      specimens_taken: specimens,
       reason: reason,
       collection_date: new Date(),
     },
@@ -47,7 +48,10 @@ router.post("/new_lab_report", async (req, res) => {
 
 router.get("/patients_referred", (req, res) => {
   conn.query(
-    "SELECT * FROM lab_requests WHERE lab_referred_to = ?",
+    `SELECT * FROM lab_requests
+        JOIN patients_tbl 
+        ON lab_requests.patient_id = patients_tbl.patient_id 
+        WHERE lab_referred_to = ?`,
     req.query.user,
     (first_err, first_res) => {
       if (first_err) {

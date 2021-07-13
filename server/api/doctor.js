@@ -56,30 +56,14 @@ router.post("/new_diagnosis", async (req, res) => {
 });
 
 router.post("/new_lab_request", async (req, res) => {
-  let { patient_number, tests_required, user } = req.body;
+  let { patient_number, tests_required, user, lab_user } = req.body;
   conn.query(
-<<<<<<< HEAD
-    `INSERT INTO lab_requests SET ?`,
-    {
-      patient_id: patient_number,
-      test_required: tests_required,
-      type_of_specimen: specimens,
-
-      user_id: 1,
-      request_date: new Date(),
-    },
-    (err1, res1) => {
-      if (err1) {
-        console.log(err1);
-        res.send({ data: "An Error Occured. Try Again", status: false });
-=======
     `SELECT patient_id FROM patients_tbl WHERE patient_number = ?`,
     [patient_number],
     (err_first, res_first) => {
       if (err_first) {
         console.log(err_first);
         res.send({ data: "An Error Occurred. Try Again", status: false });
->>>>>>> dfd14784fbd6742aab7a4787f2fdd9881632fd19
       } else {
         let tests = [];
         tests_required.forEach((e) => {
@@ -91,6 +75,7 @@ router.post("/new_lab_request", async (req, res) => {
             patient_id: res_first[0].patient_id,
             test_required: JSON.stringify(tests),
             user_id: user,
+            lab_referred_to: lab_user,
             request_date: new Date(),
           },
           (err1, res1) => {
