@@ -150,8 +150,6 @@ router.get("/referrals/patients_clinical_info", async (req, res) => {
   );
 });
 
-module.exports = router;
-
 router.get("/lab/patients_clinical_info", async (req, res) => {
   conn.query(
     `SELECT * FROM clinical_tbl JOIN patients_tbl ON clinical_tbl.patient_id =

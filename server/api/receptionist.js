@@ -81,7 +81,7 @@ router.post("/new_patient", async (req, res) => {
       patient_village_id: parseInt(village),
       patient_registered_by: user,
       patient_number: patient_number,
-      patient_date: new Date(),
+      patient_date: Date.now(),
     },
     (err2, res2) => {
       if (err2) {
@@ -159,7 +159,7 @@ router.post("/new_patient_unit", async (req, res) => {
             palliative_care: palliative_care,
             patient_classification: patient_classification,
             social_history: JSON.stringify(social_history),
-            created_at: new Date(),
+            created_at: Date.now(),
           },
           (err1, res1) => {
             if (err1) {
@@ -174,6 +174,7 @@ router.post("/new_patient_unit", async (req, res) => {
     }
   );
 });
+
 router.post("/new_doctor_referral", async (req, res) => {
   let { patient, user, doctor, reason } = req.body;
   conn.query(
@@ -183,7 +184,7 @@ router.post("/new_doctor_referral", async (req, res) => {
       patient_id: patient,
       refer_to: doctor,
       reason_for: reason,
-      refer_date: new Date(),
+      refer_date: Date.now(),
     },
     (err, result) => {
       if (err) {
