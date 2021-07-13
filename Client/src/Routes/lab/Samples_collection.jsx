@@ -325,6 +325,13 @@ class SampleCollection extends Component {
     });
     _fcontent["user"] = user.user.user_id;
     _fcontent["date"] = Date.now();
+    let specimens = {};
+    Object.keys(_fcontent).forEach((key) => {
+      if (key.substring(0, 8) === "specimen") {
+        specimens[key] = _fcontent[key];
+      }
+    });
+    _fcontent = { ..._fcontent, specimens: { ...specimens } };
     const api = new FormsApi();
     let res = await api.post("/user/lab/new_sample_collection", _fcontent);
     if (res.status === true) {
@@ -443,10 +450,9 @@ class SampleCollection extends Component {
                               }}
                             />
                             <TextField
-                              name="patient_location"
+                              name="test_reason"
                               variant="outlined"
-                              label="Patient Location"
-                              value="OPD"
+                              label="Test Reason"
                               style={{
                                 width: "75%",
                                 margin: "20px",
@@ -458,7 +464,7 @@ class SampleCollection extends Component {
                               return (
                                 <TextField
                                   key={i}
-                                  name={`specimens_${i}`}
+                                  name={`specimen_${i}`}
                                   variant="outlined"
                                   multiline={true}
                                   label={`Specimen ${i + 1}`}
