@@ -11,7 +11,7 @@
 //   return <MuiAlert elevation={6} variant="filled" {...props} />;
 // }
 
-// class LabRequest extends Component {
+// class SampleCollection extends Component {
 //   constructor(props) {
 //     super(props);
 //     this.state = {
@@ -30,7 +30,8 @@
 //       _fcontent[key] = value;
 //     });
 //     const api = new FormsApi();
-//     let res = await api.post("/user/doctor/new_lab_request", _fcontent);
+//     let res = await api.post("/user/lab/new_lab_report", _fcontent);
+//     console.log(res);
 //     if (res.status === true) {
 //       this.setState({
 //         ...this.state,
@@ -82,7 +83,7 @@
 //           </Alert>
 //         </Snackbar>
 //         <input type="checkbox" id="nav-toggle" defaultChecked />
-//         <Nav active="lab_request" />
+//         <Nav active="samples" />
 //         <div className="main-content">
 //           <Header />
 //           <main>
@@ -94,7 +95,7 @@
 //                   onSubmit={this.handleSubmit}
 //                 >
 //                   <div className="card-header">
-//                     <h3>Lab Request</h3>
+//                     <h3>Lab Sample Collection &amp; Recieving</h3>
 //                     <div className="">
 //                       <Button
 //                         type="submit"
@@ -127,16 +128,16 @@
 //                   </div>
 //                   <div className="card-body">
 //                     <div>
-//                       <Request />
+//                       <SampleCollectionDetails />
 //                     </div>
 //                   </div>
 //                 </form>
 //               </div>
 //               <div className="card">
 //                 <div className="card-header">
-//                   <h3>Request Details</h3>
+//                   <h3>Sample Collection Details</h3>
 //                   <Button variant="contained" color="primary">
-//                     <span style={{ fontSize: "17.5px", marginInline: "10px" }}>
+//                     <span style={{ fontSize: "17.5px", marginRight: "10px" }}>
 //                       <i className="las la-print"></i>
 //                     </span>
 //                     Print
@@ -197,7 +198,7 @@
 //   }
 // }
 
-// export default LabRequest;
+// export default SampleCollection;
 
 // const styles = {
 //   input_ctr: {
@@ -216,10 +217,10 @@
 //   },
 // };
 
-// function Request() {
+// function SampleCollectionDetails() {
 //   return (
 //     <div className="inputCtr" style={styles.input_ctr}>
-//       <h4>Lab Request</h4>
+//       <h4>Sample Collection</h4>
 //       <div className="inputs_ctr" style={styles.input_group}>
 //         <TextField
 //           name="patient_number"
@@ -242,10 +243,10 @@
 //           }}
 //         />
 //         <TextField
-//           name="tests_required"
+//           name="specimens"
 //           variant="outlined"
-//           label="Tests Required"
 //           multiline
+//           label="Specimens Taken"
 //           style={{
 //             width: "320px",
 //             margin: "20px",
@@ -253,9 +254,9 @@
 //           }}
 //         />
 //         <TextField
-//           name="specimens"
+//           name="reason"
 //           variant="outlined"
-//           label="Specimens"
+//           label="Reason"
 //           multiline
 //           style={{
 //             width: "320px",
@@ -269,16 +270,7 @@
 // }
 
 import React, { Component } from "react";
-import {
-  TextField,
-  Snackbar,
-  Button,
-  IconButton,
-  Select,
-  InputLabel,
-  FormControl,
-  MenuItem,
-} from "@material-ui/core";
+import { TextField, Snackbar, Button, IconButton } from "@material-ui/core";
 import MuiAlert from "@material-ui/lab/Alert";
 import Nav from "./components/Nav";
 import Header from "./components/Header";
@@ -293,51 +285,33 @@ function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-class LabRequest extends Component {
+class SampleCollection extends Component {
   constructor(props) {
     super(props);
     this.state = {
       open: false,
       message: "Please Wait...",
       messageState: "",
-      referrals: [],
-      lab_technicians: [],
-      tests: [],
-      tests_selected: [],
+      patients: [],
+      number_of_specimens: [0],
       activePatient: {
         status: false,
         patient_number: "",
         patient_name: "",
       },
     };
-    this.patients();
-    this.tests();
-    this.lab_technicians();
+    this.referrals();
   }
 
   //start functions
-  async patients() {
+  async referrals() {
     const res =
       (await UsersApi.data(
-        `/user/doctor/lab/patients_clinical_info?doctor=${user.user.user_id}`
+        `/user/lab/patients_referred?user=${user.user.user_id}`
       )) || [];
     if (res) {
-      this.setState({ ...this.state, referrals: res === "Error" ? [] : res });
-    }
-  }
-  async tests() {
-    const res = (await UsersApi.data(`/user/all/tests`)) || [];
-    if (res) {
-      this.setState({ ...this.state, tests: res === "Error" ? [] : res });
-    }
-  }
-  async lab_technicians() {
-    const res = (await UsersApi.data(`/user/all/lab_technicians`)) || [];
-    if (res) {
-      this.setState({
-        ...this.state,
-        lab_technicians: res === "Error" ? [] : res,
-      });
+      this.setState({ ...this.state, _pnumber: res.length });
+      this.setState({ ...this.state, patients: res === "Error" ? [] : res });
     }
   }
   //start functions
@@ -349,10 +323,10 @@ class LabRequest extends Component {
     fd.forEach((value, key) => {
       _fcontent[key] = value;
     });
-    const api = new FormsApi();
     _fcontent["user"] = user.user.user_id;
-    _fcontent["tests_required"] = this.state.tests_selected;
-    let res = await api.post("/user/doctor/new_lab_request", _fcontent);
+    _fcontent["date"] = Date.now();
+    const api = new FormsApi();
+    let res = await api.post("/user/lab/new_sample_collection", _fcontent);
     if (res.status === true) {
       this.setState({
         ...this.state,
@@ -374,7 +348,7 @@ class LabRequest extends Component {
     }
     this.setState({ ...this.state, open: false });
   };
-  handleClickPatient;
+
   render() {
     return (
       <>
@@ -404,11 +378,132 @@ class LabRequest extends Component {
           </Alert>
         </Snackbar>
         <input type="checkbox" id="nav-toggle" defaultChecked />
-        <Nav active="lab_request" />
+        <Nav active="samples" />
         <div className="main-content">
           <Header />
           <main>
-            <div className="recent-grid-right">
+            <div className="recent-grid">
+              <div className="projects">
+                <form
+                  className="card"
+                  autoComplete="off"
+                  onSubmit={this.handleSubmit}
+                >
+                  <div className="card-header">
+                    <h3>Lab. Sample Collection.</h3>
+                    <div className="">
+                      <Button
+                        type="submit"
+                        aria-describedby={this.id}
+                        variant="contained"
+                        color="primary"
+                        style={{ marginInline: 10 }}
+                      >
+                        <span
+                          style={{ fontSize: "17.5px", marginRight: "10px" }}
+                        >
+                          <i className="las la-save"></i>
+                        </span>
+                        Save
+                      </Button>
+                    </div>
+                  </div>
+                  <div className="card-body">
+                    <div>
+                      <div className="">
+                        <h4>Sample Collection Form...</h4>
+                        <div className="inputs_ctr">
+                          <div className="inpts_on_left">
+                            <TextField
+                              name="patient_number"
+                              variant="outlined"
+                              label="Patient Number"
+                              value={
+                                this.state.activePatient.status
+                                  ? this.state.activePatient.patient_number
+                                  : ""
+                              }
+                              style={{
+                                width: "75%",
+                                margin: "20px",
+                              }}
+                            />
+                            <TextField
+                              name="patient_name"
+                              variant="outlined"
+                              label="Patient Name"
+                              value={
+                                this.state.activePatient.status
+                                  ? this.state.activePatient.patient_name
+                                  : ""
+                              }
+                              style={{
+                                width: "75%",
+                                margin: "20px",
+                              }}
+                            />
+                            <TextField
+                              name="patient_location"
+                              variant="outlined"
+                              label="Patient Location"
+                              value="OPD"
+                              style={{
+                                width: "75%",
+                                margin: "20px",
+                              }}
+                            />
+                          </div>
+                          <div className="inpts_on_left">
+                            {this.state.number_of_specimens.map((v, i) => {
+                              return (
+                                <TextField
+                                  key={i}
+                                  name={`specimens_${i}`}
+                                  variant="outlined"
+                                  multiline={true}
+                                  label={`Specimen ${i + 1}`}
+                                  style={{
+                                    width: "75%",
+                                    margin: "20px",
+                                  }}
+                                />
+                              );
+                            })}
+                            <div
+                              className=""
+                              style={{
+                                width: "75%",
+                                margin: "10px 20px",
+                                display: "flex",
+                                justifyContent: "flex-end",
+                              }}
+                            >
+                              <Button
+                                variant="outlined"
+                                color="primary"
+                                onClick={() => {
+                                  this.setState({
+                                    ...this.state,
+                                    number_of_specimens: [
+                                      ...this.state.number_of_specimens,
+                                      this.state.number_of_specimens[
+                                        this.state.number_of_specimens.length -
+                                          1
+                                      ] + 1,
+                                    ],
+                                  });
+                                }}
+                              >
+                                Specimen
+                              </Button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
               <div className="card">
                 <div className="card-header">
                   <h3>Patients</h3>
@@ -429,17 +524,16 @@ class LabRequest extends Component {
                       </tr>
                     </thead>
                     <tbody>
-                      {this.state.referrals.length === 0 ? (
+                      {this.state.patients.length === 0 ? (
                         <tr>
                           <td>No Patients Available</td>
                         </tr>
                       ) : (
-                        this.state.referrals.map((v, i) => {
+                        this.state.patients.map((v, i) => {
                           return (
                             <tr key={i}>
                               <td>{v.patient_number}</td>
                               <td>{`${v.patient_surname} ${v.patient_first_name}`}</td>
-                              <td>{v.reason_for}</td>
                               <td>
                                 <Button
                                   variant="contained"
@@ -469,208 +563,6 @@ class LabRequest extends Component {
                   </table>
                 </div>
               </div>
-              <div className="projects">
-                <form
-                  className="card"
-                  autoComplete="off"
-                  onSubmit={this.handleSubmit}
-                >
-                  <div className="card-header">
-                    <h3>Lab Request</h3>
-                    <div className="">
-                      <Button
-                        type="submit"
-                        aria-describedby={this.id}
-                        variant="contained"
-                        color="primary"
-                      >
-                        <span
-                          style={{ fontSize: "17.5px", marginRight: "10px" }}
-                        >
-                          <i className="las la-save"></i>
-                        </span>
-                        Save
-                      </Button>
-                    </div>
-                  </div>
-                  <div className="card-body">
-                    <div>
-                      <div className="">
-                        <h4>Lab Request Form</h4>
-                        <div className="inputs_ctr">
-                          <div className="inpts_on_left">
-                            <div className="selected_tests_hdr">
-                              Tests Available
-                            </div>
-                            <div className="tests_ctr">
-                              <table width="100%">
-                                <thead>
-                                  <tr>
-                                    <td>No.</td>
-                                    <td>Test</td>
-                                    <td></td>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  {this.state.tests.length === 0 ? (
-                                    <tr>
-                                      <td>No Tests Available</td>
-                                    </tr>
-                                  ) : (
-                                    this.state.tests.map((v, i) => {
-                                      return (
-                                        <tr key={i}>
-                                          <td>{i + 1}</td>
-                                          <td>{v.test_name}</td>
-                                          <td>
-                                            <Button
-                                              variant="contained"
-                                              color="primary"
-                                              onClick={(e) => {
-                                                {
-                                                  this.setState(
-                                                    {
-                                                      ...this.state,
-                                                      tests_selected: [
-                                                        ...this.state
-                                                          .tests_selected,
-                                                        {
-                                                          test_id: v.test_id,
-                                                          test_name:
-                                                            v.test_name,
-                                                          test_amount:
-                                                            v.test_amount,
-                                                        },
-                                                      ],
-                                                    },
-                                                    () => {
-                                                      const { tests } =
-                                                        this.state;
-                                                      tests.splice(i, 1);
-                                                      this.setState({
-                                                        ...this.state,
-                                                        tests,
-                                                      });
-                                                    }
-                                                  );
-                                                }
-                                              }}
-                                            >
-                                              Select
-                                            </Button>
-                                          </td>
-                                        </tr>
-                                      );
-                                    })
-                                  )}
-                                </tbody>
-                              </table>
-                            </div>
-                          </div>
-                          <div className="inpts_on_right">
-                            <div className="selected_tests_hdr">
-                              Request Info
-                            </div>
-                            <TextField
-                              name="patient_number"
-                              variant="outlined"
-                              label="Patient Number"
-                              value={
-                                this.state.activePatient.status
-                                  ? this.state.activePatient.patient_number
-                                  : ""
-                              }
-                              style={{
-                                width: "90%",
-                                margin: "10px 20px",
-                              }}
-                            />
-                            <TextField
-                              name="patient_name"
-                              variant="outlined"
-                              label="Patient Name"
-                              value={
-                                this.state.activePatient.status
-                                  ? this.state.activePatient.patient_name
-                                  : ""
-                              }
-                              style={{
-                                width: "90%",
-                                margin: "20px",
-                              }}
-                            />
-                            <FormControl
-                              variant="outlined"
-                              style={{
-                                width: "90%",
-                                margin: "20px",
-                              }}
-                            >
-                              <InputLabel id="lab_user">
-                                Lab Technician
-                              </InputLabel>
-                              <Select
-                                inputProps={{ name: "lab_user" }}
-                                labelId="lab_user"
-                                id="select_lab_user"
-                                label="Lab User"
-                                defaultValue=""
-                              >
-                                {this.state.lab_technicians.length === 0 ? (
-                                  <MenuItem value="1">
-                                    No Lab User Available
-                                  </MenuItem>
-                                ) : (
-                                  this.state.lab_technicians.map((v, i) => {
-                                    return (
-                                      <MenuItem value={v.user_id} key={i}>
-                                        {v.user_username}
-                                      </MenuItem>
-                                    );
-                                  })
-                                )}
-                              </Select>
-                            </FormControl>
-                            <div className="saved_tests">
-                              <div className="selected_tests_hdr">
-                                Tests Selected
-                              </div>
-                              <div className="selected_tests_ctr">
-                                <table width="100%">
-                                  <thead>
-                                    <tr>
-                                      <td>No.</td>
-                                      <td>Test</td>
-                                      <td>Amount(shs)</td>
-                                    </tr>
-                                  </thead>
-                                  <tbody>
-                                    {this.state.tests_selected.length === 0 ? (
-                                      <tr>
-                                        <td>No Tests Selected</td>
-                                      </tr>
-                                    ) : (
-                                      this.state.tests_selected.map((v, i) => {
-                                        return (
-                                          <tr key={i}>
-                                            <td>{i + 1}</td>
-                                            <td>{v.test_name}</td>
-                                            <td>{v.test_amount}</td>
-                                          </tr>
-                                        );
-                                      })
-                                    )}
-                                  </tbody>
-                                </table>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </form>
-              </div>
             </div>
           </main>
         </div>
@@ -679,4 +571,4 @@ class LabRequest extends Component {
   }
 }
 
-export default LabRequest;
+export default SampleCollection;

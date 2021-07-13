@@ -56,7 +56,7 @@ router.post("/new_diagnosis", async (req, res) => {
 });
 
 router.post("/new_lab_request", async (req, res) => {
-  let { patient_number, tests_required, user } = req.body;
+  let { patient_number, tests_required, user, lab_user } = req.body;
   conn.query(
     `SELECT patient_id FROM patients_tbl WHERE patient_number = ?`,
     [patient_number],
@@ -75,6 +75,7 @@ router.post("/new_lab_request", async (req, res) => {
             patient_id: res_first[0].patient_id,
             test_required: JSON.stringify(tests),
             user_id: user,
+            lab_referred_to: lab_user,
             request_date: new Date(),
           },
           (err1, res1) => {

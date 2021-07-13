@@ -66,6 +66,15 @@ router.get("/tests", async (req, res) => {
     res.send(result);
   });
 });
+router.get("/lab_technicians", async (req, res) => {
+  conn.query(
+    `SELECT * FROM system_users WHERE user_role = "lab"`,
+    (err, result) => {
+      if (err) throw err;
+      res.send(result);
+    }
+  );
+});
 
 router.get("/users", async (req, res) => {
   conn.query(`SELECT * FROM system_users`, (err, result) => {

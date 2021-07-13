@@ -119,7 +119,7 @@ router.post("/new_user", async (req, res) => {
     confirm_password,
   } = req.body;
   conn.query(
-    `SELECT * FROM system_users WHERE user_name = ?`,
+    `SELECT * FROM system_users WHERE user_username = ?`,
     [username],
     (err1, res1) => {
       if (err1) {
@@ -144,7 +144,7 @@ router.post("/new_user", async (req, res) => {
                   user_surname: surname,
                   user_other_name: other_name,
                   user_phone_number: phone_contact,
-                  user_name: username,
+                  user_username: username,
                   user_email: email_address,
                   user_role: role,
                   user_department_id: parseInt(department),

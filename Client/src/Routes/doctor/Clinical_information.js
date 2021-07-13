@@ -1,11 +1,5 @@
 import React, { Component } from "react";
-import {
-  TextField,
-  Snackbar,
-  Button,
-  IconButton,
-  TextareaAutosize,
-} from "@material-ui/core";
+import { TextField, Snackbar, Button, IconButton } from "@material-ui/core";
 import MuiAlert from "@material-ui/lab/Alert";
 import Nav from "./components/Nav";
 import Header from "./components/Header";

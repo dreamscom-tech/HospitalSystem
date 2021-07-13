@@ -41,7 +41,10 @@ class Nav extends Component {
                         this.props.active === "samples" ? "active" : ""
                       } _a_replaced`}
                     >
-                      <span className="las la-users"></span>
+                      <span style={{ fontSize: "24px" }}>
+                        <i className="las la-microscope"></i>
+                        {/* <span className="las la-microscope"></span> */}
+                      </span>
                       <span>Samples</span>
                     </span>
                   </Link>
@@ -53,7 +56,10 @@ class Nav extends Component {
                         this.props.active === "lab_report" ? "active" : ""
                       } _a_replaced`}
                     >
-                      <span className="las la-users"></span>
+                      {/* <span className="las la-users"></span> */}
+                      <span style={{ fontSize: "24px" }}>
+                        <i className="las la-file-medical"></i>
+                      </span>
                       <span>Lab Report</span>
                     </span>
                   </Link>
