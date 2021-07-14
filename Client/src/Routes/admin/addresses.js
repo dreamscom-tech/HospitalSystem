@@ -547,61 +547,6 @@ class Addresses extends Component {
                   </div>
                 </form>
               </div>
-              <div className="projects">
-                <div className="card">
-                  <div className="card-header">
-                    <h3>Locations Summary</h3>
-                    <div className="">
-                      <Button
-                        type="submit"
-                        variant="contained"
-                        color="primary"
-                        style={{ marginInline: 10 }}
-                      >
-                        <span
-                          style={{ fontSize: "17.5px", marginInline: "10px" }}
-                        >
-                          <i className="las la-print"></i>
-                        </span>
-                        Print
-                      </Button>
-                    </div>
-                  </div>
-                  <div className="card-body">
-                    <h5>Location</h5>
-                    <div className="inputCtr">
-                      <div className="inputs_ctr">
-                        <table width="100%">
-                          <thead>
-                            <tr>
-                              <td>Location</td>
-                              <td>Number</td>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td>Districts</td>
-                              <td>23</td>
-                            </tr>
-                            <tr>
-                              <td>Sub Counties</td>
-                              <td>45</td>
-                            </tr>
-                            <tr>
-                              <td>Parishes</td>
-                              <td>25</td>
-                            </tr>
-                            <tr>
-                              <td>Villages</td>
-                              <td>2</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
           </main>
         </div>
