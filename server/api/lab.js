@@ -2,23 +2,33 @@ const router = require("express").Router();
 const conn = require("../database/db");
 
 router.post("/new_sample_collection", async (req, res) => {
-  console.log(req.body);
-  let { patient_number, specimens, reason } = req.body;
+  let { patient_number, test_reason, user, specimens, date } = req.body;
   conn.query(
-    `INSERT INTO lab_sample_collection SET ?`,
-    {
-      user_id: 1,
-      patient_id: patient_number,
-      specimens_taken: specimens,
-      reason: reason,
-      collection_date: new Date(),
-    },
-    (err1, res1) => {
-      if (err1) {
-        console.log(err1);
+    `SELECT patient_id FROM patients_tbl WHERE patient_number = ?`,
+    patient_number,
+    (first_err, first_res) => {
+      if (first_err) {
+        console.log(first_err);
         res.send({ data: "An Error Occured.Try Again", status: false });
       } else {
-        res.send({ data: "Sample Collection Added.", status: true });
+        conn.query(
+          `INSERT INTO lab_sample_collection SET ?`,
+          {
+            user_id: user,
+            patient_id: first_res[0].patient_id,
+            specimens_taken: JSON.stringify(specimens),
+            reason: test_reason,
+            collection_date: date,
+          },
+          (err1, res1) => {
+            if (err1) {
+              console.log(err1);
+              res.send({ data: "An Error Occured.Try Again", status: false });
+            } else {
+              res.send({ data: "Sample Collection Added.", status: true });
+            }
+          }
+        );
       }
     }
   );

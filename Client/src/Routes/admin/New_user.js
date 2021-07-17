@@ -48,7 +48,6 @@ class New_user extends Component {
     });
     let api = new FormsApi();
     let res = await api.post("/user/admin/new_user", _fcontent);
-    console.log(res);
     if (res.status === true) {
       this.setState({
         ...this.state,
