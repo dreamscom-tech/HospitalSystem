@@ -67,7 +67,7 @@ router.post("/new_lab_request", async (req, res) => {
       } else {
         let tests = [];
         tests_required.forEach((e) => {
-          tests.push({ test: e.test_id });
+          tests.push({ test_id: e.test_id, test_name: e.test_name });
         });
         conn.query(
           `INSERT INTO lab_requests SET ?`,

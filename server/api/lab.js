@@ -26,6 +26,7 @@ router.post("/new_sample_collection", async (req, res) => {
 
 router.post("/new_lab_report", async (req, res) => {
   let { patient_number, tests_made, results } = req.body;
+  console.log(req.body);
   conn.query(
     `INSERT INTO lab_results SET ?`,
     {

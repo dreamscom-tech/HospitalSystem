@@ -4,8 +4,11 @@ import MuiAlert from "@material-ui/lab/Alert";
 import Nav from "./components/Nav";
 import Header from "./components/Header";
 import FormsApi from "../../api/forms";
+import UsersApi from "../../api/users";
+import user from "../../app_config";
 
 import "../../design/main.css";
+import "../../design/forms.css";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -18,9 +21,30 @@ class LabReport extends Component {
       open: false,
       message: "Please Wait...",
       messageState: "",
+      referrals: [],
+      tests: [],
+      results: [],
+      activePatient: {
+        status: false,
+        patient_number: "",
+        patient_name: "",
+      },
     };
+    this.referrals();
   }
 
+  //start functions
+  async referrals() {
+    const res =
+      (await UsersApi.data(
+        `/user/lab/patients_referred?user=${user.user.user_id}`
+      )) || [];
+    if (res) {
+      console.log(res);
+      this.setState({ ...this.state, referrals: res === "Error" ? [] : res });
+    }
+  }
+  //start functions
   handleSubmit = async (e) => {
     e.preventDefault();
     this.setState({ ...this.state, open: true, messageState: "info" });
@@ -29,8 +53,10 @@ class LabReport extends Component {
     fd.forEach((value, key) => {
       _fcontent[key] = value;
     });
+    _fcontent["user"] = user.user.user_id;
+    _fcontent["date"] = Date.now();
     const api = new FormsApi();
-    let res = await api.post("/user/lab/new_lab_report", _fcontent);
+    let res = await api.post("/user/doctor/new_clinical_info", _fcontent);
     if (res.status === true) {
       this.setState({
         ...this.state,
@@ -52,7 +78,7 @@ class LabReport extends Component {
     }
     this.setState({ ...this.state, open: false });
   };
-
+  handleClickPatient;
   render() {
     return (
       <>
@@ -94,27 +120,14 @@ class LabReport extends Component {
                   onSubmit={this.handleSubmit}
                 >
                   <div className="card-header">
-                    <h3>Lab Report</h3>
+                    <h3>Laboratory Report.</h3>
                     <div className="">
-                      <Button
-                        type="submit"
-                        variant="contained"
-                        color="primary"
-                        style={{ marginRight: 10 }}
-                      >
-                        <span
-                          style={{ fontSize: "17.5px", marginRight: "10px" }}
-                        >
-                          <i className="las la-print"></i>
-                        </span>
-                        Print Report
-                      </Button>
                       <Button
                         type="submit"
                         aria-describedby={this.id}
                         variant="contained"
                         color="primary"
-                        style={{ marginLeft: "10px" }}
+                        style={{ marginInline: 10 }}
                       >
                         <span
                           style={{ fontSize: "17.5px", marginRight: "10px" }}
@@ -127,14 +140,98 @@ class LabReport extends Component {
                   </div>
                   <div className="card-body">
                     <div>
-                      <LabReportdDetails />
+                      <div className="">
+                        <h4>Report Form...</h4>
+                        <div className="inputs_ctr">
+                          <div className="inpts_on_left" style={{ flex: 2 }}>
+                            <TextField
+                              name="patient_number"
+                              variant="outlined"
+                              label="Patient Number"
+                              value={
+                                this.state.activePatient.status
+                                  ? this.state.activePatient.patient_number
+                                  : ""
+                              }
+                              style={{
+                                margin: "20px",
+                              }}
+                            />
+                            <TextField
+                              name="patient_name"
+                              variant="outlined"
+                              label="Patient Name"
+                              value={
+                                this.state.activePatient.status
+                                  ? this.state.activePatient.patient_name
+                                  : ""
+                              }
+                              style={{
+                                margin: "20px",
+                              }}
+                            />
+                            <div
+                              className="lab_tbl_ctr"
+                              style={{ margin: "20px" }}
+                            >
+                              <table width="100%">
+                                <thead>
+                                  <tr>
+                                    <td>Test</td>
+                                    <td>Equipment</td>
+                                    <td>Report</td>
+                                    <td>Bio. Ref</td>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {this.state.tests.length === 0 ? (
+                                    <tr>
+                                      <td>No Tests Requested</td>
+                                    </tr>
+                                  ) : (
+                                    this.state.tests.map((v, i) => {
+                                      return (
+                                        <tr key={i}>
+                                          <td>{v.test_name}</td>
+                                          <td>
+                                            <TextField
+                                              multiline={true}
+                                              variant="standard"
+                                              label="Result/Report"
+                                              name={`report_${i}`}
+                                            />
+                                          </td>
+                                          <td>
+                                            <TextField
+                                              variant="standard"
+                                              label="Equipment Used"
+                                              name={`equipment_${i}`}
+                                            />
+                                          </td>
+                                          <td>
+                                            <TextField
+                                              variant="standard"
+                                              label="Ref"
+                                              name={`ref_${i}`}
+                                            />
+                                          </td>
+                                        </tr>
+                                      );
+                                    })
+                                  )}
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </form>
               </div>
               <div className="card">
                 <div className="card-header">
-                  <h3>Report Details</h3>
+                  <h3>Patients List</h3>
                   <Button variant="contained" color="primary">
                     <span style={{ fontSize: "17.5px", marginRight: "10px" }}>
                       <i className="las la-print"></i>
@@ -146,46 +243,52 @@ class LabReport extends Component {
                   <table width="100%">
                     <thead>
                       <tr>
-                        <td>Details</td>
-                        <td>Qty</td>
-                        <td>Unit(Shs)</td>
-                        <td>Total(Shs)</td>
+                        <td>Patient Number</td>
+                        <td>Patient Name</td>
+                        <td>Reason</td>
+                        <td></td>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>CBC Test</td>
-                        <td>1</td>
-                        <td>3000</td>
-                        <td>3000</td>
-                      </tr>
-                      <tr>
-                        <td>CBC Test</td>
-                        <td>1</td>
-                        <td>3000</td>
-                        <td>3000</td>
-                      </tr>
-                      <tr>
-                        <td>CBC Test</td>
-                        <td>1</td>
-                        <td>3000</td>
-                        <td>3000</td>
-                      </tr>
-                      <tr>
-                        <td>CBC Test</td>
-                        <td>1</td>
-                        <td>3000</td>
-                        <td>3000</td>
-                      </tr>
+                      {this.state.referrals.length === 0 ? (
+                        <tr>
+                          <td>No Patients Available</td>
+                        </tr>
+                      ) : (
+                        this.state.referrals.map((v, i) => {
+                          return (
+                            <tr key={i}>
+                              <td>{v.patient_number}</td>
+                              <td>{`${v.patient_surname} ${v.patient_first_name}`}</td>
+                              <td>
+                                <Button
+                                  variant="contained"
+                                  color="primary"
+                                  onClick={(e) => {
+                                    {
+                                      this.setState({
+                                        ...this.state,
+                                        tests: v.test_required
+                                          ? JSON.parse(v.test_required)
+                                          : [],
+                                        activePatient: {
+                                          ...this.state.activePatient,
+                                          status: true,
+                                          patient_name: `${v.patient_surname} ${v.patient_first_name}`,
+                                          patient_number: v.patient_number,
+                                        },
+                                      });
+                                    }
+                                  }}
+                                >
+                                  Select
+                                </Button>
+                              </td>
+                            </tr>
+                          );
+                        })
+                      )}
                     </tbody>
-                    <thead>
-                      <tr>
-                        <td></td>
-                        <td></td>
-                        <td>Total</td>
-                        <td>12000</td>
-                      </tr>
-                    </thead>
                   </table>
                 </div>
               </div>
@@ -198,71 +301,3 @@ class LabReport extends Component {
 }
 
 export default LabReport;
-
-const styles = {
-  input_ctr: {
-    width: "50%",
-    margin: "auto",
-  },
-  input_group: {
-    width: "100%",
-    border: "1px solid rgba(0,0,0,0.1)",
-    borderRadius: "5px",
-    margin: "15px auto",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "space-around",
-    alignItems: "center",
-  },
-};
-
-function LabReportdDetails() {
-  return (
-    <div className="inputCtr" style={styles.input_ctr}>
-      <h4>Results</h4>
-      <div className="inputs_ctr" style={styles.input_group}>
-        <TextField
-          name="patient_number"
-          variant="outlined"
-          label="Patient Number"
-          style={{
-            width: "320px",
-            margin: "20px",
-            display: "block",
-          }}
-        />
-        <TextField
-          name="patient_name"
-          variant="outlined"
-          label="Patient Name"
-          style={{
-            width: "320px",
-            margin: "20px",
-            display: "block",
-          }}
-        />
-        <TextField
-          name="tests_made"
-          variant="outlined"
-          multiline
-          label="Tests Made"
-          style={{
-            width: "320px",
-            margin: "20px",
-            display: "block",
-          }}
-        />
-        <TextField
-          name="results"
-          variant="outlined"
-          label="Tests Result"
-          style={{
-            width: "320px",
-            margin: "20px",
-            display: "block",
-          }}
-        />
-      </div>
-    </div>
-  );
-}

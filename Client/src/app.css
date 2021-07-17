@@ -726,6 +726,12 @@ td {
   .recent-grid-right {
     grid-template-columns: 100%;
   }
+  .lab_tbl_ctr {
+    overflow-x: scroll;
+  }
+  .lab_tbl_ctr table {
+    width: 720px;
+  }
 }
 @media only screen and (max-width: 1400px) {
   .cards {

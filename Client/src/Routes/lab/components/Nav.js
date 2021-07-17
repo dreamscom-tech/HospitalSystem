@@ -56,7 +56,6 @@ class Nav extends Component {
                         this.props.active === "lab_report" ? "active" : ""
                       } _a_replaced`}
                     >
-                      {/* <span className="las la-users"></span> */}
                       <span style={{ fontSize: "24px" }}>
                         <i className="las la-file-medical"></i>
                       </span>
