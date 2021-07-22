@@ -35,7 +35,7 @@ router.post("/new_sample_collection", async (req, res) => {
 });
 
 router.post("/new_lab_report", async (req, res) => {
-  let { patient_number, tests_made, reports, user } = req.body;
+  let { patient_number, reports, user, date } = req.body;
   console.log(req.body);
   conn.query(
     `SELECT patient_id FROM patients_tbl WHERE patient_number = ?`,
@@ -48,11 +48,10 @@ router.post("/new_lab_report", async (req, res) => {
         conn.query(
           `INSERT INTO lab_results SET ?`,
           {
-            result_description: results,
+            result_description: JSON.stringify(reports),
             patient_id: res_first[0].patient_id,
-            tests_made: tests_made,
             user_id: user,
-            result_date: new Date(),
+            result_date: date,
           },
           (err1, res1) => {
             if (err1) {
