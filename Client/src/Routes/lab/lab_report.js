@@ -56,7 +56,7 @@ class LabReport extends Component {
     _fcontent["user"] = user.user.user_id;
     _fcontent["date"] = Date.now();
     const api = new FormsApi();
-    let res = await api.post("/user/doctor/new_clinical_info", _fcontent);
+    let res = await api.post("/user/lab/new_lab_report", _fcontent);
     if (res.status === true) {
       this.setState({
         ...this.state,
