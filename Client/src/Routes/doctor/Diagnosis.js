@@ -115,6 +115,71 @@ class Diagnosis extends Component {
           <Header />
           <main>
             <div className="recent-grid">
+              <div className="card">
+                <div className="card-header">
+                  <h3>Other Patients</h3>
+                  <Button variant="contained" color="primary">
+                    <span style={{ fontSize: "17.5px", marginRight: "10px" }}>
+                      <i className="las la-print"></i>
+                    </span>
+                    Print
+                  </Button>
+                </div>
+                <div className="card-body">
+                  <table width="100%">
+                    <thead>
+                      <tr>
+                        <td>Patient Number</td>
+                        <td>Patient Name</td>
+                        <td>Reason</td>
+                        <td></td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {this.state.referrals.length === 0 ? (
+                        <tr>
+                          <td>No Patients Available</td>
+                        </tr>
+                      ) : (
+                        this.state.referrals.map((v, i) => {
+                          return (
+                            <tr key={i}>
+                              <td>{v.patient_number}</td>
+                              <td>{`${v.patient_surname} ${v.patient_first_name}`}</td>
+                              <td>
+                                <Button variant="contained" color="primary">
+                                  Lab Report
+                                </Button>
+                              </td>
+                              <td>
+                                <Button
+                                  variant="contained"
+                                  color="primary"
+                                  onClick={(e) => {
+                                    {
+                                      this.setState({
+                                        ...this.state,
+                                        activePatient: {
+                                          ...this.state.activePatient,
+                                          status: true,
+                                          patient_name: `${v.patient_surname} ${v.patient_first_name}`,
+                                          patient_number: v.patient_number,
+                                        },
+                                      });
+                                    }
+                                  }}
+                                >
+                                  Select
+                                </Button>
+                              </td>
+                            </tr>
+                          );
+                        })
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
               <div className="projects">
                 <form
                   className="card"
@@ -122,7 +187,7 @@ class Diagnosis extends Component {
                   onSubmit={this.handleSubmit}
                 >
                   <div className="card-header">
-                    <h3>Clinical And Sample Info.</h3>
+                    <h3>Diagnosis</h3>
                     <div className="">
                       <Button
                         type="submit"
@@ -143,7 +208,7 @@ class Diagnosis extends Component {
                   <div className="card-body">
                     <div>
                       <div className="">
-                        <h4>Clinical Info. Form</h4>
+                        <h4>Diagnosis Form</h4>
                         <div className="inputs_ctr">
                           <div className="inpts_on_left">
                             <TextField
@@ -212,67 +277,6 @@ class Diagnosis extends Component {
                     </div>
                   </div>
                 </form>
-              </div>
-              <div className="card">
-                <div className="card-header">
-                  <h3>Other Patients</h3>
-                  <Button variant="contained" color="primary">
-                    <span style={{ fontSize: "17.5px", marginRight: "10px" }}>
-                      <i className="las la-print"></i>
-                    </span>
-                    Print
-                  </Button>
-                </div>
-                <div className="card-body">
-                  <table width="100%">
-                    <thead>
-                      <tr>
-                        <td>Patient Number</td>
-                        <td>Patient Name</td>
-                        <td>Reason</td>
-                        <td></td>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {this.state.referrals.length === 0 ? (
-                        <tr>
-                          <td>No Patients Available</td>
-                        </tr>
-                      ) : (
-                        this.state.referrals.map((v, i) => {
-                          return (
-                            <tr key={i}>
-                              <td>{v.patient_number}</td>
-                              <td>{`${v.patient_surname} ${v.patient_first_name}`}</td>
-                              <td>{v.reason_for}</td>
-                              <td>
-                                <Button
-                                  variant="contained"
-                                  color="primary"
-                                  onClick={(e) => {
-                                    {
-                                      this.setState({
-                                        ...this.state,
-                                        activePatient: {
-                                          ...this.state.activePatient,
-                                          status: true,
-                                          patient_name: `${v.patient_surname} ${v.patient_first_name}`,
-                                          patient_number: v.patient_number,
-                                        },
-                                      });
-                                    }
-                                  }}
-                                >
-                                  Select
-                                </Button>
-                              </td>
-                            </tr>
-                          );
-                        })
-                      )}
-                    </tbody>
-                  </table>
-                </div>
               </div>
             </div>
           </main>
