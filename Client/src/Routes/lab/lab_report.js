@@ -59,7 +59,8 @@ class LabReport extends Component {
       if (
         key.substring(0, 9) === "equipment" ||
         key.substring(0, 3) === "ref" ||
-        key.substring(0, 6) === "report"
+        key.substring(0, 6) === "report" ||
+        key.substring(0, 4) === "test"
       ) {
         reports[key] = _fcontent[key];
       }
@@ -189,7 +190,7 @@ class LabReport extends Component {
                                   <tr>
                                     <td>Test</td>
                                     <td>Equipment</td>
-                                    <td>Report</td>
+                                    <td>Result</td>
                                     <td>Bio. Ref</td>
                                   </tr>
                                 </thead>
@@ -202,12 +203,20 @@ class LabReport extends Component {
                                     this.state.tests.map((v, i) => {
                                       return (
                                         <tr key={i}>
-                                          <td>{v.test_name}</td>
+                                          <td>
+                                            {v.test_name}
+                                            <input
+                                              type="text"
+                                              name={`test_${i}`}
+                                              value={v.test_name}
+                                              hidden
+                                            />
+                                          </td>
                                           <td>
                                             <TextField
                                               multiline={true}
                                               variant="standard"
-                                              label="Result/Report"
+                                              label="Result"
                                               name={`report_${i}`}
                                             />
                                           </td>
