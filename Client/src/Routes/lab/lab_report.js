@@ -54,18 +54,28 @@ class LabReport extends Component {
     });
     _fcontent["user"] = user.user.user_id;
     _fcontent["date"] = Date.now();
-    let reports = {};
+    let reports = {
+      equipment: [],
+      ref: [],
+      report: [],
+      test: [],
+    };
     Object.keys(_fcontent).forEach((key) => {
-      if (
-        key.substring(0, 9) === "equipment" ||
-        key.substring(0, 3) === "ref" ||
-        key.substring(0, 6) === "report" ||
-        key.substring(0, 4) === "test"
-      ) {
-        reports[key] = _fcontent[key];
+      if (key.substring(0, 9) === "equipment") {
+        reports.equipment.push(_fcontent[key]);
+      }
+      if (key.substring(0, 3) === "ref") {
+        reports.ref.push(_fcontent[key]);
+      }
+      if (key.substring(0, 6) === "report") {
+        reports.report.push(_fcontent[key]);
+      }
+      if (key.substring(0, 4) === "test") {
+        reports.test.push(_fcontent[key]);
       }
     });
     _fcontent = { ..._fcontent, reports: { ...reports } };
+    console.log(_fcontent);
     const api = new FormsApi();
     let res = await api.post("/user/lab/new_lab_report", _fcontent);
     if (res.status === true) {
@@ -207,7 +217,8 @@ class LabReport extends Component {
                                             {v.test_name}
                                             <input
                                               type="text"
-                                              name={`test_${i}`}
+                                              name="test[]"
+                                              // name={`test_${i}`}
                                               value={v.test_name}
                                               hidden
                                             />
@@ -217,21 +228,24 @@ class LabReport extends Component {
                                               multiline={true}
                                               variant="standard"
                                               label="Result"
-                                              name={`report_${i}`}
+                                              name="report[]"
+                                              // name={`report_${i}`}
                                             />
                                           </td>
                                           <td>
                                             <TextField
                                               variant="standard"
                                               label="Equipment Used"
-                                              name={`equipment_${i}`}
+                                              name="equipment[]"
+                                              // name={`equipment_${i}`}
                                             />
                                           </td>
                                           <td>
                                             <TextField
                                               variant="standard"
                                               label="Ref"
-                                              name={`ref_${i}`}
+                                              name="ref[]"
+                                              // name={`ref_${i}`}
                                             />
                                           </td>
                                         </tr>

@@ -4,7 +4,11 @@ import {
   Snackbar,
   Button,
   IconButton,
-  TextareaAutosize,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
 } from "@material-ui/core";
 import MuiAlert from "@material-ui/lab/Alert";
 import Nav from "./components/Nav";
@@ -15,6 +19,7 @@ import user from "../../app_config";
 
 import "../../design/main.css";
 import "../../design/forms.css";
+import "../../design/dialog.css";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -33,6 +38,7 @@ class Diagnosis extends Component {
         patient_number: "",
         patient_name: "",
       },
+      dialog_open: true,
     };
     this.referrals();
   }
@@ -80,7 +86,18 @@ class Diagnosis extends Component {
     }
     this.setState({ ...this.state, open: false });
   };
-  handleClickPatient;
+  handleClickOpenDialog = (e) => {
+    this.setState({
+      ...this.state,
+      dialog_open: true,
+    });
+  };
+  handleCloseDialog = () => {
+    this.setState({
+      ...this.state,
+      dialog_open: false,
+    });
+  };
   render() {
     return (
       <>
@@ -131,7 +148,7 @@ class Diagnosis extends Component {
                       <tr>
                         <td>Patient Number</td>
                         <td>Patient Name</td>
-                        <td>Reason</td>
+                        <td></td>
                         <td></td>
                       </tr>
                     </thead>
@@ -169,7 +186,7 @@ class Diagnosis extends Component {
                                     }
                                   }}
                                 >
-                                  Select
+                                  Diagnose
                                 </Button>
                               </td>
                             </tr>
@@ -194,7 +211,7 @@ class Diagnosis extends Component {
                         aria-describedby={this.id}
                         variant="contained"
                         color="primary"
-                        style={{ marginInline: 10 }}
+                        style={{ marginRight: 10 }}
                       >
                         <span
                           style={{ fontSize: "17.5px", marginRight: "10px" }}
@@ -281,26 +298,89 @@ class Diagnosis extends Component {
             </div>
           </main>
         </div>
+        <Dialog
+          open={this.state.dialog_open}
+          onClose={this.handleCloseDialog}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+          fullWidth
+          maxWidth="sm"
+        >
+          <DialogTitle id="alert-dialog-title">Lab Report</DialogTitle>
+          <DialogContent>
+            <div className="dialog_ctr">
+              <div className="dialog_row">Date: 22/07/2021</div>
+              <div className="dialog_row">
+                <span>Paitient: Samuel Wekobosya</span>
+                <span>Paitient Number: 19/U/004</span>
+              </div>
+              <div className="dialog_row">
+                <span>Gender: M</span>
+                <span>Paitient Number: 19/U/004</span>
+              </div>
+              <div className="dialog_title">Tests &amp; Reports</div>
+              <div className="dialog_row">
+                <table width="100%">
+                  <thead>
+                    <tr>
+                      <td>Test</td>
+                      <td>Result</td>
+                      <td>Equipment</td>
+                      <td>Bio Ref.</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Fat</td>
+                      <td>OPD</td>
+                      <td>
+                        <span className="status purple"></span>Sick
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Dan</td>
+                      <td>OPD</td>
+                      <td>
+                        <span className="status pink"></span>Very Sick
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Hajara</td>
+                      <td>OPD</td>
+                      <td>
+                        <span className="status orange"></span>Treatment
+                      </td>
+                    </tr>
+                  </tbody>
+                  <thead>
+                    <tr>
+                      <td>Lab A</td>
+                    </tr>
+                  </thead>
+                </table>
+              </div>
+              <div className="dialog_row">
+                <div>
+                  <span className="dialog_block_span">
+                    Lab Technician: Samuel Wekobosya
+                  </span>
+                  <span className="dialog_block_span">Date: 22/07/2021</span>
+                </div>
+              </div>
+            </div>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleCloseDialog} color="primary">
+              Print
+            </Button>
+            <Button variant="contained" color="primary" autoFocus>
+              OK
+            </Button>
+          </DialogActions>
+        </Dialog>
       </>
     );
   }
 }
 
 export default Diagnosis;
-
-const styles = {
-  input_ctr: {
-    width: "50%",
-    margin: "auto",
-  },
-  input_group: {
-    width: "100%",
-    border: "1px solid rgba(0,0,0,0.1)",
-    borderRadius: "5px",
-    margin: "15px auto",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "space-around",
-    alignItems: "center",
-  },
-};
