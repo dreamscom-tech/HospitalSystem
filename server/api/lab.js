@@ -36,7 +36,6 @@ router.post("/new_sample_collection", async (req, res) => {
 
 router.post("/new_lab_report", async (req, res) => {
   let { patient_number, reports, user, date } = req.body;
-  console.log(req.body);
   conn.query(
     `SELECT patient_id FROM patients_tbl WHERE patient_number = ?`,
     patient_number,
@@ -83,4 +82,5 @@ router.get("/patients_referred", (req, res) => {
     }
   );
 });
+
 module.exports = router;
