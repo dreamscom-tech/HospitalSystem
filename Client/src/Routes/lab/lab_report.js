@@ -24,6 +24,7 @@ class LabReport extends Component {
       referrals: [],
       tests: [],
       results: [],
+      tests_made: [],
       activePatient: {
         status: false,
         patient_number: "",
@@ -54,27 +55,7 @@ class LabReport extends Component {
     });
     _fcontent["user"] = user.user.user_id;
     _fcontent["date"] = Date.now();
-    let reports = {
-      equipment: [],
-      ref: [],
-      report: [],
-      test: [],
-    };
-    Object.keys(_fcontent).forEach((key) => {
-      if (key.substring(0, 9) === "equipment") {
-        reports.equipment.push(_fcontent[key]);
-      }
-      if (key.substring(0, 3) === "ref") {
-        reports.ref.push(_fcontent[key]);
-      }
-      if (key.substring(0, 6) === "report") {
-        reports.report.push(_fcontent[key]);
-      }
-      if (key.substring(0, 4) === "test") {
-        reports.test.push(_fcontent[key]);
-      }
-    });
-    _fcontent = { ..._fcontent, reports: { ...reports } };
+    _fcontent = { ..._fcontent, tests: this.state.tests };
     console.log(_fcontent);
     const api = new FormsApi();
     let res = await api.post("/user/lab/new_lab_report", _fcontent);
@@ -213,39 +194,54 @@ class LabReport extends Component {
                                     this.state.tests.map((v, i) => {
                                       return (
                                         <tr key={i}>
-                                          <td>
-                                            {v.test_name}
-                                            <input
-                                              type="text"
-                                              name="test[]"
-                                              // name={`test_${i}`}
-                                              value={v.test_name}
-                                              hidden
-                                            />
-                                          </td>
+                                          <td>{v.test_name}</td>
                                           <td>
                                             <TextField
                                               multiline={true}
                                               variant="standard"
                                               label="Result"
-                                              name="report[]"
-                                              // name={`report_${i}`}
+                                              onChange={(e) => {
+                                                let tests_change =
+                                                  this.state.tests;
+                                                tests_change[i].report =
+                                                  e.target.value;
+                                                this.setState({
+                                                  ...this.state,
+                                                  tests: tests_change,
+                                                });
+                                              }}
                                             />
                                           </td>
                                           <td>
                                             <TextField
                                               variant="standard"
                                               label="Equipment Used"
-                                              name="equipment[]"
-                                              // name={`equipment_${i}`}
+                                              onChange={(e) => {
+                                                let tests_change =
+                                                  this.state.tests;
+                                                tests_change[i].equipment =
+                                                  e.target.value;
+                                                this.setState({
+                                                  ...this.state,
+                                                  tests: tests_change,
+                                                });
+                                              }}
                                             />
                                           </td>
                                           <td>
                                             <TextField
                                               variant="standard"
                                               label="Ref"
-                                              name="ref[]"
-                                              // name={`ref_${i}`}
+                                              onChange={(e) => {
+                                                let tests_change =
+                                                  this.state.tests;
+                                                tests_change[i].ref =
+                                                  e.target.value;
+                                                this.setState({
+                                                  ...this.state,
+                                                  tests: tests_change,
+                                                });
+                                              }}
                                             />
                                           </td>
                                         </tr>
